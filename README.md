@@ -10,8 +10,8 @@ Minimal [Spring Boot](http://projects.spring.io/spring-boot/) sample app.
 
 For building and running the application you need:
 
-- [JDK 17](https://www.oracle.com/java/technologies/downloads/java17)
-- [Maven 3](https://maven.apache.org)
+- [JDK 17](https://www.oracle.com/java/technologies/downloads/#jdk17-windows)
+- [Maven](https://maven.apache.org)
 
 ## Running the application locally
 
