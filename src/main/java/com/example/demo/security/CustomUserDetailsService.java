@@ -2,6 +2,7 @@ package com.example.demo.security;
 
 import com.example.demo.model.Role;
 import com.example.demo.model.User;
+import com.example.demo.payload.UserDto;
 import com.example.demo.repository.UserRepository;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -25,9 +26,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String usernameOrEmail) throws UsernameNotFoundException {
-        User user = userRepository.findByUsernameOrEmail(usernameOrEmail, usernameOrEmail)
-                .orElseThrow(() ->
-                        new UsernameNotFoundException("User not found with username or email:" + usernameOrEmail));
+        User user = userRepository.findByUsernameOrEmail(usernameOrEmail, usernameOrEmail);
         return new org.springframework.security.core.userdetails.User(user.getEmail(),
                 user.getPassword(), mapRolesToAuthorities(user.getRoles()));
     }
