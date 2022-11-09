@@ -6,6 +6,10 @@
 
 Minimal [Spring Boot](http://projects.spring.io/spring-boot/) sample app.
 
+## When working
+- git pull (main branch)
+- git checkout dev
+
 ## Project Specification
 - [Internet Softverske Arhitekture](https://github.com/ivana-k/isa-vezbe/blob/main/Specifikacija%20projekta/Specifikacija%20projekta%20E2-IN%20ISA%202022_2023.pdf)
 ## Requirements
