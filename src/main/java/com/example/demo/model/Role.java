@@ -15,6 +15,19 @@ public class Role {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 
-	@Column(length = 60)
+	@Column
 	private String name;
+
+	public String getName() {
+		return name;
+	}
+
+	@Override
+	public String toString() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
 }
