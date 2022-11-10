@@ -60,16 +60,16 @@ public class AuthController {
 
     SecurityContextHolder.getContext().setAuthentication(authentication);
     String jwt = jwtUtils.generateJwtToken(authentication);
-    
-    UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();    
+
+    UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
     List<String> roles = userDetails.getAuthorities().stream()
         .map(item -> item.getAuthority())
         .collect(Collectors.toList());
 
-    return ResponseEntity.ok(new JwtResponse(jwt, 
-                         userDetails.getId(), 
-                         userDetails.getUsername(), 
-                         userDetails.getEmail(), 
+    return ResponseEntity.ok(new JwtResponse(jwt,
+                         userDetails.getId(),
+                         userDetails.getUsername(),
+                         userDetails.getEmail(),
                          roles));
   }
 
@@ -88,12 +88,18 @@ public class AuthController {
     }
 
     // Create new user's account
-    User user = new User(signUpRequest.getUsername(), 
-               signUpRequest.getEmail(),
-               encoder.encode(signUpRequest.getPassword()));
-
+    //User user = new User(signUpRequest.getUsername(),
+    //           signUpRequest.getEmail(),
+    //           encoder.encode(signUpRequest.getPassword()));
+    User user = new User(signUpRequest.getUsername(),
+            signUpRequest.getEmail(),
+            encoder.encode(signUpRequest.getPassword()),
+            signUpRequest.getFirstname(), signUpRequest.getSurname(), signUpRequest.getAddress(),
+            signUpRequest.getCity(), signUpRequest.getState(), signUpRequest.getPhone(), signUpRequest.getJmbg(), signUpRequest.getGender(),
+            signUpRequest.getOccupation(), signUpRequest.getEmpscho());
     String strRole = signUpRequest.getRole();
     Set<Role> roles = new HashSet<>();
+    System.out.println(roles);
 
     Set<String> strRoles = new HashSet<String>(Arrays.asList(strRole.split(", ")));
 

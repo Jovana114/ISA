@@ -16,7 +16,7 @@ import javax.validation.constraints.Size;
     })
 public class User {
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
 
   @NotBlank
@@ -32,6 +32,38 @@ public class User {
   @Size(max = 120)
   private String password;
 
+  @NotBlank
+  private String firstname;
+
+  @NotBlank
+  private String surname;
+
+  @NotBlank
+  private String address;
+
+  @NotBlank
+  private String city;
+
+  @NotBlank
+  private String state;
+
+  @NotBlank
+  private String phone;
+
+  @NotBlank
+  @Size(min = 12, max = 12)
+  private String jmbg;
+
+  @NotBlank
+  private String gender;
+
+  @NotBlank
+  private String occupation;
+
+  @NotBlank
+  private String empscho; // EMPLOYER/SCHOOL
+
+
   @ManyToMany(fetch = FetchType.LAZY)
   @JoinTable(  name = "user_roles", 
         joinColumns = @JoinColumn(name = "user_id"), 
@@ -39,6 +71,22 @@ public class User {
   private Set<Role> roles = new HashSet<>();
 
   public User() {
+  }
+
+  public User(String username, String email, String password, String firstname, String surname, String address, String city, String state, String phone, String jmbg, String gender, String occupation, String empscho) {
+    this.username = username;
+    this.email = email;
+    this.password = password;
+    this.firstname = firstname;
+    this.surname = surname;
+    this.address = address;
+    this.city = city;
+    this.state = state;
+    this.phone = phone;
+    this.jmbg = jmbg;
+    this.gender = gender;
+    this.occupation = occupation;
+    this.empscho = empscho;
   }
 
   public User(String username, String email, String password) {
