@@ -11,6 +11,13 @@ Minimal [Spring Boot](http://projects.spring.io/spring-boot/) sample app.
 - git checkout dev
 
 ## Project Specification
+
+- 1: 3.2, 3.6, 3.9, 3.10, 3.16, 6
+- 2: 3.3, 3.8, 3.11, 3.14, 3.20, 4 ili 5
+- 3: 3.1, 3.4, 3.7, 3.12, 3.18, 4 ili 5
+- 4: 3.5, 3.13, 3.15, 3.17, 3.19
+
+
 - [Internet Softverske Arhitekture](https://github.com/ivana-k/isa-vezbe/blob/main/Specifikacija%20projekta/Specifikacija%20projekta%20E2-IN%20ISA%202022_2023.pdf)
 ## Requirements
 
