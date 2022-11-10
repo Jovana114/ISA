@@ -10,11 +10,5 @@ import com.example.demo.models.Role;
 
 @Repository
 public interface RoleRepository extends JpaRepository<Role, Long> {
-<<<<<<< HEAD
-    Optional<Role> findByName(String name);
-    Boolean existsByName(String name);
-}
-=======
   Optional<Role> findByName(ERole name);
 }
->>>>>>> dev

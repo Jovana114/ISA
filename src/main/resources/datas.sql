@@ -1,1 +1,0 @@
---insert into users (name, username, email, password) values ("pero","pero","pero@gmail.com","123")
