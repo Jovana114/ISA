@@ -1,25 +1,20 @@
 package com.example.demo.controllers;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
+import com.example.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.example.demo.models.ERole;
 import com.example.demo.models.Role;
@@ -40,6 +35,8 @@ public class AuthController {
   @Autowired
   AuthenticationManager authenticationManager;
 
+  @Autowired
+  UserService userService;
   @Autowired
   UserRepository userRepository;
 
@@ -134,5 +131,36 @@ public class AuthController {
     userRepository.save(user);
 
     return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+  }
+
+  @GetMapping("/user/{id}")
+  @PreAuthorize("hasAuthority('ROLE_USER') or hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_STAFF')")
+  public ResponseEntity<?> getUserById(@PathVariable ("id") Long id){
+    Optional<User> user = userService.getOne(id);
+    if (user != null)
+      return ResponseEntity.ok(user);
+    return ResponseEntity
+            .badRequest()
+            .body(new MessageResponse("Error: no user found"));
+  }
+
+  @PostMapping("/user/{id}")
+  @PreAuthorize("hasAuthority('ROLE_USER') or hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_STAFF')")
+  public ResponseEntity<?> updateUser(@Valid @RequestBody SignupRequest signUpRequest) {
+    try {
+      User user = userRepository.findByEmail(signUpRequest.getEmail());
+      user.updateData(user, signUpRequest.getUsername(),
+              signUpRequest.getFirstname(), signUpRequest.getSurname(), signUpRequest.getAddress(),
+              signUpRequest.getCity(), signUpRequest.getState(), signUpRequest.getPhone(), signUpRequest.getJmbg(), signUpRequest.getGender(),
+              signUpRequest.getOccupation(), signUpRequest.getEmpscho());
+      userRepository.save(user);
+    } catch (Exception e) {
+      return ResponseEntity
+              .badRequest()
+              .body(new MessageResponse("Error: failed to update user!\n" + e));
+    }
+    return ResponseEntity
+            .ok()
+            .body(new MessageResponse("User successfully updated!"));
   }
 }

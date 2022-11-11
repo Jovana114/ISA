@@ -18,7 +18,7 @@ public class JwtUtils {
   @Value("isaProjectSecretKey")
   private String jwtSecret;
 
-  @Value("86400000")
+  @Value("" + 60 * 60 * 24 * 1000)
   private int jwtExpirationMs;
 
   public String generateJwtToken(Authentication authentication) {
