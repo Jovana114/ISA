@@ -63,11 +63,23 @@ public class AuthController {
         .map(item -> item.getAuthority())
         .collect(Collectors.toList());
 
-    return ResponseEntity.ok(new JwtResponse(jwt,
-                         userDetails.getId(),
-                         userDetails.getUsername(),
-                         userDetails.getEmail(),
-                         roles));
+    User user = userService.getOne(userDetails.getId());
+
+    return ResponseEntity.ok(new JwtResponse(
+            jwt,user.getId(),
+            user.getUsername(),
+            user.getEmail(),
+            user.getFirstname(),
+            user.getSurname(),
+            user.getAddress(),
+            user.getCity(),
+            user.getState(),
+            user.getPhone(),
+            user.getJmbg(),
+            user.getGender(),
+            user.getOccupation(),
+            user.getEmpscho(),
+            roles));
   }
 
   @PostMapping("/signup")
@@ -136,7 +148,7 @@ public class AuthController {
   @GetMapping("/user/{id}")
   @PreAuthorize("hasAuthority('ROLE_USER') or hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_STAFF')")
   public ResponseEntity<?> getUserById(@PathVariable ("id") Long id){
-    Optional<User> user = userService.getOne(id);
+    User user = userService.getOne(id);
     if (user != null)
       return ResponseEntity.ok(user);
     return ResponseEntity
