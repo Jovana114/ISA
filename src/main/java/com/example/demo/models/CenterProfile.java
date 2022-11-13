@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
 
@@ -25,40 +26,40 @@ public class CenterProfile {
     @NotBlank
     private String description;
 
-    @NotBlank
-    private double averageRating;
-
-    @OneToMany(mappedBy = "center_profile", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonIgnore
-    private List<User> users;
+    @NotNull
+    private Double averageRating;
 
     @NotBlank
-    private Date appointmentStart;
+    private String appointmentStart;
 
     @NotBlank
-    private Date appointmentEnd;
+    private String appointmentEnd;
 
     public CenterProfile() {
     }
 
-    public CenterProfile(Long id, String name, String address, String description, double averageRating,
-                         List<User> users, Date appointmentStart, Date appointmentEnd) {
+    public CenterProfile(Long id, String name, String address, String description, Double averageRating,
+                         String appointmentStart, String appointmentEnd) {
         this.id = id;
         this.name = name;
         this.address = address;
         this.description = description;
         this.averageRating = averageRating;
-        this.users = users;
         this.appointmentStart = appointmentStart;
         this.appointmentEnd = appointmentEnd;
     }
 
-    public List<User> getUserObjs() {
-        return users;
-    }
-
-    public void setUserObjs(List<User> users) {
-        this.users = users;
+    @Override
+    public String toString() {
+        return "CenterProfile{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", address='" + address + '\'' +
+                ", description='" + description + '\'' +
+                ", averageRating=" + averageRating +
+                ", appointmentStart='" + appointmentStart + '\'' +
+                ", appointmentEnd='" + appointmentEnd + '\'' +
+                '}';
     }
 
     public Long getId() {
@@ -93,29 +94,27 @@ public class CenterProfile {
         this.description = description;
     }
 
-    public double getAverageRating() {
+    public Double getAverageRating() {
         return averageRating;
     }
 
-    public void setAverageRating(double averageRating) {
+    public void setAverageRating(Double averageRating) {
         this.averageRating = averageRating;
     }
 
-
-
-    public Date getAppointmentStart() {
+    public String getAppointmentStart() {
         return appointmentStart;
     }
 
-    public void setAppointmentStart(Date appointmentStart) {
+    public void setAppointmentStart(String appointmentStart) {
         this.appointmentStart = appointmentStart;
     }
 
-    public Date getAppointmentEnd() {
+    public String getAppointmentEnd() {
         return appointmentEnd;
     }
 
-    public void setAppointmentEnd(Date appointmentEnd) {
+    public void setAppointmentEnd(String appointmentEnd) {
         this.appointmentEnd = appointmentEnd;
     }
 }

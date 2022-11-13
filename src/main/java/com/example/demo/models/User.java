@@ -70,8 +70,11 @@ public class User {
         inverseJoinColumns = @JoinColumn(name = "role_id"))
   private Set<Role> roles = new HashSet<>();
 
-  @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-  private CenterProfile center_profile;
+  @ManyToMany(fetch = FetchType.LAZY)
+  @JoinTable(  name = "centre_profiles",
+          joinColumns = @JoinColumn(name = "user_id"),
+          inverseJoinColumns = @JoinColumn(name = "centre_profile_id"))
+  private Set<CenterProfile> center_profile = new HashSet<>();
 
   public User() {
   }

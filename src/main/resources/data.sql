@@ -207,8 +207,6 @@ insert into users (id, address, city, state, email, empscho, firstname, surname,
 insert into users (id, address, city, state, email, empscho, firstname, surname, username, gender, jmbg, occupation, password, phone) values (299, '0100 Ryan Center', 'Awilega', 'Indonesia', 'wsmitton8a@yahoo.com', 'Fliptune', 'Winston', 'Smitton', 'wsmitton8a', 'M', '671471855666', 'Assistant Media Planner', '$2a$10$Jy8l3NpmvQR7T41xqqb6W.iodZWXl1IWyou3KItLpvyECWiUrpU8O', '458-207-1582');
 insert into users (id, address, city, state, email, empscho, firstname, surname, username, gender, jmbg, occupation, password, phone) values (300, '930 Anthes Crossing', 'Sarykemer', 'Kazakhstan', 'escotcher8b@ucla.edu', 'Photojam', 'Essa', 'Scotcher', 'escotcher8b', 'F', '761891604372', 'VP Quality Control', '$2a$10$Jy8l3NpmvQR7T41xqqb6W.iodZWXl1IWyou3KItLpvyECWiUrpU8O', '736-228-4337');
 
-
-
 insert into user_roles (user_id, role_id) values (101, 1);
 insert into user_roles (user_id, role_id) values (102, 2);
 insert into user_roles (user_id, role_id) values (103, 3);
@@ -410,7 +408,10 @@ insert into user_roles (user_id, role_id) values (298, 2);
 insert into user_roles (user_id, role_id) values (299, 3);
 insert into user_roles (user_id, role_id) values (300, 2);
 
-
-
 insert into center_profile(id, name, address, description, average_rating, appointment_start, appointment_end)
 values (1, 'jovana', 'Bulevar Cara Lazara 2, Novi Sad 21000', 'poliklinika', 5, '2020-01-01', '2020-01-01');
+
+insert into centre_profiles (user_id, centre_profile_id) values (101, 1);
+insert into centre_profiles (user_id, centre_profile_id) values (102, 1);
+insert into centre_profiles (user_id, centre_profile_id) values (103, 1);
+
