@@ -89,6 +89,21 @@ public class User {
     this.empscho = empscho;
   }
 
+  public User updateData(User user, String username, String firstname, String surname, String address, String city, String state, String phone, String jmbg, String gender, String occupation, String empscho){
+    user.setUsername(username);
+    user.setFirstname(firstname);
+    user.setSurname(surname);
+    user.setAddress(address);
+    user.setCity(city);
+    user.setState(state);
+    user.setPhone(phone);
+    user.setJmbg(jmbg);
+    user.setGender(gender);
+    user.setOccupation(occupation);
+    user.setEmpscho(empscho);
+    return user;
+  }
+
   public User(String username, String email, String password) {
     this.username = username;
     this.email = email;
@@ -125,6 +140,86 @@ public class User {
 
   public void setPassword(String password) {
     this.password = password;
+  }
+
+  public String getFirstname() {
+    return firstname;
+  }
+
+  public void setFirstname(String firstname) {
+    this.firstname = firstname;
+  }
+
+  public String getSurname() {
+    return surname;
+  }
+
+  public void setSurname(String surname) {
+    this.surname = surname;
+  }
+
+  public String getAddress() {
+    return address;
+  }
+
+  public void setAddress(String address) {
+    this.address = address;
+  }
+
+  public String getCity() {
+    return city;
+  }
+
+  public void setCity(String city) {
+    this.city = city;
+  }
+
+  public String getState() {
+    return state;
+  }
+
+  public void setState(String state) {
+    this.state = state;
+  }
+
+  public String getPhone() {
+    return phone;
+  }
+
+  public void setPhone(String phone) {
+    this.phone = phone;
+  }
+
+  public String getJmbg() {
+    return jmbg;
+  }
+
+  public void setJmbg(String jmbg) {
+    this.jmbg = jmbg;
+  }
+
+  public String getGender() {
+    return gender;
+  }
+
+  public void setGender(String gender) {
+    this.gender = gender;
+  }
+
+  public String getOccupation() {
+    return occupation;
+  }
+
+  public void setOccupation(String occupation) {
+    this.occupation = occupation;
+  }
+
+  public String getEmpscho() {
+    return empscho;
+  }
+
+  public void setEmpscho(String empscho) {
+    this.empscho = empscho;
   }
 
   public Set<Role> getRoles() {
