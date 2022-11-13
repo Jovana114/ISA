@@ -70,6 +70,12 @@ public class User {
         inverseJoinColumns = @JoinColumn(name = "role_id"))
   private Set<Role> roles = new HashSet<>();
 
+  @ManyToMany(fetch = FetchType.LAZY)
+  @JoinTable(  name = "centre_profiles",
+          joinColumns = @JoinColumn(name = "user_id"),
+          inverseJoinColumns = @JoinColumn(name = "centre_profile_id"))
+  private Set<CenterProfile> center_profile = new HashSet<>();
+
   public User() {
   }
 
@@ -142,76 +148,12 @@ public class User {
     this.password = password;
   }
 
-  public String getFirstname() {
-    return firstname;
+  public Set<Role> getRoles() {
+    return roles;
   }
 
-  public void setFirstname(String firstname) {
-    this.firstname = firstname;
-  }
-
-  public String getSurname() {
-    return surname;
-  }
-
-  public void setSurname(String surname) {
-    this.surname = surname;
-  }
-
-  public String getAddress() {
-    return address;
-  }
-
-  public void setAddress(String address) {
-    this.address = address;
-  }
-
-  public String getCity() {
-    return city;
-  }
-
-  public void setCity(String city) {
-    this.city = city;
-  }
-
-  public String getState() {
-    return state;
-  }
-
-  public void setState(String state) {
-    this.state = state;
-  }
-
-  public String getPhone() {
-    return phone;
-  }
-
-  public void setPhone(String phone) {
-    this.phone = phone;
-  }
-
-  public String getJmbg() {
-    return jmbg;
-  }
-
-  public void setJmbg(String jmbg) {
-    this.jmbg = jmbg;
-  }
-
-  public String getGender() {
-    return gender;
-  }
-
-  public void setGender(String gender) {
-    this.gender = gender;
-  }
-
-  public String getOccupation() {
-    return occupation;
-  }
-
-  public void setOccupation(String occupation) {
-    this.occupation = occupation;
+  public void setRoles(Set<Role> roles) {
+    this.roles = roles;
   }
 
   public String getEmpscho() {
@@ -222,11 +164,76 @@ public class User {
     this.empscho = empscho;
   }
 
-  public Set<Role> getRoles() {
-    return roles;
+  public String getOccupation() {
+    return occupation;
   }
 
-  public void setRoles(Set<Role> roles) {
-    this.roles = roles;
+  public void setOccupation(String occupation) {
+    this.occupation = occupation;
   }
+
+  public String getGender() {
+    return gender;
+  }
+
+  public void setGender(String gender) {
+    this.gender = gender;
+  }
+
+  public String getJmbg() {
+    return jmbg;
+  }
+
+  public void setJmbg(String jmbg) {
+    this.jmbg = jmbg;
+  }
+
+  public String getPhone() {
+    return phone;
+  }
+
+  public void setPhone(String phone) {
+    this.phone = phone;
+  }
+
+  public String getState() {
+    return state;
+  }
+
+  public void setState(String state) {
+    this.state = state;
+  }
+
+  public String getCity() {
+    return city;
+  }
+
+  public void setCity(String city) {
+    this.city = city;
+  }
+
+  public String getAddress() {
+    return address;
+  }
+
+  public void setAddress(String address) {
+    this.address = address;
+  }
+
+  public String getSurname() {
+    return surname;
+  }
+
+  public void setSurname(String surname) {
+    this.surname = surname;
+  }
+
+  public String getFirstname() {
+    return firstname;
+  }
+
+  public void setFirstname(String firstname) {
+    this.firstname = firstname;
+  }
+
 }
