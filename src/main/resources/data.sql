@@ -409,3 +409,8 @@ insert into user_roles (user_id, role_id) values (297, 3);
 insert into user_roles (user_id, role_id) values (298, 2);
 insert into user_roles (user_id, role_id) values (299, 3);
 insert into user_roles (user_id, role_id) values (300, 2);
+
+
+
+insert into center_profile(id, name, address, description, average_rating, appointment_start, appointment_end)
+values (1, 'jovana', 'Bulevar Cara Lazara 2, Novi Sad 21000', 'poliklinika', 5, '2020-01-01', '2020-01-01');
