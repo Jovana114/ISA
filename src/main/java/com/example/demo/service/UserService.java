@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.dto.UserDto;
 import com.example.demo.models.User;
 import com.example.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,5 +21,7 @@ public class UserService {
     public User getOne(Long id){
         return userRepository.getOne(id);
     }
+
+
 
 }

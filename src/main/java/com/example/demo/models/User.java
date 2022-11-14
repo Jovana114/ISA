@@ -63,7 +63,6 @@ public class User {
   @NotBlank
   private String empscho; // EMPLOYER/SCHOOL
 
-
   @ManyToMany(fetch = FetchType.LAZY)
   @JoinTable(  name = "user_roles", 
         joinColumns = @JoinColumn(name = "user_id"), 
@@ -83,6 +82,21 @@ public class User {
     this.username = username;
     this.email = email;
     this.password = password;
+    this.firstname = firstname;
+    this.surname = surname;
+    this.address = address;
+    this.city = city;
+    this.state = state;
+    this.phone = phone;
+    this.jmbg = jmbg;
+    this.gender = gender;
+    this.occupation = occupation;
+    this.empscho = empscho;
+  }
+
+  public User(String username, String email, String firstname, String surname, String address, String city, String state, String phone, String jmbg, String gender, String occupation, String empscho) {
+    this.username = username;
+    this.email = email;
     this.firstname = firstname;
     this.surname = surname;
     this.address = address;

@@ -1,10 +1,8 @@
 package com.example.demo.controllers;
 
 import com.example.demo.models.CenterProfile;
-import com.example.demo.payload.response.JwtResponse;
-import com.example.demo.payload.response.MessageResponse;
 import com.example.demo.repository.CenterProfileRepository;
-import com.example.demo.security.services.CenterProfileService;
+import com.example.demo.service.CenterProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,4 +40,5 @@ public class CenterProfileController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
 }
