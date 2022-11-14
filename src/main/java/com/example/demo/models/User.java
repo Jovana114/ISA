@@ -69,11 +69,8 @@ public class User {
         inverseJoinColumns = @JoinColumn(name = "role_id"))
   private Set<Role> roles = new HashSet<>();
 
-  @OneToMany(fetch = FetchType.LAZY)
-  @JoinTable(  name = "centre_profiles",
-          joinColumns = @JoinColumn(name = "user_id"),
-          inverseJoinColumns = @JoinColumn(name = "centre_profile_id"))
-  private Set<CenterProfile> center_profile = new HashSet<>();
+  @ManyToOne(fetch = FetchType.LAZY)
+  private CenterProfile center_profile;
 
   public User() {
   }
@@ -92,6 +89,33 @@ public class User {
     this.gender = gender;
     this.occupation = occupation;
     this.empscho = empscho;
+  }
+
+  public User(Long id, String username, String email, String password, String firstname, String surname, String address, String city, String state, String phone, String jmbg, String gender, String occupation, String empscho, Set<Role> roles, CenterProfile center_profile) {
+    this.id = id;
+    this.username = username;
+    this.email = email;
+    this.password = password;
+    this.firstname = firstname;
+    this.surname = surname;
+    this.address = address;
+    this.city = city;
+    this.state = state;
+    this.phone = phone;
+    this.jmbg = jmbg;
+    this.gender = gender;
+    this.occupation = occupation;
+    this.empscho = empscho;
+    this.roles = roles;
+    this.center_profile = center_profile;
+  }
+
+  public CenterProfile getCenter_profile() {
+    return center_profile;
+  }
+
+  public void setCenter_profile(CenterProfile center_profile) {
+    this.center_profile = center_profile;
   }
 
   public User(String username, String email, String firstname, String surname, String address, String city, String state, String phone, String jmbg, String gender, String occupation, String empscho) {

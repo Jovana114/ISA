@@ -412,9 +412,3 @@ insert into center_profile(id, name, address, description, average_rating, appoi
 values (1, 'jovana', 'Bulevar Cara Lazara 2, Novi Sad 21000', 'poliklinika', 5, '2020-01-01', '2020-01-01');
 insert into center_profile(id, name, address, description, average_rating, appointment_start, appointment_end)
 values (2, 'jjjjovana', 'bbBulevar Cara Lazara 2, nnnnNovi Sad 21000', 'nnnpoliklinika', 6, '2020-01-01', '2020-01-01');
-
-
-insert into centre_profiles (user_id, centre_profile_id) values (102, 1);
-insert into centre_profiles (user_id, centre_profile_id) values (102, 2);
-
-

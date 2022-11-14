@@ -34,7 +34,6 @@ public class CenterProfileController {
             _CenterProfile.setDescription(centerProfile.getDescription());
             _CenterProfile.setAverageRating(centerProfile.getAverageRating());
             _CenterProfile.setAppointmentEnd(centerProfile.getAppointmentEnd());
-            _CenterProfile.setCentreAdmin(centerProfile.getCentreAdmin());
             return new ResponseEntity<>(centerProfileRepository.save(_CenterProfile), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

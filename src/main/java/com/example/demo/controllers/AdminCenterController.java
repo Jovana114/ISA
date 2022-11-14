@@ -42,6 +42,7 @@ public class AdminCenterController {
             _User.setJmbg(user.getJmbg());
             _User.setOccupation(user.getOccupation());
             _User.setPhone(user.getPhone());
+            _User.setCenter_profile(user.getCenter_profile());
             return new ResponseEntity<>(userRepository.save(_User), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
