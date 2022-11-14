@@ -1,13 +1,11 @@
 package com.example.demo.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.example.demo.service.UserService;
 
 import javax.persistence.*;
 import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
-import java.util.List;
 
 @Entity
 @Table(name = "center_profile")
@@ -35,11 +33,28 @@ public class CenterProfile {
     @NotBlank
     private String appointmentEnd;
 
+    @ManyToOne
+    @JoinTable(  name = "centre_profiles",
+            joinColumns = @JoinColumn(name = "centre_profile_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private User centreAdmin;
+
     public CenterProfile() {
     }
 
+    public Long getCentreAdmin() {
+        return centreAdmin.getId();
+    }
+
+    public void setCentreAdmin(Long centreAdmin) {
+        UserService us = new UserService();
+
+        this.centreAdmin = us.getOne(centreAdmin);
+    }
+
     public CenterProfile(Long id, String name, String address, String description, Double averageRating,
-                         String appointmentStart, String appointmentEnd) {
+                         String appointmentStart, String appointmentEnd, Long centreAdmin) {
+        UserService us = new UserService();
         this.id = id;
         this.name = name;
         this.address = address;
@@ -47,6 +62,7 @@ public class CenterProfile {
         this.averageRating = averageRating;
         this.appointmentStart = appointmentStart;
         this.appointmentEnd = appointmentEnd;
+        this.centreAdmin = us.getOne(centreAdmin);
     }
 
     @Override
