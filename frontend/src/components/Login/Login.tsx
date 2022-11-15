@@ -12,7 +12,13 @@ export const Login = () => {
 
     useEffect(() => {
         if (sessionStorage.getItem("user")) {
-            nav("/home");
+            if(JSON.parse(sessionStorage.getItem("user")!).roles[0].name === "ROLE_USER"){
+                nav("user-home")
+            }
+            else if(JSON.parse(sessionStorage.getItem("user")!).roles[0].name === "ROLE_STAFF"){
+                nav("/staff-home");
+            }
+            nav("/admin-home");
         }
     });
 
@@ -42,6 +48,7 @@ export const Login = () => {
                 { withCredentials: false }
             ).then((res: any) => {
             sessionStorage.setItem("user", JSON.stringify(res.data));
+            sessionStorage.setItem("role", JSON.stringify(res.data.roles[0].name));
             })
 
 
@@ -55,7 +62,7 @@ export const Login = () => {
     };
 
     if (navigate) {
-        return <Navigate to="/home" />;
+        return <Navigate to="/redirect" />        
     }
     
     return (
