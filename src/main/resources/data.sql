@@ -7,7 +7,7 @@ insert into roles (id, name) values (3, 'ROLE_USER');
 
 
 insert into users (id, address, city, state, email, empscho, firstname, surname, username, gender, jmbg, occupation, password, phone) values (101, '7309 Weeping Birch Plaza', 'Siikajoki', 'Finland', 'jdjorevic2s@i2i.jp', 'Fatz', 'Joline', 'Djorevic', 'admin', 'F', '647717210112', 'Senior Quality Engineer', '$2a$10$Jy8l3NpmvQR7T41xqqb6W.iodZWXl1IWyou3KItLpvyECWiUrpU8O', '143-467-7820');
-insert into users (id, address, city, state, email, empscho, firstname, surname, username, gender, jmbg, occupation, password, phone) values (102, '000 Morrow Pass', 'Pomerode', 'Brazil', 'selkin2t@google.ru', 'Voonyx', 'Shena', 'Elkin', 'staff', 'F', '42214962994', 'Senior Sales Associate', '$2a$10$Jy8l3NpmvQR7T41xqqb6W.iodZWXl1IWyou3KItLpvyECWiUrpU8O', '430-692-4828');
+insert into users (id, address, city, state, email, empscho, firstname, surname, username, gender, jmbg, occupation, password, phone) values (102, '000 Morrow Pass', 'Pomerode', 'Brazil', 'selkin2t@google.ru', 'Voonyx', 'Shena', 'Elkin', 'staff', 'F', '422149629941', 'Senior Sales Associate', '$2a$10$BARaOPCna0DJs6pKtneuJ.ZcjYlh/j0g6CYoAmXF64qxoWb8uDNzq', '430-692-4828');
 insert into users (id, address, city, state, email, empscho, firstname, surname, username, gender, jmbg, occupation, password, phone) values (103, '4 Westport Place', 'Korsakovo', 'Russia', 'gduthie2u@slideshare.net', 'Wordware', 'Gunner', 'Duthie', 'user', 'M', '732099520098', 'Software Consultant', '$2a$10$Jy8l3NpmvQR7T41xqqb6W.iodZWXl1IWyou3KItLpvyECWiUrpU8O', '279-915-5479');
 insert into users (id, address, city, state, email, empscho, firstname, surname, username, gender, jmbg, occupation, password, phone) values (104, '7 Brickson Park Street', 'Mococa', 'Brazil', 'rboyles2v@gnu.org', 'Topdrive', 'Ruddie', 'Boyles', 'rboyles2v', 'M', '865769862699', 'Structural Analysis Engineer', '$2a$10$Jy8l3NpmvQR7T41xqqb6W.iodZWXl1IWyou3KItLpvyECWiUrpU8O', '113-620-2404');
 insert into users (id, address, city, state, email, empscho, firstname, surname, username, gender, jmbg, occupation, password, phone) values (105, '9 Upham Alley', 'Wukang', 'China', 'rmatthisson2w@usa.gov', 'Eabox', 'Ruthi', 'Matthisson', 'rmatthisson2w', 'F', '658044747706', 'Account Executive', '$2a$10$Jy8l3NpmvQR7T41xqqb6W.iodZWXl1IWyou3KItLpvyECWiUrpU8O', '914-360-7822');
@@ -410,8 +410,5 @@ insert into user_roles (user_id, role_id) values (300, 2);
 
 insert into center_profile(id, name, address, description, average_rating, appointment_start, appointment_end)
 values (1, 'jovana', 'Bulevar Cara Lazara 2, Novi Sad 21000', 'poliklinika', 5, '2020-01-01', '2020-01-01');
-
-insert into centre_profiles (user_id, centre_profile_id) values (101, 1);
-insert into centre_profiles (user_id, centre_profile_id) values (102, 1);
-insert into centre_profiles (user_id, centre_profile_id) values (103, 1);
-
+insert into center_profile(id, name, address, description, average_rating, appointment_start, appointment_end)
+values (2, 'jjjjovana', 'bbBulevar Cara Lazara 2, nnnnNovi Sad 21000', 'nnnpoliklinika', 6, '2020-01-01', '2020-01-01');

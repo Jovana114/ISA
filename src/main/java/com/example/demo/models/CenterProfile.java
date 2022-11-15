@@ -1,13 +1,15 @@
 package com.example.demo.models;
 
+import com.example.demo.service.UserService;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "center_profile")
@@ -35,11 +37,15 @@ public class CenterProfile {
     @NotBlank
     private String appointmentEnd;
 
+    @OneToMany(mappedBy = "center_profile", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<User> users;
+
     public CenterProfile() {
     }
 
     public CenterProfile(Long id, String name, String address, String description, Double averageRating,
                          String appointmentStart, String appointmentEnd) {
+        UserService us = new UserService();
         this.id = id;
         this.name = name;
         this.address = address;
