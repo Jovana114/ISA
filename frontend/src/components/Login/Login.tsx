@@ -1,6 +1,7 @@
 import axios from "axios";
 import { Navigate, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
+import './Login.css'
 
 export const Login = () => {
     const [username, setUsername] = useState("");
@@ -18,23 +19,31 @@ export const Login = () => {
     const submit = async (e: any) => {
         e.preventDefault();
 
-        const { data } = await axios.post(
-            process.env.REACT_APP_API_URL + "/auth/signin",
-            {
-                username,
-                password,
-            },
-            { withCredentials: false }
-        );
+        try{
 
-        sessionStorage.setItem("token", JSON.stringify(data.token));
-        sessionStorage.setItem("user", JSON.stringify(data));
-        axios.defaults.headers.common[
-            "Authorization"
-        ] = `Bearer ${data["token"]}`;
-        console.log("DATA", data);
+            const { data } = await axios.post(
+                process.env.REACT_APP_API_URL + "/auth/signin",
+                {
+                    username,
+                    password,
+                },
+                { withCredentials: false }
+            );
 
-        setNavigate(true);
+            sessionStorage.setItem("token", JSON.stringify(data.token));
+            sessionStorage.setItem("user", JSON.stringify(data));
+            axios.defaults.headers.common[
+                "Authorization"
+            ] = `Bearer ${data["token"]}`;
+            // console.log("DATA", data);
+
+            setNavigate(true);
+        
+        } catch (error: any){
+            if(error.response.status === 401){
+                alert('Bad credentials');
+            }
+        }
     };
 
     if (navigate) {

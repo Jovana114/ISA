@@ -5,9 +5,10 @@ import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
+import com.example.demo.models.*;
 import com.example.demo.service.UserService;
-import com.example.demo.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,8 +18,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import com.example.demo.models.ERole;
-import com.example.demo.models.Role;
 import com.example.demo.payload.request.LoginRequest;
 import com.example.demo.payload.request.SignupRequest;
 import com.example.demo.payload.response.JwtResponse;
@@ -30,7 +29,7 @@ import com.example.demo.security.services.UserDetailsImpl;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/api")
 public class AuthController {
   @Autowired
   AuthenticationManager authenticationManager;
@@ -49,7 +48,7 @@ public class AuthController {
   @Autowired
   JwtUtils jwtUtils;
 
-  @PostMapping("/signin")
+  @PostMapping("/auth/signin")
   public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
     Authentication authentication = authenticationManager.authenticate(
@@ -82,7 +81,7 @@ public class AuthController {
             roles));
   }
 
-  @PostMapping("/signup")
+  @PostMapping("/auth/signup")
   public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
     if (userRepository.existsByUsername(signUpRequest.getUsername())) {
       return ResponseEntity
@@ -156,23 +155,46 @@ public class AuthController {
             .body(new MessageResponse("Error: no user found"));
   }
 
-  @PostMapping("/user/{id}")
+//  @PutMapping("/user/{id}")
+//  public ResponseEntity<?> updateUser(@Valid @RequestBody SignupRequest signUpRequest) {
+//    try {
+//      User user = userRepository.findByEmail(signUpRequest.getEmail());
+//      user.updateData(user, signUpRequest.getUsername(),
+//              signUpRequest.getFirstname(), signUpRequest.getSurname(), signUpRequest.getAddress(),
+//              signUpRequest.getCity(), signUpRequest.getState(), signUpRequest.getPhone(), signUpRequest.getJmbg(), signUpRequest.getGender(),
+//              signUpRequest.getOccupation(), signUpRequest.getEmpscho());
+//      userRepository.save(user);
+//    } catch (Exception e) {
+//      return ResponseEntity
+//              .badRequest()
+//              .body(new MessageResponse("Error: failed to update user!\n" + e));
+//    }
+//    return ResponseEntity
+//            .ok()
+//            .body(new MessageResponse("User successfully updated!"));
+//  }
+
+  @PutMapping("/user/update/{id}")
   @PreAuthorize("hasAuthority('ROLE_USER') or hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_STAFF')")
-  public ResponseEntity<?> updateUser(@Valid @RequestBody SignupRequest signUpRequest) {
-    try {
-      User user = userRepository.findByEmail(signUpRequest.getEmail());
-      user.updateData(user, signUpRequest.getUsername(),
-              signUpRequest.getFirstname(), signUpRequest.getSurname(), signUpRequest.getAddress(),
-              signUpRequest.getCity(), signUpRequest.getState(), signUpRequest.getPhone(), signUpRequest.getJmbg(), signUpRequest.getGender(),
-              signUpRequest.getOccupation(), signUpRequest.getEmpscho());
-      userRepository.save(user);
-    } catch (Exception e) {
-      return ResponseEntity
-              .badRequest()
-              .body(new MessageResponse("Error: failed to update user!\n" + e));
+  public ResponseEntity<User> updateUser(@PathVariable("id") long id, @RequestBody EditUser editUser) {
+    Optional<User> user = userRepository.findById(id);
+
+    if (user.isPresent()) {
+      User _user = user.get();
+      _user.setAddress(editUser.getAddress());
+      _user.setCity(editUser.getCity());
+      _user.setState(editUser.getState());
+      _user.setEmpscho(editUser.getEmpscho());
+      _user.setFirstname(editUser.getFirstname());
+      _user.setSurname(editUser.getSurname());
+      _user.setUsername(editUser.getUsername());
+      _user.setGender(editUser.getGender());
+      _user.setJmbg(editUser.getJmbg());
+      _user.setOccupation(editUser.getOccupation());
+      _user.setPhone(editUser.getPhone());
+      return new ResponseEntity<>(userRepository.save(_user), HttpStatus.OK);
+    } else {
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
-    return ResponseEntity
-            .ok()
-            .body(new MessageResponse("User successfully updated!"));
   }
 }

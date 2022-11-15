@@ -193,11 +193,11 @@ export default function NavigationBar () {
           </Toolbar>
         </Container>
       </AppBar>
-      <EditProfile
+      {/* <EditProfile
           open={open}
           onClose={handleClose}
           onSubmit={handleSubmit}
-        />
+        /> */}
     </>
   );
 }
