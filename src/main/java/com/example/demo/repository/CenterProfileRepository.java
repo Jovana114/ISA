@@ -10,4 +10,6 @@ public interface CenterProfileRepository extends JpaRepository<CenterProfile, Lo
 
     public CenterProfile findByName(String name);
 
+    Boolean existsByName(String name);
+
 }

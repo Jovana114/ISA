@@ -19,7 +19,7 @@ public class UserService {
     }
 
     public User getOne(Long id){
-        return userRepository.getOne(id);
+        return userRepository.findById(id).get();
     }
 
 

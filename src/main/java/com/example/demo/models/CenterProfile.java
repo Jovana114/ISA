@@ -1,6 +1,7 @@
 package com.example.demo.models;
 
 import com.example.demo.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 import javax.persistence.Id;
@@ -10,6 +11,8 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name = "center_profile")
 public class CenterProfile {
+
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -46,15 +49,9 @@ public class CenterProfile {
         return centreAdmin.getId();
     }
 
-    public void setCentreAdmin(Long centreAdmin) {
-        UserService us = new UserService();
-
-        this.centreAdmin = us.getOne(centreAdmin);
-    }
 
     public CenterProfile(Long id, String name, String address, String description, Double averageRating,
                          String appointmentStart, String appointmentEnd, Long centreAdmin) {
-        UserService us = new UserService();
         this.id = id;
         this.name = name;
         this.address = address;
@@ -62,7 +59,17 @@ public class CenterProfile {
         this.averageRating = averageRating;
         this.appointmentStart = appointmentStart;
         this.appointmentEnd = appointmentEnd;
-        this.centreAdmin = us.getOne(centreAdmin);
+        this.centreAdmin = null;
+    }
+
+    public CenterProfile( String name, String address, String description, Double averageRating,
+                         String appointmentStart, String appointmentEnd) {
+        this.name = name;
+        this.address = address;
+        this.description = description;
+        this.averageRating = averageRating;
+        this.appointmentStart = appointmentStart;
+        this.appointmentEnd = appointmentEnd;
     }
 
     @Override

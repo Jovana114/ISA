@@ -1,8 +1,12 @@
 package com.example.demo.controllers;
 
 import com.example.demo.models.CenterProfile;
+import com.example.demo.payload.request.CenterRequest;
+import com.example.demo.payload.response.MessageResponse;
 import com.example.demo.repository.CenterProfileRepository;
+import com.example.demo.repository.UserRepository;
 import com.example.demo.service.CenterProfileService;
+import com.example.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +25,20 @@ public class CenterProfileController {
 
     @Autowired
     CenterProfileRepository centerProfileRepository;
-    
+
+    @Autowired
+    UserRepository userRepository;
+
+    @Autowired
+    UserService us;
+
+    @GetMapping("/get/")
+    public ResponseEntity<CenterProfile> getCenterProfile()
+    {
+        CenterProfile cp = centerProfileService.getOne(1L);
+        return ResponseEntity.ok(cp);
+
+    }
     @PutMapping("/update/{id}")
     @PreAuthorize("hasAuthority('ROLE_STAFF')")
     public ResponseEntity<CenterProfile> updateCenterProfile(@PathVariable("id") long id, @RequestBody CenterProfile centerProfile) {
@@ -34,11 +51,27 @@ public class CenterProfileController {
             _CenterProfile.setDescription(centerProfile.getDescription());
             _CenterProfile.setAverageRating(centerProfile.getAverageRating());
             _CenterProfile.setAppointmentEnd(centerProfile.getAppointmentEnd());
-            _CenterProfile.setCentreAdmin(centerProfile.getCentreAdmin());
             return new ResponseEntity<>(centerProfileRepository.save(_CenterProfile), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+    @PostMapping("/create/")
+    //@PreAuthorize("hasAuthority('ROLE_STAFF')")
+    public ResponseEntity<?> createCenterProfile(@RequestBody CenterRequest cr)
+    {
+        if(centerProfileRepository.existsByName(cr.getName())){
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: Name is already taken!"));
+        }
+        CenterProfile cp = new CenterProfile(cr.getName(), cr.getAddress(), cr.getDescription(), cr.getAverageRating(),
+                cr.getAppointmentStart(), cr.getAppointmentEnd());
 
+
+
+        centerProfileRepository.save(cp);
+
+        return ResponseEntity.ok(new MessageResponse("Center registered successfully!"));
+    }
 }
