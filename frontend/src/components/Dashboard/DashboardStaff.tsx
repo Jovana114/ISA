@@ -14,12 +14,13 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
-import EditProfile from "../Profile/EditProfile";
+import EditProfileStaff from "../ProfileStaff/EditProfileStaff";
 import axios from "axios";
 
-export const Dashboard = () => {
+export const DashboardStaff = () => {
   const [data, setData] = useState({})
   const [navigate, setNavigate] = useState(false);
+  const [navigateIsUser, setNavigateIsUser] = useState(false);
 
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
@@ -66,6 +67,9 @@ export const Dashboard = () => {
       try {
         if(data === undefined || null){
             const userData = JSON.parse(sessionStorage.getItem("user")!);
+            console.log(userData);
+            if(userData.roles[0].name === "ROLE_USER")
+              setNavigateIsUser(true)
             setData(userData)
         }
       } catch (e) {
@@ -84,6 +88,10 @@ export const Dashboard = () => {
 
   if (navigate) {
     return <Navigate to="/login" />;
+  }
+  
+  if (navigateIsUser) {
+    return <Navigate to="/user-home" />;
   }
 
   // return <div className="form-signin mt-5 text-center">
@@ -214,7 +222,7 @@ export const Dashboard = () => {
         </Container>
       </AppBar>
       
-      <EditProfile open={open} onClose={handleClose}/>
+      <EditProfileStaff open={open} onClose={handleClose}/>
 
       {/* {data ? : <></>} */}
       {/* <h3>Hi {name}</h3> */}

@@ -13,7 +13,6 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import { useNavigate } from 'react-router-dom';
-import EditProfile from '../Profile/EditProfile';
 const pages = ['Products', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Logout'];
 
@@ -193,11 +192,11 @@ export default function NavigationBar () {
           </Toolbar>
         </Container>
       </AppBar>
-      <EditProfile
+      {/* <EditProfile
           open={open}
           onClose={handleClose}
           onSubmit={handleSubmit}
-        />
+        /> */}
     </>
   );
 }

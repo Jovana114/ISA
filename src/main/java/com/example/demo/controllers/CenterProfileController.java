@@ -1,10 +1,10 @@
 package com.example.demo.controllers;
 
 import com.example.demo.models.CenterProfile;
+import com.example.demo.models.User;
 import com.example.demo.payload.request.CenterRequest;
 import com.example.demo.payload.response.MessageResponse;
 import com.example.demo.repository.CenterProfileRepository;
-import com.example.demo.repository.UserRepository;
 import com.example.demo.service.CenterProfileService;
 import com.example.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -27,18 +29,8 @@ public class CenterProfileController {
     CenterProfileRepository centerProfileRepository;
 
     @Autowired
-    UserRepository userRepository;
-
-    @Autowired
-    UserService us;
-
-    @GetMapping("/get/")
-    public ResponseEntity<CenterProfile> getCenterProfile()
-    {
-        CenterProfile cp = centerProfileService.getOne(1L);
-        return ResponseEntity.ok(cp);
-
-    }
+    UserService userService;
+    
     @PutMapping("/update/{id}")
     @PreAuthorize("hasAuthority('ROLE_STAFF')")
     public ResponseEntity<CenterProfile> updateCenterProfile(@PathVariable("id") long id, @RequestBody CenterProfile centerProfile) {
@@ -56,8 +48,9 @@ public class CenterProfileController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
     @PostMapping("/create/")
-    //@PreAuthorize("hasAuthority('ROLE_STAFF')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<?> createCenterProfile(@RequestBody CenterRequest cr)
     {
         if(centerProfileRepository.existsByName(cr.getName())){
@@ -67,11 +60,13 @@ public class CenterProfileController {
         }
         CenterProfile cp = new CenterProfile(cr.getName(), cr.getAddress(), cr.getDescription(), cr.getAverageRating(),
                 cr.getAppointmentStart(), cr.getAppointmentEnd());
-
-
+        List<User> newList = new ArrayList<User>();
+        newList.add(userService.getOne(cr.getCentreAdmin()));
+        cp.setUsers(newList);
 
         centerProfileRepository.save(cp);
 
         return ResponseEntity.ok(new MessageResponse("Center registered successfully!"));
     }
+
 }

@@ -26,7 +26,6 @@ public class CenterProfileService {
     public CenterProfile findByName(String name) {
         return centerProfileRepository.findByName(name);
     }
-    public CenterProfile getOne(Long Id) {return centerProfileRepository.findById(Id).get();}
 
 
 //    public boolean update(Long id, CenterProfile centerProfile) {

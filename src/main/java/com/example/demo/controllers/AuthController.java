@@ -1,13 +1,13 @@
 package com.example.demo.controllers;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
+import com.example.demo.models.*;
 import com.example.demo.service.UserService;
-import com.example.demo.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,8 +17,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import com.example.demo.models.ERole;
-import com.example.demo.models.Role;
 import com.example.demo.payload.request.LoginRequest;
 import com.example.demo.payload.request.SignupRequest;
 import com.example.demo.payload.response.JwtResponse;
@@ -30,7 +28,7 @@ import com.example.demo.security.services.UserDetailsImpl;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/api")
 public class AuthController {
   @Autowired
   AuthenticationManager authenticationManager;
@@ -49,7 +47,7 @@ public class AuthController {
   @Autowired
   JwtUtils jwtUtils;
 
-  @PostMapping("/signin")
+  @PostMapping("/auth/signin")
   public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
     Authentication authentication = authenticationManager.authenticate(
@@ -59,30 +57,17 @@ public class AuthController {
     String jwt = jwtUtils.generateJwtToken(authentication);
 
     UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-    List<String> roles = userDetails.getAuthorities().stream()
-        .map(item -> item.getAuthority())
-        .collect(Collectors.toList());
+//    List<String> roles = userDetails.getAuthorities().stream()
+//        .map(item -> item.getAuthority())
+//        .collect(Collectors.toList());
 
     User user = userService.getOne(userDetails.getId());
 
     return ResponseEntity.ok(new JwtResponse(
-            jwt,user.getId(),
-            user.getUsername(),
-            user.getEmail(),
-            user.getFirstname(),
-            user.getSurname(),
-            user.getAddress(),
-            user.getCity(),
-            user.getState(),
-            user.getPhone(),
-            user.getJmbg(),
-            user.getGender(),
-            user.getOccupation(),
-            user.getEmpscho(),
-            roles));
+            jwt,user.getId()));
   }
 
-  @PostMapping("/signup")
+  @PostMapping("/auth/signup")
   public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
     if (userRepository.existsByUsername(signUpRequest.getUsername())) {
       return ResponseEntity
@@ -145,34 +130,4 @@ public class AuthController {
     return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
   }
 
-  @GetMapping("/user/{id}")
-  @PreAuthorize("hasAuthority('ROLE_USER') or hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_STAFF')")
-  public ResponseEntity<?> getUserById(@PathVariable ("id") Long id){
-    User user = userService.getOne(id);
-    if (user != null)
-      return ResponseEntity.ok(user);
-    return ResponseEntity
-            .badRequest()
-            .body(new MessageResponse("Error: no user found"));
-  }
-
-  @PostMapping("/user/{id}")
-  @PreAuthorize("hasAuthority('ROLE_USER') or hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_STAFF')")
-  public ResponseEntity<?> updateUser(@Valid @RequestBody SignupRequest signUpRequest) {
-    try {
-      User user = userRepository.findByEmail(signUpRequest.getEmail());
-      user.updateData(user, signUpRequest.getUsername(),
-              signUpRequest.getFirstname(), signUpRequest.getSurname(), signUpRequest.getAddress(),
-              signUpRequest.getCity(), signUpRequest.getState(), signUpRequest.getPhone(), signUpRequest.getJmbg(), signUpRequest.getGender(),
-              signUpRequest.getOccupation(), signUpRequest.getEmpscho());
-      userRepository.save(user);
-    } catch (Exception e) {
-      return ResponseEntity
-              .badRequest()
-              .body(new MessageResponse("Error: failed to update user!\n" + e));
-    }
-    return ResponseEntity
-            .ok()
-            .body(new MessageResponse("User successfully updated!"));
-  }
 }

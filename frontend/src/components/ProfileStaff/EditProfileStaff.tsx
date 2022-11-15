@@ -1,18 +1,18 @@
 import { useState, useEffect } from "react";
 import DialogTitle from "@mui/material/DialogTitle";
 import Dialog from "@mui/material/Dialog";
-import "./EditProfile.css";
+import "./EditProfileStaff.css";
 import axios from "axios";
 import { Navigate } from "react-router-dom";
 
-interface EditProfileProps {
+interface EditProfileStaffProps {
   open: boolean;
   onClose: () => void;
   // data: any;
 }
 
 // export default function EditProfile({ open, onClose, data }: EditProfileProps) {
-  export default function EditProfile({ open, onClose }: EditProfileProps) {
+  export default function EditProfileStaff({ open, onClose }: EditProfileStaffProps) {
 
   // const [dataUser, setDataUser] = useState()
 let dataUser = JSON.parse(sessionStorage.getItem("user")!);
@@ -28,6 +28,8 @@ let dataUser = JSON.parse(sessionStorage.getItem("user")!);
   const [jmbg, setJmbg] = useState(dataUser === null ? "": dataUser.jmbg);
   const [occupation, setOccupation] = useState(dataUser === null ? "": dataUser.occupation);
   const [phone, setPhone] = useState(dataUser === null ? "": dataUser.phone);
+  const [email, setEmail] = useState(dataUser === null ? "": dataUser.email);
+  const [center_profile, setCenter_profile] = useState(dataUser === null ? 0: dataUser.email);
 
   
 
@@ -46,6 +48,8 @@ let dataUser = JSON.parse(sessionStorage.getItem("user")!);
         setJmbg(dataUser.jmbg);
         setOccupation(dataUser.occupation);
         setPhone(dataUser.phone);
+        setEmail(dataUser.email);
+        setCenter_profile(dataUser.centerProfile);
       }
       
     } catch (e) {
@@ -64,7 +68,7 @@ let dataUser = JSON.parse(sessionStorage.getItem("user")!);
     try {
       const { data } = await axios.put(
         process.env.REACT_APP_API_URL +
-          `/user/update/${JSON.parse(sessionStorage.getItem("user")!).id}`,
+          `/adminCenter/update/${JSON.parse(sessionStorage.getItem("user")!).id}_${center_profile}`,
         {
           address,
           city,
@@ -77,6 +81,7 @@ let dataUser = JSON.parse(sessionStorage.getItem("user")!);
           jmbg,
           occupation,
           phone,
+          email
         },
         { withCredentials: false }
       );
@@ -224,6 +229,28 @@ let dataUser = JSON.parse(sessionStorage.getItem("user")!);
                         placeholder={"Enter phone"}
                         defaultValue={dataUser.phone}
                         onChange={(e) => setPhone(e.target.value)}
+                      />
+                    </div>
+                    <div className="form-group mt-3">
+                      <label style={{ textTransform: "capitalize" }}>email</label>
+                      <input
+                        required
+                        type="text"
+                        className="form-control mt-1"
+                        placeholder={"Enter email"}
+                        defaultValue={dataUser.email}
+                        onChange={(e) => setEmail(e.target.value)}
+                      />
+                    </div>
+                    <div className="form-group mt-3">
+                      <label style={{ textTransform: "capitalize" }}>center_profile</label>
+                      <input
+                        required
+                        type="text"
+                        className="form-control mt-1"
+                        placeholder={"Enter center_profile"}
+                        defaultValue={dataUser.center_profile}
+                        onChange={(e) => setCenter_profile(parseInt(e.target.value))}
                       />
                     </div>
                     <div className="d-grid gap-2 mt-3">

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 public interface CenterProfileRepository extends JpaRepository<CenterProfile, Long> {
 
     public CenterProfile findByName(String name);
-
     Boolean existsByName(String name);
+
 
 }

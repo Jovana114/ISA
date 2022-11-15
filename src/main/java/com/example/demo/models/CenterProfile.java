@@ -1,18 +1,19 @@
 package com.example.demo.models;
 
 import com.example.demo.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "center_profile")
 public class CenterProfile {
-
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -36,34 +37,33 @@ public class CenterProfile {
     @NotBlank
     private String appointmentEnd;
 
-    @ManyToOne
-    @JoinTable(  name = "centre_profiles",
-            joinColumns = @JoinColumn(name = "centre_profile_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id"))
-    private User centreAdmin;
+    @OneToMany(mappedBy = "center_profile", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<User> users;
 
     public CenterProfile() {
     }
 
-    public Long getCentreAdmin() {
-        return centreAdmin.getId();
+    public List<User> getUsers() {
+        return users;
     }
 
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
 
-    public CenterProfile(Long id, String name, String address, String description, Double averageRating,
-                         String appointmentStart, String appointmentEnd, Long centreAdmin) {
-        this.id = id;
+    public CenterProfile(String name, String address, String description, Double averageRating, String appointmentStart, String appointmentEnd) {
         this.name = name;
         this.address = address;
         this.description = description;
         this.averageRating = averageRating;
         this.appointmentStart = appointmentStart;
         this.appointmentEnd = appointmentEnd;
-        this.centreAdmin = null;
     }
 
-    public CenterProfile( String name, String address, String description, Double averageRating,
+    public CenterProfile(Long id, String name, String address, String description, Double averageRating,
                          String appointmentStart, String appointmentEnd) {
+
+        this.id = id;
         this.name = name;
         this.address = address;
         this.description = description;

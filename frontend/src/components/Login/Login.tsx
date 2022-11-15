@@ -1,6 +1,7 @@
 import axios from "axios";
 import { Navigate, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
+import './Login.css'
 
 export const Login = () => {
     const [username, setUsername] = useState("");
@@ -11,34 +12,57 @@ export const Login = () => {
 
     useEffect(() => {
         if (sessionStorage.getItem("user")) {
-            nav("/home");
+            if(JSON.parse(sessionStorage.getItem("user")!).roles[0].name === "ROLE_USER"){
+                nav("user-home")
+            }
+            else if(JSON.parse(sessionStorage.getItem("user")!).roles[0].name === "ROLE_STAFF"){
+                nav("/staff-home");
+            }
+            nav("/admin-home");
         }
     });
 
     const submit = async (e: any) => {
         e.preventDefault();
 
-        const { data } = await axios.post(
-            process.env.REACT_APP_API_URL + "/auth/signin",
-            {
-                username,
-                password,
-            },
-            { withCredentials: false }
-        );
+        try{
 
-        sessionStorage.setItem("token", JSON.stringify(data.token));
-        sessionStorage.setItem("user", JSON.stringify(data));
-        axios.defaults.headers.common[
-            "Authorization"
-        ] = `Bearer ${data["token"]}`;
-        console.log("DATA", data);
+            const { data } = await axios.post(
+                process.env.REACT_APP_API_URL + "/auth/signin",
+                {
+                    username,
+                    password,
+                },
+                { withCredentials: false }
+            );
 
-        setNavigate(true);
+            sessionStorage.setItem("token", JSON.stringify(data.token));
+            sessionStorage.setItem("id", JSON.stringify(data.id));
+            axios.defaults.headers.common[
+                "Authorization"
+            ] = `Bearer ${data["token"]}`;
+            // console.log("DATA", data);
+
+            axios.get(
+                process.env.REACT_APP_API_URL + `/user/${JSON.stringify(data.id)}`,
+                { withCredentials: false }
+            ).then((res: any) => {
+            sessionStorage.setItem("user", JSON.stringify(res.data));
+            sessionStorage.setItem("role", JSON.stringify(res.data.roles[0].name));
+            })
+
+
+            setNavigate(true);
+        
+        } catch (error: any){
+            if(error.response.status === 401){
+                alert('Bad credentials');
+            }
+        }
     };
 
     if (navigate) {
-        return <Navigate to="/home" />;
+        return <Navigate to="/redirect" />        
     }
     
     return (
