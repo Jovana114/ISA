@@ -26,7 +26,7 @@ export const DashboardStaff = () => {
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
   const [open, setOpen] = React.useState(false);
 
-  const pages = ["Products", "Pricing", "Blog"];
+  const pages = ["List centers", "Questionnaire"];
   const settings = ["Profile", "Logout"];
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
