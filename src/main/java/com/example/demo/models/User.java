@@ -20,16 +20,16 @@ public class User {
   private Long id;
 
   @NotBlank
-  @Size(max = 20)
+//  @Size(max = 20)
   private String username;
 
   @NotBlank
-  @Size(max = 50)
+//  @Size(max = 50)
   @Email
   private String email;
 
   @NotBlank
-  @Size(max = 120)
+//  @Size(max = 120)
   private String password;
 
   @NotBlank
@@ -51,7 +51,7 @@ public class User {
   private String phone;
 
   @NotBlank
-  @Size(min = 12, max = 12)
+//  @Size(min = 12, max = 12)
   private String jmbg;
 
   @NotBlank

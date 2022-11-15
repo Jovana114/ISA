@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { Navigate } from "react-router-dom";
 import * as React from "react";
 import AppBar from "@mui/material/AppBar";
@@ -16,9 +15,10 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import EditProfile from "../Profile/EditProfile";
+import axios from "axios";
 
 export const Dashboard = () => {
-  const [name, setName] = useState("");
+  const [data, setData] = useState({})
   const [navigate, setNavigate] = useState(false);
 
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
@@ -60,21 +60,24 @@ export const Dashboard = () => {
     }
   };
 
+
   useEffect(() => {
     (async () => {
       try {
-        const userData = JSON.parse(sessionStorage.getItem("user")!);
-
-        setName(userData.firstname);
+        if(data === undefined || null){
+            const userData = JSON.parse(sessionStorage.getItem("user")!);
+            setData(userData)
+        }
       } catch (e) {
         setNavigate(true);
       }
     })();
-  }, []);
+  }, [data]);
 
   const logout = async () => {
     sessionStorage.removeItem("token");
     sessionStorage.removeItem("user");
+    sessionStorage.removeItem("id");
     setNavigate(true);
   };
 
@@ -209,7 +212,10 @@ export const Dashboard = () => {
           </Toolbar>
         </Container>
       </AppBar>
-      <EditProfile open={open} onClose={handleClose} data={JSON.parse(sessionStorage.getItem('user')!)}/>
+      
+      <EditProfile open={open} onClose={handleClose}/>
+
+      {/* {data ? : <></>} */}
       {/* <h3>Hi {name}</h3> */}
 
       {/* <button className="btn btn-lg btn-primary"

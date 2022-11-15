@@ -31,11 +31,19 @@ export const Login = () => {
             );
 
             sessionStorage.setItem("token", JSON.stringify(data.token));
-            sessionStorage.setItem("user", JSON.stringify(data));
+            sessionStorage.setItem("id", JSON.stringify(data.id));
             axios.defaults.headers.common[
                 "Authorization"
             ] = `Bearer ${data["token"]}`;
             // console.log("DATA", data);
+
+            axios.get(
+                process.env.REACT_APP_API_URL + `/user/${JSON.stringify(data.id)}`,
+                { withCredentials: false }
+            ).then((res: any) => {
+            sessionStorage.setItem("user", JSON.stringify(res.data));
+            })
+
 
             setNavigate(true);
         

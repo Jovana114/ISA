@@ -1,7 +1,6 @@
 package com.example.demo.controllers;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -58,27 +57,14 @@ public class AuthController {
     String jwt = jwtUtils.generateJwtToken(authentication);
 
     UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-    List<String> roles = userDetails.getAuthorities().stream()
-        .map(item -> item.getAuthority())
-        .collect(Collectors.toList());
+//    List<String> roles = userDetails.getAuthorities().stream()
+//        .map(item -> item.getAuthority())
+//        .collect(Collectors.toList());
 
     User user = userService.getOne(userDetails.getId());
 
     return ResponseEntity.ok(new JwtResponse(
-            jwt,user.getId(),
-            user.getUsername(),
-            user.getEmail(),
-            user.getFirstname(),
-            user.getSurname(),
-            user.getAddress(),
-            user.getCity(),
-            user.getState(),
-            user.getPhone(),
-            user.getJmbg(),
-            user.getGender(),
-            user.getOccupation(),
-            user.getEmpscho(),
-            roles));
+            jwt,user.getId()));
   }
 
   @PostMapping("/auth/signup")
@@ -147,8 +133,8 @@ public class AuthController {
   @GetMapping("/user/{id}")
   @PreAuthorize("hasAuthority('ROLE_USER') or hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_STAFF')")
   public ResponseEntity<?> getUserById(@PathVariable ("id") Long id){
-    User user = userService.getOne(id);
-    if (user != null)
+    Optional<User> user = userRepository.findById(id);
+    if (user.isPresent())
       return ResponseEntity.ok(user);
     return ResponseEntity
             .badRequest()
@@ -176,7 +162,7 @@ public class AuthController {
 
   @PutMapping("/user/update/{id}")
   @PreAuthorize("hasAuthority('ROLE_USER') or hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_STAFF')")
-  public ResponseEntity<User> updateUser(@PathVariable("id") long id, @RequestBody EditUser editUser) {
+  public ResponseEntity<?> updateUser(@PathVariable("id") long id, @RequestBody EditUser editUser) {
     Optional<User> user = userRepository.findById(id);
 
     if (user.isPresent()) {
@@ -192,7 +178,8 @@ public class AuthController {
       _user.setJmbg(editUser.getJmbg());
       _user.setOccupation(editUser.getOccupation());
       _user.setPhone(editUser.getPhone());
-      return new ResponseEntity<>(userRepository.save(_user), HttpStatus.OK);
+      userRepository.save(_user);
+      return new ResponseEntity<>(HttpStatus.OK);
     } else {
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
