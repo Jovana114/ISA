@@ -15,6 +15,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -89,20 +91,23 @@ public class UserController {
                     CenterProfile cpp = cp.get();
                     _user.setCenter_profile(cpp);
                 }
-
-
             }
             else {
                 roles.add(adminRole);
             }
             _user.setRoles(roles);
-
-
-
             userRepository.save(_user);
             return new ResponseEntity<>(HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+
+    @GetMapping("/getall")
+    @PreAuthorize(" hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_STAFF')")
+    public ResponseEntity<?> getAllUsers(){
+        List<User> listOfUsers = new ArrayList<User>();
+        listOfUsers = userService.getAll();
+        return ResponseEntity.ok(listOfUsers);
     }
 }
