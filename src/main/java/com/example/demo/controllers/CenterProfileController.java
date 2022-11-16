@@ -10,11 +10,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("api/centerProfile")
+@RequestMapping("api")
 public class CenterProfileController {
 
     @Autowired
@@ -22,8 +23,8 @@ public class CenterProfileController {
 
     @Autowired
     CenterProfileRepository centerProfileRepository;
-    
-    @PutMapping("/update/{id}")
+
+    @PutMapping("/centerProfile/update/{id}")
     @PreAuthorize("hasAuthority('ROLE_STAFF')")
     public ResponseEntity<CenterProfile> updateCenterProfile(@PathVariable("id") long id, @RequestBody CenterProfile centerProfile) {
         Optional<CenterProfile> CenterProfileData = centerProfileRepository.findById(id);
@@ -40,5 +41,25 @@ public class CenterProfileController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+    @GetMapping("/centres")
+    @PreAuthorize("hasAuthority('ROLE_USER') or hasAuthority('ROLE_ADMIN')")
+    public ResponseEntity<?> allCentres() {
+        List<CenterProfile> centres = centerProfileRepository.findAll();
+        if(!centres.isEmpty())
+            return new ResponseEntity<>(centres, HttpStatus.OK);
+        else
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @GetMapping("/centres/search/{searchData}")
+    @PreAuthorize("hasAuthority('ROLE_USER') or hasAuthority('ROLE_ADMIN')")
+    public ResponseEntity<?> searchCentresByNameOrAddress(@PathVariable("searchData") String searchData) {
+        List<CenterProfile> centres = centerProfileRepository.findByNameOrAddressContaining(searchData, searchData);
+        if(!centres.isEmpty())
+            return new ResponseEntity<>(centres, HttpStatus.OK);
+        else
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
 
 }
