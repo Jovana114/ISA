@@ -16,16 +16,23 @@ import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import EditProfile from "../Profile/EditProfile";
 import axios from "axios";
+import TableCenter from "../Table/TableCenter";
+import UpgradedTable from "../Table/UpgradedTable";
 
 export const Dashboard = () => {
-  const [data, setData] = useState({})
+  const [data, setData] = useState({});
   const [navigate, setNavigate] = useState(false);
 
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
+    null
+  );
+  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
+    null
+  );
   const [open, setOpen] = React.useState(false);
 
   const pages = ["Products", "Pricing", "Blog"];
+  // const pages: any = [];
   const settings = ["Profile", "Logout"];
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -60,13 +67,12 @@ export const Dashboard = () => {
     }
   };
 
-
   useEffect(() => {
     (async () => {
       try {
-        if(data === undefined || null){
-            const userData = JSON.parse(sessionStorage.getItem("user")!);
-            setData(userData)
+        if (data === undefined || null) {
+          const userData = JSON.parse(sessionStorage.getItem("user")!);
+          setData(userData);
         }
       } catch (e) {
         setNavigate(true);
@@ -140,11 +146,18 @@ export const Dashboard = () => {
                   display: { xs: "block", md: "none" },
                 }}
               >
-                {pages.map((page) => (
-                  <MenuItem key={page} onClick={handleCloseNavMenu}>
-                    <Typography textAlign="center">{page}</Typography>
-                  </MenuItem>
-                ))}
+                {" "}
+                {pages.length > 0 ? (
+                  <>
+                    {pages.map((page: any) => (
+                      <MenuItem key={page} onClick={handleCloseNavMenu}>
+                        <Typography textAlign="center">{page}</Typography>
+                      </MenuItem>
+                    ))}
+                  </>
+                ) : (
+                  <></>
+                )}
               </Menu>
             </Box>
             {/* <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} /> */}
@@ -166,17 +179,21 @@ export const Dashboard = () => {
             >
               LOGO
             </Typography> */}
-            <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-              {pages.map((page) => (
-                <Button
-                  key={page}
-                  onClick={handleCloseNavMenu}
-                  sx={{ my: 2, color: "white", display: "block" }}
-                >
-                  {page}
-                </Button>
-              ))}
-            </Box>
+            {pages.length > 0 ? (
+              <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+                {pages.map((page: any) => (
+                  <Button
+                    key={page}
+                    onClick={handleCloseNavMenu}
+                    sx={{ my: 2, color: "white", display: "block" }}
+                  >
+                    {page}
+                  </Button>
+                ))}
+              </Box>
+            ) : (
+              <></>
+            )}
 
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Open settings">
@@ -213,8 +230,11 @@ export const Dashboard = () => {
           </Toolbar>
         </Container>
       </AppBar>
-      
-      <EditProfile open={open} onClose={handleClose}/>
+
+      {/* <TableCenter /> */}
+      <UpgradedTable />
+
+      <EditProfile open={open} onClose={handleClose} />
 
       {/* {data ? : <></>} */}
       {/* <h3>Hi {name}</h3> */}
