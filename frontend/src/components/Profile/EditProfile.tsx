@@ -43,6 +43,13 @@ export default function EditProfile({ open, onClose }: EditProfileProps) {
   );
   const [phone, setPhone] = useState(dataUser === null ? "" : dataUser.phone);
 
+  const config = {
+    headers: {
+      "Content-type": "application/json",
+      Authorization: `Bearer ${JSON.parse(sessionStorage.getItem("token")!)}`,
+    },
+  };
+
   useEffect(() => {
     try {
       if (address === "") {
@@ -88,7 +95,7 @@ export default function EditProfile({ open, onClose }: EditProfileProps) {
           occupation,
           phone,
         },
-        { withCredentials: false }
+        config
       );
       // console.log(data);
 
