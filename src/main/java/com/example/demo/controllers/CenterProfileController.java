@@ -1,6 +1,7 @@
 package com.example.demo.controllers;
 
 import com.example.demo.models.CenterProfile;
+import com.example.demo.models.User;
 import com.example.demo.repository.CenterProfileRepository;
 import com.example.demo.service.CenterProfileService;
 import org.springframework.beans.factory.annotation.Autowired;

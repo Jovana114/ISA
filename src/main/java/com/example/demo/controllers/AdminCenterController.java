@@ -74,9 +74,12 @@ public class AdminCenterController {
         if (UserData.isPresent()) {
             User _User = UserData.get();
             if(encoder.matches(userDto.getPasswordOld(), _User.getPassword())){
+                System.out.println("Old pass: "+ encoder.encode(_User.getPassword()) +
+                                 "\nNew pass: " + encoder.encode(userDto.getPasswordNew()));
                 _User.setPassword(encoder.encode(userDto.getPasswordNew()));
+                userRepository.save(_User);
             }
-            return new ResponseEntity<>(userRepository.save(_User), HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

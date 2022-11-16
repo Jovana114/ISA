@@ -13,10 +13,11 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import { useNavigate } from 'react-router-dom';
-const pages = ['Products', 'Pricing', 'Blog'];
-const settings = ['Profile', 'Logout'];
+const pages = ['Pricing', 'Blog'];
+const settings = ['Products', 'Profile', 'Logout', 'Change password'];
 
 export default function NavigationBar () {
+
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
   const [open, setOpen] = React.useState(false);
@@ -51,6 +52,10 @@ export default function NavigationBar () {
     if(selectedSetting === 'Profile'){
       handleClickOpen()
       // navigate('/profile')
+    } else if (selectedSetting === 'Change password'){
+      handleClickOpen()
+    } else if (selectedSetting === 'Products') {
+      handleClickOpen()
     }
   }
 

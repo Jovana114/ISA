@@ -1,5 +1,6 @@
 package com.example.demo.dto;
 
+import javax.persistence.Table;
 public class UserDto {
 
     private String passwordOld;

@@ -15,7 +15,8 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import EditProfileStaff from "../ProfileStaff/EditProfileStaff";
-import axios from "axios";
+import EditProfileStaffPassword from "../ProfileStaff/EditProfileStaffPassword";
+import Center from "../CenterProfile/Center";
 
 export const DashboardStaff = () => {
   const [data, setData] = useState({})
@@ -25,9 +26,11 @@ export const DashboardStaff = () => {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
   const [open, setOpen] = React.useState(false);
+  const [open1, setOpen1] = React.useState(false);
+  const [open2, setOpen2] = React.useState(false);
 
-  const pages = ["Products", "Pricing", "Blog"];
-  const settings = ["Profile", "Logout"];
+  const pages = ["Pricing", "Blog"];
+  const settings = ["Products", "Profile", "Logout", 'Change password'];
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -48,8 +51,24 @@ export const DashboardStaff = () => {
     setOpen(true);
   };
 
+  const handleClickOpen1 = () => {
+    setOpen1(true);
+  };
+
+  const handleClickOpen2 = () => {
+    setOpen2(true);
+  };
+
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const handleClose1 = () => {
+    setOpen1(false);
+  };
+
+  const handleClose2 = () => {
+    setOpen2(false);
   };
 
   const handleSettings = (selectedSetting: string) => {
@@ -58,6 +77,10 @@ export const DashboardStaff = () => {
       handleClickOpen();
     } else if (selectedSetting === "Logout") {
       logout();
+    } else if (selectedSetting === "Change password") {
+      handleClickOpen1();
+    } else if (selectedSetting === 'Products') {
+      handleClickOpen2()
     }
   };
 
@@ -218,11 +241,16 @@ export const DashboardStaff = () => {
                 ))}
               </Menu>
             </Box>
+
+            
+
           </Toolbar>
         </Container>
       </AppBar>
       
       <EditProfileStaff open={open} onClose={handleClose}/>
+      <EditProfileStaffPassword open={open1} onClose={handleClose1}/>
+      <Center open={open2} onClose={handleClose2}/>
 
       {/* {data ? : <></>} */}
       {/* <h3>Hi {name}</h3> */}
