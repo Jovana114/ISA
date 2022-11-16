@@ -17,7 +17,7 @@ import AdbIcon from "@mui/icons-material/Adb";
 import EditProfileStaff from "../ProfileStaff/EditProfileStaff";
 import axios from "axios";
 
-export const DashboardStaff = () => {
+export const DashBoardUser = () => {
   const [data, setData] = useState({})
   const [navigate, setNavigate] = useState(false);
   const [navigateIsUser, setNavigateIsUser] = useState(false);
@@ -60,7 +60,6 @@ export const DashboardStaff = () => {
       logout();
     }
   };
-
 
   useEffect(() => {
     (async () => {

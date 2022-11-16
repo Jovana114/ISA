@@ -13,7 +13,7 @@ export const Login = () => {
     useEffect(() => {
         if (sessionStorage.getItem("user")) {
             if(JSON.parse(sessionStorage.getItem("user")!).roles[0].name === "ROLE_USER"){
-                nav("/user-home")
+                nav("user-home")
             }
             else if(JSON.parse(sessionStorage.getItem("user")!).roles[0].name === "ROLE_STAFF"){
                 nav("/staff-home");
@@ -67,21 +67,21 @@ export const Login = () => {
     
     return (
       <form className="login-form" onSubmit={submit} autoComplete="off">
-      <h1>Log in</h1>
+      <h1>Login</h1>
       <div className="form-input-material">
         <input type="text" name="username" id="username" 
-        placeholder="username" 
+        placeholder=" " 
         autoComplete="new-password" required 
         className="form-control-material" 
         onChange={e => setUsername(e.target.value)}/>
-        <label>Username:</label>
+        <label>Username</label>
       </div>
       <div className="form-input-material">
-        <input type="password" name="password" id="password" placeholder="password" autoComplete="new-password" 
+        <input type="password" name="password" id="password" placeholder=" " autoComplete="new-password" 
         required className="form-control-material" onChange={e => setPassword(e.target.value)}/>
-        <label>Password:</label>
+        <label>Password</label>
       </div>
-      <button type="submit" className="btn btn-ghost">Log in</button>
+      <button type="submit" className="btn btn-ghost">Login</button>
     </form>
       );
 };
