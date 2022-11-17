@@ -1,13 +1,11 @@
 package com.example.demo.service;
 
-import com.example.demo.dto.UserDto;
 import com.example.demo.models.User;
 import com.example.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserService {
@@ -22,6 +20,7 @@ public class UserService {
         return userRepository.getOne(id);
     }
 
+    //public List<User> findByNameOrSurnameContaining(String name){ return userRepository.findByFirstnameOrSurnameContaining(name, name);}
 
 
 

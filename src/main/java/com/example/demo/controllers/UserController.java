@@ -37,16 +37,16 @@ public class UserController {
     @Autowired
     CenterProfileRepository centerProfileRepository;
 
-    @GetMapping("/{id}")
-    @PreAuthorize("hasAuthority('ROLE_USER') or hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_STAFF')")
-    public ResponseEntity<?> getUserById(@PathVariable("id") Long id) {
-        Optional<User> user = userRepository.findById(id);
-        if (user.isPresent())
-            return ResponseEntity.ok(user);
-        return ResponseEntity
-                .badRequest()
-                .body(new MessageResponse("Error: no user found"));
-    }
+//    @GetMapping("/{id}")
+//    @PreAuthorize("hasAuthority('ROLE_USER') or hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_STAFF')")
+//    public ResponseEntity<?> getUserById(@PathVariable("id") Long id) {
+//        Optional<User> user = userRepository.findById(id);
+//        if (user.isPresent())
+//            return ResponseEntity.ok(user);
+//        return ResponseEntity
+//                .badRequest()
+//                .body(new MessageResponse("Error: no user found"));
+//    }
 
     @PutMapping("/update/{id}")
     @PreAuthorize("hasAuthority('ROLE_USER')")
@@ -109,5 +109,17 @@ public class UserController {
         List<User> listOfUsers = new ArrayList<User>();
         listOfUsers = userService.getAll();
         return ResponseEntity.ok(listOfUsers);
+    }
+    @GetMapping("/getByName/{searchData}")
+    @PreAuthorize(" hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_STAFF')")
+    public ResponseEntity<?> getByName(@PathVariable("searchData") String searchData) {
+        List<User> listOfUsers = new ArrayList<>();
+        listOfUsers = userRepository.findByFirstnameContainingOrSurnameContaining(searchData, searchData);
+        if(!listOfUsers.isEmpty())
+            return new ResponseEntity<>(listOfUsers, HttpStatus.OK);
+//        else
+//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(listOfUsers,HttpStatus.ACCEPTED);
+
     }
 }
