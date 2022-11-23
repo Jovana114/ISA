@@ -30,6 +30,38 @@ public class AdminCenterController {
     @Autowired
     CenterProfileRepository centerProfileRepository;
 
+    @PutMapping("/update/{id}")
+    @PreAuthorize("hasAuthority('ROLE_STAFF')")
+    public ResponseEntity<?> updateAdminCenter(@PathVariable("id") Long id, @RequestBody User user) {
+        Optional<User> UserData = userRepository.findById(id);
+
+        if (UserData.isPresent()) {
+            User _User = UserData.get();
+
+            try {
+                _User.setUsername(user.getUsername());
+                _User.setEmail(user.getEmail());
+                _User.setFirstname(user.getFirstname());
+                _User.setAddress(user.getAddress());
+                _User.setSurname(user.getSurname());
+                _User.setCity(user.getCity());
+                _User.setEmpscho(user.getEmpscho());
+                _User.setGender(user.getGender());
+                _User.setJmbg(user.getJmbg());
+                _User.setOccupation(user.getOccupation());
+                _User.setPhone(user.getPhone());
+                return new ResponseEntity<>(userRepository.save(_User), HttpStatus.OK);
+            } catch (Exception e) {
+                return ResponseEntity
+                        .badRequest()
+                        .body(new MessageResponse("Error exception: " + e));
+            }
+        }else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    /*
     @PutMapping("/update/{id}_{centre_id}")
     @PreAuthorize("hasAuthority('ROLE_STAFF')")
     public ResponseEntity<?> updateAdminCenter(@PathVariable("id") Long id, @RequestBody User user, @PathVariable("centre_id") Long center_profile_id) {
@@ -62,7 +94,7 @@ public class AdminCenterController {
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-    }
+    } */
 
     BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
