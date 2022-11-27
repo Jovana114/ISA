@@ -17,6 +17,13 @@ interface EditProfileStaffProps {
   // const [dataUser, setDataUser] = useState()
 let dataUser = JSON.parse(sessionStorage.getItem("user")!);
 
+  const config = {
+    headers: {
+      "Content-type": "application/json",
+      Authorization: `Bearer ${JSON.parse(sessionStorage.getItem("token")!)}`,
+    },
+  };
+
   const [address, setAddress] = useState(dataUser === null ? "": dataUser.address);
   const [city, setCity] = useState(dataUser === null ? "": dataUser.city);
   const [state, setState] = useState(dataUser === null ? "": dataUser.state);
@@ -29,7 +36,6 @@ let dataUser = JSON.parse(sessionStorage.getItem("user")!);
   const [occupation, setOccupation] = useState(dataUser === null ? "": dataUser.occupation);
   const [phone, setPhone] = useState(dataUser === null ? "": dataUser.phone);
   const [email, setEmail] = useState(dataUser === null ? "": dataUser.email);
-  const [center_profile, setCenter_profile] = useState(dataUser === null ? 0: dataUser.email);
 
   
 
@@ -49,13 +55,10 @@ let dataUser = JSON.parse(sessionStorage.getItem("user")!);
         setOccupation(dataUser.occupation);
         setPhone(dataUser.phone);
         setEmail(dataUser.email);
-        setCenter_profile(dataUser.centerProfile);
-      }
-      
+      }    
     } catch (e) {
       // return <Navigate to="/login" />;
     }
-    
   }, [address]);
 
   const handleClose = () => {
@@ -68,7 +71,7 @@ let dataUser = JSON.parse(sessionStorage.getItem("user")!);
     try {
       const { data } = await axios.put(
         process.env.REACT_APP_API_URL +
-          `/adminCenter/update/${JSON.parse(sessionStorage.getItem("user")!).id}_${center_profile}`,
+          `/adminCenter/update/${JSON.parse(sessionStorage.getItem("user")!).id}`,
         {
           address,
           city,
@@ -83,7 +86,7 @@ let dataUser = JSON.parse(sessionStorage.getItem("user")!);
           phone,
           email
         },
-        { withCredentials: false }
+       config 
       );
       // console.log(data);
       
@@ -240,17 +243,6 @@ let dataUser = JSON.parse(sessionStorage.getItem("user")!);
                         placeholder={"Enter email"}
                         defaultValue={dataUser.email}
                         onChange={(e) => setEmail(e.target.value)}
-                      />
-                    </div>
-                    <div className="form-group mt-3">
-                      <label style={{ textTransform: "capitalize" }}>center_profile</label>
-                      <input
-                        required
-                        type="text"
-                        className="form-control mt-1"
-                        placeholder={"Enter center_profile"}
-                        defaultValue={dataUser.center_profile}
-                        onChange={(e) => setCenter_profile(parseInt(e.target.value))}
                       />
                     </div>
                     <div className="d-grid gap-2 mt-3">
