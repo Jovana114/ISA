@@ -61,10 +61,14 @@ public class CenterProfileController {
         CenterProfile cp = new CenterProfile(cr.getName(), cr.getAddress(), cr.getDescription(), cr.getAverageRating(),
                 cr.getAppointmentStart(), cr.getAppointmentEnd());
         List<User> newList = new ArrayList<User>();
-        newList.add(userService.getOne(cr.getCentreAdmin()));
+        User uu = userService.getOne(cr.getCentreAdmin());
+        newList.add(uu);
         cp.setUsers(newList);
 
+
+
         centerProfileRepository.save(cp);
+        userService.changeUserCenterId(cr.getCentreAdmin(), cp.getId());
 
         return ResponseEntity.ok(new MessageResponse("Center registered successfully!"));
     }
