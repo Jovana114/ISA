@@ -13,7 +13,14 @@ import { visuallyHidden } from "@mui/utils";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
+import { Range, getTrackBackground } from "react-range";
 import axios from "axios";
+import {
+  Checkbox,
+  FormControlLabel,
+  FormGroup,
+  Typography,
+} from "@mui/material";
 
 interface Data {
   id: number;
@@ -155,16 +162,42 @@ export default function UpgradedTable() {
   useEffect(() => {
     (async () => {
       axios
-        .get(process.env.REACT_APP_API_URL + "/centres", config)
+        .get(process.env.REACT_APP_API_URL + "/centerProfile/all", config)
         .then((res) => setRows(res.data));
     })();
   }, []);
 
   const search = (searchText: string) => {
     if (searchText !== "") {
+      if (checked) {
+        axios
+          .get(
+            process.env.REACT_APP_API_URL +
+              "/centerProfile/all/search/" +
+              searchText +
+              "/" +
+              state,
+            config
+          )
+          .then((res) => setRows(res.data))
+          .catch((e) => alert("No Center Found!"));
+      } else {
+        axios
+          .get(
+            process.env.REACT_APP_API_URL +
+              "/centerProfile/all/search/" +
+              searchText,
+            config
+          )
+          .then((res) => setRows(res.data))
+          .catch((e) => alert("No Center Found!"));
+      }
+    } else if (checked) {
       axios
         .get(
-          process.env.REACT_APP_API_URL + "/centres/search/" + searchText,
+          process.env.REACT_APP_API_URL +
+            "/centerProfile/all/search-rating/" +
+            state,
           config
         )
         .then((res) => setRows(res.data))
@@ -174,8 +207,10 @@ export default function UpgradedTable() {
 
   const reset = () => {
     setSearchText("");
+    setChecked(false);
+    setState([5]);
     axios
-      .get(process.env.REACT_APP_API_URL + "/centres", config)
+      .get(process.env.REACT_APP_API_URL + "/centerProfile/all", config)
       .then((res) => setRows(res.data));
   };
   const handleRequestSort = (
@@ -202,6 +237,16 @@ export default function UpgradedTable() {
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
+  const STEP = 1;
+  const MIN = 0;
+  const MAX = 10;
+
+  const [checked, setChecked] = useState(false);
+  const [state, setState] = useState([5]);
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setChecked(event.target.checked);
+  };
   return (
     <Box sx={{ width: "640px", margin: "20px auto" }}>
       <Paper sx={{ width: "auto", mb: 2 }}>
@@ -225,6 +270,86 @@ export default function UpgradedTable() {
                   <Button onClick={() => reset()}>
                     <RestartAltIcon />
                   </Button>
+                  <span>{state}</span>
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell>
+                  <FormGroup>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={checked}
+                          onChange={handleChange}
+                          inputProps={{ "aria-label": "controlled" }}
+                        />
+                      }
+                      label="Enable Filter"
+                    />
+                  </FormGroup>
+                </TableCell>
+                <TableCell colSpan={2}>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      flexWrap: "wrap",
+                      margin: "5px auto",
+                    }}
+                  >
+                    <Range
+                      step={STEP}
+                      min={MIN}
+                      max={MAX}
+                      values={state}
+                      onChange={(values) => setState(values)}
+                      disabled={checked ? false : true}
+                      renderTrack={({ props, children, disabled }) => (
+                        <div
+                          {...props}
+                          style={{
+                            ...props.style,
+                            height: "6px",
+                            width: "100%",
+                            borderRadius: "4px",
+                            background: getTrackBackground({
+                              values: state,
+                              colors: ["#548BF4", "#ccc"],
+                              min: MIN,
+                              max: MAX,
+                            }),
+                            alignSelf: "center",
+                          }}
+                        >
+                          {children}
+                        </div>
+                      )}
+                      renderThumb={({ props, isDragged }) => (
+                        <div
+                          {...props}
+                          style={{
+                            ...props.style,
+                            height: "42px",
+                            width: "42px",
+                            borderRadius: "4px",
+                            backgroundColor: "#FFF",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            boxShadow: "0px 2px 6xp #AAA",
+                          }}
+                        >
+                          <div
+                            style={{
+                              height: "16px",
+                              width: "5px",
+                              backgroundColor: isDragged ? "#548BF4" : "#CCC",
+                            }}
+                          ></div>
+                        </div>
+                      )}
+                    />
+                  </div>
                 </TableCell>
               </TableRow>
               <EnhancedTableHead

@@ -14,6 +14,9 @@ public interface CenterProfileRepository extends JpaRepository<CenterProfile, Lo
     Boolean existsByName(String name);
 
 
-    public List<CenterProfile> findByNameOrAddressContaining(String name, String address);
+    public List<CenterProfile> findByNameContainingOrAddressContaining(String name, String address);
+
+    public List<CenterProfile> findByAverageRatingAndNameContainingOrAddressContaining(Double averageRating,String name, String address);
+    public List<CenterProfile> findByAverageRating(Double averageRating);
 
 }

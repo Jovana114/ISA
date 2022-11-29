@@ -408,7 +408,11 @@ insert into user_roles (user_id, role_id) values (298, 2);
 insert into user_roles (user_id, role_id) values (299, 3);
 insert into user_roles (user_id, role_id) values (300, 2);
 
-insert into center_profile(id, name, address, description, average_rating, appointment_start, appointment_end)
-values (1, 'jovana', 'Bulevar Cara Lazara 2, Novi Sad 21000', 'poliklinika', 5, '2020-01-01', '2020-01-01');
-insert into center_profile(id, name, address, description, average_rating, appointment_start, appointment_end)
-values (2, 'jjjjovana', 'bbBulevar Cara Lazara 2, nnnnNovi Sad 21000', 'nnnpoliklinika', 6, '2020-01-01', '2020-01-01');
+insert into center_profile(id, name, address, description, average_rating, appointment_start, appointment_end) values (1, 'Poliklinika Radic', 'Bulevar Cara Lazara 2', 'Poliklinika', 5, '2020-01-01', '2020-01-01');
+insert into center_profile(id, name, address, description, average_rating, appointment_start, appointment_end) values (2, 'EuroLab', 'Bulevar Cara Lazara 2', 'Laboratorija', 5, '2020-01-01', '2020-01-01');
+insert into center_profile(id, name, address, description, average_rating, appointment_start, appointment_end) values (3, 'Laboratorija Radovic', 'Brace Ribnikar 14', 'Laboratorija', 3, '2020-01-01', '2020-01-01');
+insert into center_profile(id, name, address, description, average_rating, appointment_start, appointment_end) values (4, 'Apoteka Biljana i Luka', 'Maksima Gorkog 34a', 'Apoteka', 7, '2020-01-01', '2020-01-01');
+insert into center_profile(id, name, address, description, average_rating, appointment_start, appointment_end) values (5, 'Klinika Bajic', 'Bulevar Cara Lazara 52', 'Klinika', 4, '2020-01-01', '2020-01-01');
+insert into center_profile(id, name, address, description, average_rating, appointment_start, appointment_end) values (6, 'Klinika Jankovic', 'Bulevar Oslobodjenja 34', 'Klinika', 6, '2020-01-01', '2020-01-01');
+insert into center_profile(id, name, address, description, average_rating, appointment_start, appointment_end) values (7, 'Poliklinika Luka', 'Cara Dusana 76', 'Poliklinika', 5, '2020-01-01', '2020-01-01');
+insert into center_profile(id, name, address, description, average_rating, appointment_start, appointment_end) values (8, 'Apoteka Jovanovic', 'Bulevar Oslobodnejna 24', 'Apoteka', 8, '2020-01-01', '2020-01-01');

@@ -19,18 +19,22 @@ import EditProfileStaffPassword from "../ProfileStaff/EditProfileStaffPassword";
 import Center from "../CenterProfile/Center";
 
 export const DashboardStaff = () => {
-  const [data, setData] = useState({})
+  const [data, setData] = useState({});
   const [navigate, setNavigate] = useState(false);
   const [navigateIsUser, setNavigateIsUser] = useState(false);
 
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
+    null
+  );
+  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
+    null
+  );
   const [open, setOpen] = React.useState(false);
   const [open1, setOpen1] = React.useState(false);
   const [open2, setOpen2] = React.useState(false);
 
   const pages = ["Pricing", "Blog"];
-  const settings = ["Products", "Profile", "Logout", 'Change password'];
+  const settings = ["Products", "Profile", "Logout", "Change password"];
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -79,21 +83,19 @@ export const DashboardStaff = () => {
       logout();
     } else if (selectedSetting === "Change password") {
       handleClickOpen1();
-    } else if (selectedSetting === 'Products') {
-      handleClickOpen2()
+    } else if (selectedSetting === "Products") {
+      handleClickOpen2();
     }
   };
-
 
   useEffect(() => {
     (async () => {
       try {
-        if(data === undefined || null){
-            const userData = JSON.parse(sessionStorage.getItem("user")!);
-            console.log(userData);
-            if(userData.roles[0].name === "ROLE_USER")
-              setNavigateIsUser(true)
-            setData(userData)
+        if (data === undefined || null) {
+          const userData = JSON.parse(sessionStorage.getItem("user")!);
+          // console.log(userData);
+          if (userData.roles[0].name === "ROLE_USER") setNavigateIsUser(true);
+          setData(userData);
         }
       } catch (e) {
         setNavigate(true);
@@ -112,7 +114,7 @@ export const DashboardStaff = () => {
   if (navigate) {
     return <Navigate to="/login" />;
   }
-  
+
   if (navigateIsUser) {
     return <Navigate to="/user-home" />;
   }
@@ -241,16 +243,13 @@ export const DashboardStaff = () => {
                 ))}
               </Menu>
             </Box>
-
-            
-
           </Toolbar>
         </Container>
       </AppBar>
-      
-      <EditProfileStaff open={open} onClose={handleClose}/>
-      <EditProfileStaffPassword open={open1} onClose={handleClose1}/>
-      <Center open={open2} onClose={handleClose2}/>
+
+      <EditProfileStaff open={open} onClose={handleClose} />
+      <EditProfileStaffPassword open={open1} onClose={handleClose1} />
+      <Center open={open2} onClose={handleClose2} />
 
       {/* {data ? : <></>} */}
       {/* <h3>Hi {name}</h3> */}

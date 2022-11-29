@@ -32,7 +32,6 @@ export const Dashboard = () => {
   const [open, setOpen] = React.useState(false);
 
   const pages = ["Products", "Pricing", "Blog"];
-  // const pages: any = [];
   const settings = ["Profile", "Logout"];
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -99,7 +98,7 @@ export const Dashboard = () => {
         <Container maxWidth="xl">
           <Toolbar disableGutters>
             <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
-            <Typography
+            {/* <Typography
               variant="h6"
               noWrap
               component="a"
@@ -115,7 +114,7 @@ export const Dashboard = () => {
               }}
             >
               LOGO
-            </Typography>
+            </Typography> */}
 
             <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
               <IconButton
@@ -146,7 +145,6 @@ export const Dashboard = () => {
                   display: { xs: "block", md: "none" },
                 }}
               >
-                {" "}
                 {pages.length > 0 ? (
                   <>
                     {pages.map((page: any) => (

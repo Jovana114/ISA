@@ -72,5 +72,43 @@ public class CenterProfileController {
 
         return ResponseEntity.ok(new MessageResponse("Center registered successfully!"));
     }
+    @GetMapping("/all")
+//    @PreAuthorize("hasAuthority('ROLE_USER') or hasAuthority('ROLE_ADMIN')")
+    public ResponseEntity<?> allCentres() {
+        List<CenterProfile> centres = centerProfileRepository.findAll();
+        if(!centres.isEmpty())
+            return new ResponseEntity<>(centres, HttpStatus.OK);
+        else
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @GetMapping("/all/search/{searchData}")
+//    @PreAuthorize("hasAuthority('ROLE_USER') or hasAuthority('ROLE_ADMIN')")
+    public ResponseEntity<?> searchCentresByNameOrAddress(@PathVariable("searchData") String searchData) {
+        List<CenterProfile> centres = centerProfileRepository.findByNameContainingOrAddressContaining(searchData, searchData);
+        if(!centres.isEmpty())
+            return new ResponseEntity<>(centres, HttpStatus.OK);
+        else
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+    @GetMapping("/all/search/{searchData}/{rating}")
+//    @PreAuthorize("hasAuthority('ROLE_USER') or hasAuthority('ROLE_ADMIN')")
+    public ResponseEntity<?> searchCentresByNameOrAddressWithFilterRatng(@PathVariable("searchData") String searchData, @PathVariable("rating") Double rating) {
+        List<CenterProfile> centres = centerProfileRepository.findByAverageRatingAndNameContainingOrAddressContaining(rating, searchData, searchData);
+        if(!centres.isEmpty())
+            return new ResponseEntity<>(centres, HttpStatus.OK);
+        else
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+    @GetMapping("/all/search-rating/{rating}")
+//    @PreAuthorize("hasAuthority('ROLE_USER') or hasAuthority('ROLE_ADMIN')")
+    public ResponseEntity<?> searchCentresByfindByAverageRating(@PathVariable("rating") Double rating) {
+        List<CenterProfile> centres = centerProfileRepository.findByAverageRating(rating);
+        if(!centres.isEmpty())
+            return new ResponseEntity<>(centres, HttpStatus.OK);
+        else
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
 
 }
