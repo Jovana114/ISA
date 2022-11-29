@@ -50,7 +50,7 @@ public class CenterProfileController {
     }
 
     @PostMapping("/create/")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_STAFF')")
     public ResponseEntity<?> createCenterProfile(@RequestBody CenterRequest cr)
     {
         if(centerProfileRepository.existsByName(cr.getName())){
