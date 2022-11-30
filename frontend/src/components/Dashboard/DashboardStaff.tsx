@@ -17,6 +17,7 @@ import AdbIcon from "@mui/icons-material/Adb";
 import EditProfileStaff from "../ProfileStaff/EditProfileStaff";
 import EditProfileStaffPassword from "../ProfileStaff/EditProfileStaffPassword";
 import Center from "../CenterProfile/Center";
+import CustomCalendar from "../CalendarWithEvents/CustomCalendar";
 
 export const DashboardStaff = () => {
   const [data, setData] = useState({});
@@ -251,12 +252,7 @@ export const DashboardStaff = () => {
       <EditProfileStaffPassword open={open1} onClose={handleClose1} />
       <Center open={open2} onClose={handleClose2} />
 
-      {/* {data ? : <></>} */}
-      {/* <h3>Hi {name}</h3> */}
-
-      {/* <button className="btn btn-lg btn-primary"
-           onClick={logout}
-        >Logout</button> */}
+      <CustomCalendar />
     </>
   );
 };

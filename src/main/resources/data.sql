@@ -416,3 +416,11 @@ insert into center_profile(id, name, address, description, average_rating, appoi
 insert into center_profile(id, name, address, description, average_rating, appointment_start, appointment_end) values (6, 'Klinika Jankovic', 'Bulevar Oslobodjenja 34', 'Klinika', 6, '2020-01-01', '2020-01-01');
 insert into center_profile(id, name, address, description, average_rating, appointment_start, appointment_end) values (7, 'Poliklinika Luka', 'Cara Dusana 76', 'Poliklinika', 5, '2020-01-01', '2020-01-01');
 insert into center_profile(id, name, address, description, average_rating, appointment_start, appointment_end) values (8, 'Apoteka Jovanovic', 'Bulevar Oslobodnejna 24', 'Apoteka', 8, '2020-01-01', '2020-01-01');
+
+
+insert into blood_appointments(id, date, duration, time) values (1,(SELECT TO_CHAR(NOW() :: DATE, 'yyyy-mm-dd')),30,'11:30');
+insert into blood_appointments(id, date, duration, time) values (2,(SELECT TO_CHAR(NOW() :: DATE, 'yyyy-mm-dd')),30,'12:30');
+insert into blood_appointments(id, date, duration, time) values (3,(SELECT TO_CHAR(NOW() :: DATE, 'yyyy-mm-dd')),30,'13:30');
+insert into blood_appointments(id, date, duration, time) values (4,(SELECT TO_CHAR(NOW() :: DATE, 'yyyy-mm-dd')),30,'14:30');
+insert into blood_appointments(id, date, duration, time) values (5,(SELECT TO_CHAR(NOW() :: DATE, 'yyyy-mm-dd')),30,'15:30');
+insert into blood_appointments(id, date, duration, time) values (6,(SELECT TO_CHAR(NOW() :: DATE, 'yyyy-mm-dd')),30,'16:30');
