@@ -1,11 +1,16 @@
 package com.example.demo.payload.response;
 
+import com.example.demo.models.Role;
+
 import java.util.List;
+import java.util.Set;
 
 public class JwtResponse {
   private String token;
   private String type = "Bearer";
   private Long id;
+
+//  private String role;
 //  private String username;
 //  private String email;
 //  private String firstname;
@@ -18,12 +23,13 @@ public class JwtResponse {
 //  private String gender;
 //  private String occupation;
 //  private String empscho;
-//  private List<String> roles;
+  private Set<Role> roles;
 
 //  public JwtResponse(String accessToken, Long id, String username, String email, List<String> roles) {
-  public JwtResponse(String accessToken, Long id) {
+  public JwtResponse(String accessToken, Long id, Set<Role> roles) {
     this.token = accessToken;
     this.id = id;
+    this.roles = roles;
   }
 
   public String getToken() {
@@ -49,6 +55,22 @@ public class JwtResponse {
   public void setId(Long id) {
     this.id = id;
   }
+
+  public Set<Role> getRoles() {
+    return roles;
+  }
+
+  public void setRoles(Set<Role> roles) {
+    this.roles = roles;
+  }
+//
+//  public Set<String> getRoles() {
+//    return roles;
+//  }
+//
+//  public void setRoles(Set<String> roles) {
+//    this.roles = roles;
+//  }
 //
 //  public String getUsername() {
 //    return username;
@@ -146,11 +168,5 @@ public class JwtResponse {
 //    this.empscho = empscho;
 //  }
 //
-//  public List<String> getRoles() {
-//    return roles;
-//  }
-//
-//  public void setRoles(List<String> roles) {
-//    this.roles = roles;
-//  }
+
 }

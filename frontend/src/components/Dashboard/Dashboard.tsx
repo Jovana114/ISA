@@ -18,9 +18,9 @@ import EditProfile from "../Profile/EditProfile";
 import axios from "axios";
 import TableCenter from "../Table/TableCenter";
 import UpgradedTable from "../Table/UpgradedTable";
+import CircularLoader from "../Loader/CircularLoader";
 
 export const Dashboard = () => {
-  const [data, setData] = useState({});
   const [navigate, setNavigate] = useState(false);
 
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
@@ -65,20 +65,6 @@ export const Dashboard = () => {
       logout();
     }
   };
-
-  useEffect(() => {
-    (async () => {
-      try {
-        if (data === undefined || null) {
-          const userData = JSON.parse(sessionStorage.getItem("user")!);
-          setData(userData);
-        }
-      } catch (e) {
-        setNavigate(true);
-      }
-    })();
-  }, [data]);
-
   const logout = async () => {
     sessionStorage.removeItem("token");
     sessionStorage.removeItem("user");
@@ -87,9 +73,44 @@ export const Dashboard = () => {
     setNavigate(true);
   };
 
+  const [data, setData] = useState({});
+  const [isLoading, setLoading] = useState(true);
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  const getData = () => {
+    const userData = JSON.parse(sessionStorage.getItem("user")!);
+    setData(userData);
+    setLoading(false);
+    // if (userData) {
+    // }
+  };
+
+  if (isLoading) {
+    return (
+      <div className="App">
+        <CircularLoader />
+      </div>
+    );
+  }
+
   if (navigate) {
     return <Navigate to="/login" />;
   }
+  // useEffect(() => {
+  //   (async () => {
+  //     try {
+  //       if (data === undefined || null) {
+  //         const userData = JSON.parse(sessionStorage.getItem("user")!);
+  //         setData(userData);
+  //       }
+  //     } catch (e) {
+  //       setNavigate(true);
+  //     }
+  //   })();
+  // }, [data]);
 
   // return <div className="form-signin mt-5 text-center">
   return (
@@ -145,17 +166,11 @@ export const Dashboard = () => {
                   display: { xs: "block", md: "none" },
                 }}
               >
-                {pages.length > 0 ? (
-                  <>
-                    {pages.map((page: any) => (
-                      <MenuItem key={page} onClick={handleCloseNavMenu}>
-                        <Typography textAlign="center">{page}</Typography>
-                      </MenuItem>
-                    ))}
-                  </>
-                ) : (
-                  <></>
-                )}
+                {pages.map((page: any) => (
+                  <MenuItem key={page} onClick={handleCloseNavMenu}>
+                    <Typography textAlign="center">{page}</Typography>
+                  </MenuItem>
+                ))}
               </Menu>
             </Box>
             {/* <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} /> */}

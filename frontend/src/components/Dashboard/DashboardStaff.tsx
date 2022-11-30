@@ -18,9 +18,11 @@ import EditProfileStaff from "../ProfileStaff/EditProfileStaff";
 import EditProfileStaffPassword from "../ProfileStaff/EditProfileStaffPassword";
 import Center from "../CenterProfile/Center";
 import CustomCalendar from "../CalendarWithEvents/CustomCalendar";
+import CircularLoader from "../Loader/CircularLoader";
+import axios from "axios";
 
 export const DashboardStaff = () => {
-  const [data, setData] = useState({});
+  // const [data, setData] = useState({});
   const [navigate, setNavigate] = useState(false);
   const [navigateIsUser, setNavigateIsUser] = useState(false);
 
@@ -89,20 +91,51 @@ export const DashboardStaff = () => {
     }
   };
 
+  const [data, setData] = useState({});
+  const [isLoading, setLoading] = useState(true);
+
   useEffect(() => {
-    (async () => {
-      try {
-        if (data === undefined || null) {
-          const userData = JSON.parse(sessionStorage.getItem("user")!);
-          // console.log(userData);
-          if (userData.roles[0].name === "ROLE_USER") setNavigateIsUser(true);
-          setData(userData);
-        }
-      } catch (e) {
-        setNavigate(true);
-      }
-    })();
-  }, [data]);
+    getData();
+  }, []);
+
+  const getData = () => {
+    const userData = JSON.parse(sessionStorage.getItem("user")!);
+    setData(userData);
+    setLoading(false);
+    // if (userData.roles[0].name === "ROLE_USER") {
+    //   setNavigateIsUser(true);
+    // }
+    // if (userData)
+    //         setData(userData);
+    // const userData = JSON.parse(sessionStorage.getItem("user")!).then(
+    //   (response: any) => {
+    //     setData(response.data);
+    // setLoading(false);
+    //   }
+    // );
+  };
+
+  if (isLoading) {
+    return (
+      <div className="App">
+        <CircularLoader />
+      </div>
+    );
+  }
+  // useEffect(() => {
+  //   (async () => {
+  //     try {
+  //       if (data === undefined || null) {
+  //         const userData = JSON.parse(sessionStorage.getItem("user")!);
+  //         // console.log(userData);
+  //         if (userData.roles[0].name === "ROLE_USER") setNavigateIsUser(true);
+  //         setData(userData);
+  //       }
+  //     } catch (e) {
+  //       setNavigate(true);
+  //     }
+  //   })();
+  // }, [data]);
 
   const logout = async () => {
     sessionStorage.removeItem("token");
