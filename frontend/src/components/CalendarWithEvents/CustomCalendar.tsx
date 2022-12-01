@@ -11,7 +11,13 @@ export default function CustomCalendar() {
   useEffect(() => {}, [date]);
 
   const formatDate = (d: any) => {
-    return d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
+    return (
+      d.getFullYear() +
+      "-" +
+      (d.getMonth() + 1) +
+      "-" +
+      (d.getDate() < 10 ? "0" + d.getDate() : d.getDate())
+    );
   };
 
   return (
