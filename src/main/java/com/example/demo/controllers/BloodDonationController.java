@@ -22,8 +22,10 @@ public class BloodDonationController {
     @Autowired
     BloodDonationAppoinmentService service;
 
+    // ============================================== //
+    // get all for staff and admin assigned to center //
     @GetMapping("/all")
-    @PreAuthorize("hasAuthority('ROLE_STAFF') or hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_STAFF') or hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_USER') ")
     public ResponseEntity<?> allAppointments() {
         List<BloodDonationAppointment> bloodDonationAppointments = repository.findAll();
         if(!bloodDonationAppointments.isEmpty())

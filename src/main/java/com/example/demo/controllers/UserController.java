@@ -4,9 +4,11 @@ import com.example.demo.models.*;
 import com.example.demo.payload.request.AdminRequest;
 
 import com.example.demo.payload.response.MessageResponse;
+import com.example.demo.repository.BloodDurationAppointmentRepository;
 import com.example.demo.repository.CenterProfileRepository;
 import com.example.demo.repository.RoleRepository;
 import com.example.demo.repository.UserRepository;
+import com.example.demo.service.BloodDonationAppoinmentService;
 import com.example.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,6 +38,11 @@ public class UserController {
 
     @Autowired
     CenterProfileRepository centerProfileRepository;
+
+    @Autowired
+    BloodDurationAppointmentRepository bloodDurationAppointmentRepository;
+    @Autowired
+    BloodDonationAppoinmentService bloodDonationAppoinmentService;
 
     @GetMapping("/{id}")
     @PreAuthorize("hasAuthority('ROLE_USER') or hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_STAFF')")
@@ -117,9 +124,43 @@ public class UserController {
         listOfUsers = userRepository.findByFirstnameContainingOrSurnameContaining(searchData, searchData);
         if(!listOfUsers.isEmpty())
             return new ResponseEntity<>(listOfUsers, HttpStatus.OK);
-//        else
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         return new ResponseEntity<>(listOfUsers,HttpStatus.ACCEPTED);
+    }
 
+    @GetMapping("/blood-appointment/find/{data}")
+    @PreAuthorize(" hasAuthority('ROLE_USER')")
+    public ResponseEntity<?> findAppointments(@PathVariable("data") String data){
+        List<BloodDonationAppointment> bloodDonationAppointments = new ArrayList<>();
+        bloodDonationAppointments = bloodDurationAppointmentRepository.findByReservedFalseAndDateContainingOrTimeContaining(data,data);
+        if(!bloodDonationAppointments.isEmpty())
+            return new ResponseEntity<>(bloodDonationAppointments, HttpStatus.OK);
+        return new ResponseEntity<>(bloodDonationAppointments,HttpStatus.ACCEPTED);
+    }
+
+    @PutMapping("/blood-appointment/reserve/{appointmentId}/{userId}")
+    @PreAuthorize(" hasAuthority('ROLE_USER')")
+    public ResponseEntity<?> reserveAppointments(@PathVariable("appointmentId") Long appointmentId, @PathVariable("userId") Long userId){
+        Optional<BloodDonationAppointment> appointment = bloodDurationAppointmentRepository.findById(appointmentId);
+        if (appointment.isPresent()) {
+            BloodDonationAppointment _appointment = appointment.get();
+            Optional<User> _user = userRepository.findById(userId);
+            _appointment.setUsers(_user.get());
+            _appointment.setReserved(true);
+            return ResponseEntity.ok(bloodDurationAppointmentRepository.save(_appointment));
+        }
+        return ResponseEntity
+                .badRequest()
+                .body(new MessageResponse("Error: no appointment found"));
+    }
+
+    @GetMapping("/blood-appointment/assigned/{userId}")
+    @PreAuthorize(" hasAuthority('ROLE_USER')")
+    public ResponseEntity<?> assignedAppointments(@PathVariable("userId") Long userId){
+        List<BloodDonationAppointment> bloodDonationAppointments = bloodDurationAppointmentRepository.findByUsers_Id(userId);
+        if(!bloodDonationAppointments.isEmpty())
+            return new ResponseEntity<>(bloodDonationAppointments, HttpStatus.OK);
+        return ResponseEntity
+                .badRequest()
+                .body(new MessageResponse("Error: no appointment found"));
     }
 }

@@ -1,6 +1,7 @@
 package com.example.demo.models;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -70,6 +71,8 @@ public class User {
         inverseJoinColumns = @JoinColumn(name = "role_id"))
   private Set<Role> roles = new HashSet<>();
 
+  @OneToMany(mappedBy = "users", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  private List<BloodDonationAppointment> appointments;
   @ManyToOne(fetch = FetchType.LAZY)
   private CenterProfile center_profile;
 

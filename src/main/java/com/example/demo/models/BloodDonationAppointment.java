@@ -12,14 +12,29 @@ public class BloodDonationAppointment implements Comparable<BloodDonationAppoint
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @NotBlank
+//    @NotBlank
     private String date;
-    @NotBlank
+//    @NotBlank
     private String time;
-    @NotBlank
+//    @NotBlank
     private int duration;
 
+//    @NotBlank
+    private Boolean reserved;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User users;
+
     public BloodDonationAppointment() {
+    }
+
+    public BloodDonationAppointment(Long id, String date, String time, int duration, Boolean reserved, User users) {
+        this.id = id;
+        this.date = date;
+        this.time = time;
+        this.duration = duration;
+        this.reserved = reserved;
+        this.users = users;
     }
 
     public Long getId() {
@@ -54,23 +69,21 @@ public class BloodDonationAppointment implements Comparable<BloodDonationAppoint
         this.duration = duration;
     }
 
-    public BloodDonationAppointment(Long id, String date, String time, int duration) {
-        this.id = id;
-        this.date = date;
-        this.time = time;
-        this.duration = duration;
+    public Boolean getReserved() {
+        return reserved;
     }
 
-    @Override
-    public String toString() {
-        return "BloodDonationAppointment{" +
-                "id=" + id +
-                ", date='" + date + '\'' +
-                ", time='" + time + '\'' +
-                ", duration=" + duration +
-                '}';
+    public void setReserved(Boolean reserved) {
+        this.reserved = reserved;
     }
 
+    public User getUsers() {
+        return users;
+    }
+
+    public void setUsers(User users) {
+        this.users = users;
+    }
 
     @Override
     public int compareTo(BloodDonationAppointment u) {
@@ -78,5 +91,12 @@ public class BloodDonationAppointment implements Comparable<BloodDonationAppoint
             return 0;
         }
         return LocalTime.parse(getTime()).compareTo(LocalTime.parse(u.getTime()));
+    }
+
+    public int compareToDate(BloodDonationAppointment u) {
+        if (getDate() == null || u.getDate() == null) {
+            return 0;
+        }
+        return LocalTime.parse(getDate()).compareTo(LocalTime.parse(u.getDate()));
     }
 }

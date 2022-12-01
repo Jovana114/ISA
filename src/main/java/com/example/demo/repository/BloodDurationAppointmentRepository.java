@@ -9,4 +9,9 @@ import java.util.List;
 
 public interface BloodDurationAppointmentRepository extends JpaRepository<BloodDonationAppointment, Long> {
     public List<BloodDonationAppointment> findByDate(String date);
+
+    public List<BloodDonationAppointment> findByReservedFalseAndDateContainingOrTimeContaining(String date, String time);
+
+    public List<BloodDonationAppointment> findByUsers_Id(Long id);
+
 }
