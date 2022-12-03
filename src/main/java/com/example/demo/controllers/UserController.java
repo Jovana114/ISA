@@ -154,9 +154,9 @@ public class UserController {
     }
 
     @GetMapping("/blood-appointment/assigned/{userId}")
-    @PreAuthorize(" hasAuthority('ROLE_USER')")
+    @PreAuthorize(" hasAuthority('ROLE_USER') or hasAuthority('ROLE_STAFF')")
     public ResponseEntity<?> assignedAppointments(@PathVariable("userId") Long userId){
-        List<BloodDonationAppointment> bloodDonationAppointments = bloodDurationAppointmentRepository.findByUsers_Id(userId);
+        List<BloodDonationAppointment> bloodDonationAppointments = bloodDurationAppointmentRepository.findByUsers_Id((Long) userId);
         if(!bloodDonationAppointments.isEmpty())
             return new ResponseEntity<>(bloodDonationAppointments, HttpStatus.OK);
         return ResponseEntity

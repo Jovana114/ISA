@@ -59,7 +59,7 @@ public class CenterProfileController {
                     .body(new MessageResponse("Error: Name is already taken!"));
         }
         CenterProfile cp = new CenterProfile(cr.getName(), cr.getAddress(), cr.getDescription(), cr.getAverageRating(),
-                cr.getAppointmentStart(), cr.getAppointmentEnd());
+                cr.getAppointmentStart(), cr.getAppointmentEnd(), 0, 0, 0, 0);
         List<User> newList = new ArrayList<User>();
         User uu = userService.getOne(cr.getCentreAdmin());
         newList.add(uu);

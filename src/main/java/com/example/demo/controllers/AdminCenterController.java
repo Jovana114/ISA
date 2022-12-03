@@ -1,13 +1,10 @@
 package com.example.demo.controllers;
 
 import com.example.demo.dto.UserDto;
-import com.example.demo.models.CenterProfile;
 import com.example.demo.models.User;
 import com.example.demo.payload.response.MessageResponse;
 import com.example.demo.repository.CenterProfileRepository;
 import com.example.demo.repository.UserRepository;
-import com.example.demo.service.UserService;
-import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +13,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -114,5 +113,38 @@ public class AdminCenterController {
         }
     }
 
+    @GetMapping("/getUsers/{data}")
+    @PreAuthorize("hasAuthority('ROLE_STAFF')")
+    public ResponseEntity<?> getUsersByUsernameOrEmail(@PathVariable("data") String data){
+        List<User> listOfUsers = userRepository.findByUsernameContainingOrEmailContaining(data, data);
+        if(!listOfUsers.isEmpty())
+            return new ResponseEntity<>(listOfUsers, HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
 
+    @PutMapping("/addPoints/{id}")
+    @PreAuthorize("hasAuthority('ROLE_STAFF')")
+    public ResponseEntity<?> addPoints(@PathVariable("id") Long id){
+        Optional<User> user = userRepository.findById(id);
+        if(user.isPresent()) {
+            User _user = user.get();
+            _user.setPoints(_user.getPoints()+1);
+            userRepository.save(_user);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @PutMapping("/addPenals/{id}")
+    @PreAuthorize("hasAuthority('ROLE_STAFF')")
+    public ResponseEntity<?> addPenals(@PathVariable("id") Long id){
+        Optional<User> user = userRepository.findById(id);
+        if(user.isPresent()) {
+            User _user = user.get();
+            _user.setPenals(_user.getPenals()+1);
+            userRepository.save(_user);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
 }
