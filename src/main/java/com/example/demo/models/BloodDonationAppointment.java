@@ -11,30 +11,27 @@ public class BloodDonationAppointment implements Comparable<BloodDonationAppoint
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
-//    @NotBlank
     private String date;
-//    @NotBlank
     private String time;
-//    @NotBlank
     private int duration;
-
-//    @NotBlank
     private Boolean reserved;
+    private Boolean active;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private User users;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private CenterProfile center_profile;
+
     public BloodDonationAppointment() {
     }
 
-    public BloodDonationAppointment(Long id, String date, String time, int duration, Boolean reserved, User users) {
-        this.id = id;
-        this.date = date;
-        this.time = time;
-        this.duration = duration;
-        this.reserved = reserved;
-        this.users = users;
+    public CenterProfile getCenter_profile() {
+        return center_profile;
+    }
+
+    public void setCenter_profile(CenterProfile center_profile) {
+        this.center_profile = center_profile;
     }
 
     public Long getId() {
@@ -75,6 +72,14 @@ public class BloodDonationAppointment implements Comparable<BloodDonationAppoint
 
     public void setReserved(Boolean reserved) {
         this.reserved = reserved;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 
     public User getUsers() {

@@ -7,6 +7,7 @@ import com.example.demo.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
   Optional<User> findByUsername(String username);
@@ -17,6 +18,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
   Boolean existsByEmail(String email);
 
   public List<User> findByFirstnameContainingOrSurnameContaining(String firstname, String surname);
+  public List<User> findByUsernameContainingOrEmailContaining(String username, String email);
 
   //List<User> findAll();
 

@@ -40,7 +40,68 @@ public class CenterProfile {
     @OneToMany(mappedBy = "center_profile", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<User> users;
 
+    @OneToMany(mappedBy = "center_profile", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<BloodDonationAppointment> bloodDonationAppointments;
+
+    private int bloodA;
+    private int bloodB;
+    private int bloodAB;
+    private int bloodO;
+
     public CenterProfile() {
+    }
+
+    public List<BloodDonationAppointment> getBloodDonationAppointments() {
+        return bloodDonationAppointments;
+    }
+
+    public void setBloodDonationAppointments(List<BloodDonationAppointment> bloodDonationAppointments) {
+        this.bloodDonationAppointments = bloodDonationAppointments;
+    }
+
+    public int getBloodA() {
+        return bloodA;
+    }
+
+    public void setBloodA(int bloodA) {
+        this.bloodA = bloodA;
+    }
+
+    public int getBloodB() {
+        return bloodB;
+    }
+
+    public void setBloodB(int bloodB) {
+        this.bloodB = bloodB;
+    }
+
+    public int getBloodAB() {
+        return bloodAB;
+    }
+
+    public void setBloodAB(int bloodAB) {
+        this.bloodAB = bloodAB;
+    }
+
+    public int getBloodO() {
+        return bloodO;
+    }
+
+    public void setBloodO(int bloodO) {
+        this.bloodO = bloodO;
+    }
+
+    public CenterProfile(String name, String address, String description, Double averageRating, String appointmentStart, String appointmentEnd, int bloodA, int bloodB, int bloodAB, int bloodO) {
+        this.name = name;
+        this.address = address;
+        this.description = description;
+        this.averageRating = averageRating;
+        this.appointmentStart = appointmentStart;
+        this.appointmentEnd = appointmentEnd;
+        this.bloodA = bloodA;
+        this.bloodB = bloodB;
+        this.bloodAB = bloodAB;
+        this.bloodO = bloodO;
     }
 
     public List<User> getUsers() {

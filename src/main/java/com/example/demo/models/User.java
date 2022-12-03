@@ -65,6 +65,12 @@ public class User {
   @NotBlank
   private String empscho; // EMPLOYER/SCHOOL
 
+  //@NotBlank
+  private int points;
+
+  // @NotBlank
+  private int penals;
+
   @ManyToMany(fetch = FetchType.LAZY)
   @JoinTable(  name = "user_roles", 
         joinColumns = @JoinColumn(name = "user_id"), 
@@ -73,13 +79,14 @@ public class User {
 
   @OneToMany(mappedBy = "users", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   private List<BloodDonationAppointment> appointments;
+
   @ManyToOne(fetch = FetchType.LAZY)
   private CenterProfile center_profile;
 
   public User() {
   }
 
-  public User(String username, String email, String password, String firstname, String surname, String address, String city, String state, String phone, String jmbg, String gender, String occupation, String empscho) {
+  public User(String username, String email, String password, String firstname, String surname, String address, String city, String state, String phone, String jmbg, String gender, String occupation, String empscho, int points,int penals) {
     this.username = username;
     this.email = email;
     this.password = password;
@@ -93,9 +100,11 @@ public class User {
     this.gender = gender;
     this.occupation = occupation;
     this.empscho = empscho;
+    this.points = points;
+    this.penals = penals;
   }
 
-  public User(Long id, String username, String email, String password, String firstname, String surname, String address, String city, String state, String phone, String jmbg, String gender, String occupation, String empscho, Set<Role> roles, CenterProfile center_profile) {
+  public User(Long id, String username, String email, String password, String firstname, String surname, String address, String city, String state, String phone, String jmbg, String gender, String occupation, String empscho, int points, int penals, Set<Role> roles, CenterProfile center_profile) {
     this.id = id;
     this.username = username;
     this.email = email;
@@ -112,6 +121,8 @@ public class User {
     this.empscho = empscho;
     this.roles = roles;
     this.center_profile = center_profile;
+    this.points = points;
+    this.penals = penals;
   }
 
   public CenterProfile getCenter_profile() {
@@ -122,7 +133,7 @@ public class User {
     this.center_profile = center_profile;
   }
 
-  public User(String username, String email, String firstname, String surname, String address, String city, String state, String phone, String jmbg, String gender, String occupation, String empscho) {
+  public User(String username, String email, String firstname, String surname, String address, String city, String state, String phone, String jmbg, String gender, String occupation, String empscho, int points, int penals) {
     this.username = username;
     this.email = email;
     this.firstname = firstname;
@@ -135,9 +146,11 @@ public class User {
     this.gender = gender;
     this.occupation = occupation;
     this.empscho = empscho;
+    this.points = points;
+    this.penals = penals;
   }
 
-  public User updateData(User user, String username, String firstname, String surname, String address, String city, String state, String phone, String jmbg, String gender, String occupation, String empscho){
+    public User updateData(User user, String username, String firstname, String surname, String address, String city, String state, String phone, String jmbg, String gender, String occupation, String empscho){
     user.setUsername(username);
     user.setFirstname(firstname);
     user.setSurname(surname);
@@ -278,4 +291,27 @@ public class User {
     this.firstname = firstname;
   }
 
+  public int getPoints() {
+    return points;
+  }
+
+  public void setPoints(int points) {
+    this.points = points;
+  }
+
+  public List<BloodDonationAppointment> getAppointments() {
+    return appointments;
+  }
+
+  public void setAppointments(List<BloodDonationAppointment> appointments) {
+    this.appointments = appointments;
+  }
+
+  public int getPenals() {
+    return penals;
+  }
+
+  public void setPenals(int penals) {
+    this.penals = penals;
+  }
 }
