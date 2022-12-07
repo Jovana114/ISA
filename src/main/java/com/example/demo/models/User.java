@@ -1,5 +1,7 @@
 package com.example.demo.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -18,7 +20,7 @@ import javax.validation.constraints.Size;
     })
 public class User {
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
   @NotBlank
@@ -77,10 +79,14 @@ public class User {
         inverseJoinColumns = @JoinColumn(name = "role_id"))
   private Set<Role> roles = new HashSet<>();
 
-  @OneToMany(mappedBy = "users", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-  private List<BloodDonationAppointment> appointments;
+  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  @JoinTable(  name = "user_appointments",
+          joinColumns = @JoinColumn(name = "user_id"),
+          inverseJoinColumns = @JoinColumn(name = "blood_appointment_id"))
+  private Set<BloodDonationAppointment> appointments = new HashSet<>();
 
   @ManyToOne(fetch = FetchType.LAZY)
+  @JsonIgnore
   private CenterProfile center_profile;
 
   public User() {
@@ -299,11 +305,11 @@ public class User {
     this.points = points;
   }
 
-  public List<BloodDonationAppointment> getAppointments() {
+  public Set<BloodDonationAppointment> getAppointments() {
     return appointments;
   }
 
-  public void setAppointments(List<BloodDonationAppointment> appointments) {
+  public void setAppointments(Set<BloodDonationAppointment> appointments) {
     this.appointments = appointments;
   }
 

@@ -113,8 +113,7 @@ public class UserController {
     @GetMapping("/getall")
     @PreAuthorize(" hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_STAFF')")
     public ResponseEntity<?> getAllUsers(){
-        List<User> listOfUsers = new ArrayList<User>();
-        listOfUsers = userService.getAll();
+        List<User> listOfUsers = userService.getAll();
         return ResponseEntity.ok(listOfUsers);
     }
     @GetMapping("/getByName/{searchData}")
@@ -144,7 +143,7 @@ public class UserController {
         if (appointment.isPresent()) {
             BloodDonationAppointment _appointment = appointment.get();
             Optional<User> _user = userRepository.findById(userId);
-            _appointment.setUsers(_user.get());
+//            _appointment.setUsers(_user.get());
             _appointment.setReserved(true);
             return ResponseEntity.ok(bloodDurationAppointmentRepository.save(_appointment));
         }
@@ -156,9 +155,14 @@ public class UserController {
     @GetMapping("/blood-appointment/assigned/{userId}")
     @PreAuthorize(" hasAuthority('ROLE_USER') or hasAuthority('ROLE_STAFF')")
     public ResponseEntity<?> assignedAppointments(@PathVariable("userId") Long userId){
-        List<BloodDonationAppointment> bloodDonationAppointments = bloodDurationAppointmentRepository.findByUsers_Id((Long) userId);
-        if(!bloodDonationAppointments.isEmpty())
-            return new ResponseEntity<>(bloodDonationAppointments, HttpStatus.OK);
+        Optional<User> user = userRepository.findById(userId);
+
+        if(user.isPresent()){
+            Set<BloodDonationAppointment> bloodDonationAppointments = user.get().getAppointments();
+            if(!bloodDonationAppointments.isEmpty()) {
+                return new ResponseEntity<>(bloodDonationAppointments, HttpStatus.OK);
+            }
+        }
         return ResponseEntity
                 .badRequest()
                 .body(new MessageResponse("Error: no appointment found"));

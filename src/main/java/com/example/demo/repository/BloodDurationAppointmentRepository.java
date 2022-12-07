@@ -12,6 +12,5 @@ public interface BloodDurationAppointmentRepository extends JpaRepository<BloodD
 
     public List<BloodDonationAppointment> findByReservedFalseAndDateContainingOrTimeContaining(String date, String time);
 
-    public List<BloodDonationAppointment> findByUsers_Id(Long id);
 
 }
