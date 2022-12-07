@@ -259,7 +259,7 @@ export const UsersList = () => {
       </AppBar>
       <div className="user-list-component">
         <ul className="users-list">
-          {usersData?.map((user: any) => (
+          {usersData.map((user: any) => (
             <li className="user-item">
               <p>
                 <strong>Firstname: </strong>
