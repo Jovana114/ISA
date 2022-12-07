@@ -117,6 +117,7 @@ public class UserController {
         listOfUsers = userService.getAll();
         return ResponseEntity.ok(listOfUsers);
     }
+
     @GetMapping("/getByName/{searchData}")
     @PreAuthorize(" hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_STAFF')")
     public ResponseEntity<?> getByName(@PathVariable("searchData") String searchData) {

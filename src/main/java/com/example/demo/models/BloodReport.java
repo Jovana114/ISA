@@ -13,50 +13,50 @@ public class BloodReport {
 
     // Popunjava davalac
 
-    private int no;
+    private int num;
     private String date;
-    private String lastName_nameOfTheParent_firstName;
+    private String name;
     private String jmbg;
-    private String dateOfBirth;
+    private String birth;
     private String gender;
     private String address;
     private String township;
     private String location;
-    private String phoneHome;
-    private String phoneJob;
-    private String phoneMobile;
-    private String companyOrSchool;
+    private String phone_home;
+    private String phone_job;
+    private String phone_mobile;
+    private String company_or_school;
     private String profession;
-    private int numberOfPreviousBloodDonations;
+    private int number_of_previous_blood_donations;
 
     // Popunjava sluzbeno lice
 
-    private String bloodType;
-    private String noteToMD;
+    private String blood_type;
+    private String note_to_md;
 
-    private String copperSulfate;
-    private int normalLevel;
-    private int lowLevel;
+    private String copper_sulfate;
+    private int normal_level;
+    private int low_level;
     private String hemoglobinometer;
-    private String readValue;
+    private String read_value;
 
     private String lungs;
     private String heart;
     private String TA;
     private String TT;
     private String TB;
-    private String bagType;
+    private String bag_type;
     private String note;
     private Boolean accepted;
-    private String reasonForRejection;
+    private String reason_for_rejection;
 
-    private int bagLotNumber;
+    private int bag_lot_number;
 
-    private String punctureSite;
-    private String beginingOfDonation;
-    private String endOfDonation;
-    private int amountOfBloodTaken;
-    private String reasonForSuspension;
+    private String puncture_site;
+    private String begining_of_donation;
+    private String end_of_donation;
+    private int amount_of_blood_taken;
+    private String reason_for_suspension;
 
 
     // Pitanja - popunjava davalac
@@ -101,86 +101,7 @@ public class BloodReport {
     private Boolean q25;
     private Boolean q26;
 
-    public BloodReport(Long id, int no, String date, String lastName_nameOfTheParent_firstName, String jmbg, String dateOfBirth, String gender, String address, String township, String location, String phoneHome, String phoneJob, String phoneMobile, String companyOrSchool, String profession, int numberOfPreviousBloodDonations, String bloodType, String noteToMD, String copperSulfate, int normalLevel, int lowLevel, String hemoglobinometer, String readValue, String lungs, String heart, String TA, String TT, String TB, String bagType, String note, Boolean accepted, String reasonForRejection, int bagLotNumber, String punctureSite, String beginingOfDonation, String endOfDonation, int amountOfBloodTaken, String reasonForSuspension, Boolean q1, Boolean q2, Boolean q3, Boolean q4, Boolean q5, Boolean q6, Boolean q7, Boolean q8, Boolean q9, Boolean q10, Boolean q11, Boolean q12, Boolean q13, Boolean q14, Boolean q15, Boolean q16, Boolean q17, Boolean q18, Boolean q19, Boolean q20a, Boolean q20b, Boolean q20c, Boolean q21, Boolean q22a, Boolean q22b, Boolean q22c, Boolean q22d, Boolean q22e, Boolean q22f, Boolean q22g, Boolean q23a, Boolean q23b, Boolean q23c, Boolean q23d, Boolean q23e, Boolean q23f, Boolean q23g, Boolean q24, Boolean q25, Boolean q26) {
-        this.id = id;
-        this.no = no;
-        this.date = date;
-        this.lastName_nameOfTheParent_firstName = lastName_nameOfTheParent_firstName;
-        this.jmbg = jmbg;
-        this.dateOfBirth = dateOfBirth;
-        this.gender = gender;
-        this.address = address;
-        this.township = township;
-        this.location = location;
-        this.phoneHome = phoneHome;
-        this.phoneJob = phoneJob;
-        this.phoneMobile = phoneMobile;
-        this.companyOrSchool = companyOrSchool;
-        this.profession = profession;
-        this.numberOfPreviousBloodDonations = numberOfPreviousBloodDonations;
-        this.bloodType = bloodType;
-        this.noteToMD = noteToMD;
-        this.copperSulfate = copperSulfate;
-        this.normalLevel = normalLevel;
-        this.lowLevel = lowLevel;
-        this.hemoglobinometer = hemoglobinometer;
-        this.readValue = readValue;
-        this.lungs = lungs;
-        this.heart = heart;
-        this.TA = TA;
-        this.TT = TT;
-        this.TB = TB;
-        this.bagType = bagType;
-        this.note = note;
-        this.accepted = accepted;
-        this.reasonForRejection = reasonForRejection;
-        this.bagLotNumber = bagLotNumber;
-        this.punctureSite = punctureSite;
-        this.beginingOfDonation = beginingOfDonation;
-        this.endOfDonation = endOfDonation;
-        this.amountOfBloodTaken = amountOfBloodTaken;
-        this.reasonForSuspension = reasonForSuspension;
-        this.q1 = q1;
-        this.q2 = q2;
-        this.q3 = q3;
-        this.q4 = q4;
-        this.q5 = q5;
-        this.q6 = q6;
-        this.q7 = q7;
-        this.q8 = q8;
-        this.q9 = q9;
-        this.q10 = q10;
-        this.q11 = q11;
-        this.q12 = q12;
-        this.q13 = q13;
-        this.q14 = q14;
-        this.q15 = q15;
-        this.q16 = q16;
-        this.q17 = q17;
-        this.q18 = q18;
-        this.q19 = q19;
-        this.q20a = q20a;
-        this.q20b = q20b;
-        this.q20c = q20c;
-        this.q21 = q21;
-        this.q22a = q22a;
-        this.q22b = q22b;
-        this.q22c = q22c;
-        this.q22d = q22d;
-        this.q22e = q22e;
-        this.q22f = q22f;
-        this.q22g = q22g;
-        this.q23a = q23a;
-        this.q23b = q23b;
-        this.q23c = q23c;
-        this.q23d = q23d;
-        this.q23e = q23e;
-        this.q23f = q23f;
-        this.q23g = q23g;
-        this.q24 = q24;
-        this.q25 = q25;
-        this.q26 = q26;
-    }
+    public BloodReport(){}
 
     public Long getId() {
         return id;
@@ -190,12 +111,12 @@ public class BloodReport {
         this.id = id;
     }
 
-    public int getNo() {
-        return no;
+    public int getNum() {
+        return num;
     }
 
-    public void setNo(int no) {
-        this.no = no;
+    public void setNum(int num) {
+        this.num = num;
     }
 
     public String getDate() {
@@ -206,12 +127,12 @@ public class BloodReport {
         this.date = date;
     }
 
-    public String getLastName_nameOfTheParent_firstName() {
-        return lastName_nameOfTheParent_firstName;
+    public String getName() {
+        return name;
     }
 
-    public void setLastName_nameOfTheParent_firstName(String lastName_nameOfTheParent_firstName) {
-        this.lastName_nameOfTheParent_firstName = lastName_nameOfTheParent_firstName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getJmbg() {
@@ -222,12 +143,12 @@ public class BloodReport {
         this.jmbg = jmbg;
     }
 
-    public String getDateOfBirth() {
-        return dateOfBirth;
+    public String getBirth() {
+        return birth;
     }
 
-    public void setDateOfBirth(String dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
+    public void setBirth(String birth) {
+        this.birth = birth;
     }
 
     public String getGender() {
@@ -262,36 +183,36 @@ public class BloodReport {
         this.location = location;
     }
 
-    public String getPhoneHome() {
-        return phoneHome;
+    public String getPhone_home() {
+        return phone_home;
     }
 
-    public void setPhoneHome(String phoneHome) {
-        this.phoneHome = phoneHome;
+    public void setPhone_home(String phone_home) {
+        this.phone_home = phone_home;
     }
 
-    public String getPhoneJob() {
-        return phoneJob;
+    public String getPhone_job() {
+        return phone_job;
     }
 
-    public void setPhoneJob(String phoneJob) {
-        this.phoneJob = phoneJob;
+    public void setPhone_job(String phone_job) {
+        this.phone_job = phone_job;
     }
 
-    public String getPhoneMobile() {
-        return phoneMobile;
+    public String getPhone_mobile() {
+        return phone_mobile;
     }
 
-    public void setPhoneMobile(String phoneMobile) {
-        this.phoneMobile = phoneMobile;
+    public void setPhone_mobile(String phone_mobile) {
+        this.phone_mobile = phone_mobile;
     }
 
-    public String getCompanyOrSchool() {
-        return companyOrSchool;
+    public String getCompany_or_school() {
+        return company_or_school;
     }
 
-    public void setCompanyOrSchool(String companyOrSchool) {
-        this.companyOrSchool = companyOrSchool;
+    public void setCompany_or_school(String company_or_school) {
+        this.company_or_school = company_or_school;
     }
 
     public String getProfession() {
@@ -302,52 +223,52 @@ public class BloodReport {
         this.profession = profession;
     }
 
-    public int getNumberOfPreviousBloodDonations() {
-        return numberOfPreviousBloodDonations;
+    public int getNumber_of_previous_blood_donations() {
+        return number_of_previous_blood_donations;
     }
 
-    public void setNumberOfPreviousBloodDonations(int numberOfPreviousBloodDonations) {
-        this.numberOfPreviousBloodDonations = numberOfPreviousBloodDonations;
+    public void setNumber_of_previous_blood_donations(int number_of_previous_blood_donations) {
+        this.number_of_previous_blood_donations = number_of_previous_blood_donations;
     }
 
-    public String getBloodType() {
-        return bloodType;
+    public String getBlood_type() {
+        return blood_type;
     }
 
-    public void setBloodType(String bloodType) {
-        this.bloodType = bloodType;
+    public void setBlood_type(String blood_type) {
+        this.blood_type = blood_type;
     }
 
-    public String getNoteToMD() {
-        return noteToMD;
+    public String getNote_to_md() {
+        return note_to_md;
     }
 
-    public void setNoteToMD(String noteToMD) {
-        this.noteToMD = noteToMD;
+    public void setNote_to_md(String note_to_md) {
+        this.note_to_md = note_to_md;
     }
 
-    public String getCopperSulfate() {
-        return copperSulfate;
+    public String getCopper_sulfate() {
+        return copper_sulfate;
     }
 
-    public void setCopperSulfate(String copperSulfate) {
-        this.copperSulfate = copperSulfate;
+    public void setCopper_sulfate(String copper_sulfate) {
+        this.copper_sulfate = copper_sulfate;
     }
 
-    public int getNormalLevel() {
-        return normalLevel;
+    public int getNormal_level() {
+        return normal_level;
     }
 
-    public void setNormalLevel(int normalLevel) {
-        this.normalLevel = normalLevel;
+    public void setNormal_level(int normal_level) {
+        this.normal_level = normal_level;
     }
 
-    public int getLowLevel() {
-        return lowLevel;
+    public int getLow_level() {
+        return low_level;
     }
 
-    public void setLowLevel(int lowLevel) {
-        this.lowLevel = lowLevel;
+    public void setLow_level(int low_level) {
+        this.low_level = low_level;
     }
 
     public String getHemoglobinometer() {
@@ -358,12 +279,12 @@ public class BloodReport {
         this.hemoglobinometer = hemoglobinometer;
     }
 
-    public String getReadValue() {
-        return readValue;
+    public String getRead_value() {
+        return read_value;
     }
 
-    public void setReadValue(String readValue) {
-        this.readValue = readValue;
+    public void setRead_value(String read_value) {
+        this.read_value = read_value;
     }
 
     public String getLungs() {
@@ -406,12 +327,12 @@ public class BloodReport {
         this.TB = TB;
     }
 
-    public String getBagType() {
-        return bagType;
+    public String getBag_type() {
+        return bag_type;
     }
 
-    public void setBagType(String bagType) {
-        this.bagType = bagType;
+    public void setBag_type(String bag_type) {
+        this.bag_type = bag_type;
     }
 
     public String getNote() {
@@ -430,63 +351,63 @@ public class BloodReport {
         this.accepted = accepted;
     }
 
-    public String getReasonForRejection() {
-        return reasonForRejection;
+    public String getReason_for_rejection() {
+        return reason_for_rejection;
     }
 
-    public void setReasonForRejection(String reasonForRejection) {
-        this.reasonForRejection = reasonForRejection;
+    public void setReason_for_rejection(String reason_for_rejection) {
+        this.reason_for_rejection = reason_for_rejection;
     }
 
-    public int getBagLotNumber() {
-        return bagLotNumber;
+    public int getBag_lot_number() {
+        return bag_lot_number;
     }
 
-    public void setBagLotNumber(int bagLotNumber) {
-        this.bagLotNumber = bagLotNumber;
+    public void setBag_lot_number(int bag_lot_number) {
+        this.bag_lot_number = bag_lot_number;
     }
 
-    public String getPunctureSite() {
-        return punctureSite;
+    public String getPuncture_site() {
+        return puncture_site;
     }
 
-    public void setPunctureSite(String punctureSite) {
-        this.punctureSite = punctureSite;
+    public void setPuncture_site(String puncture_site) {
+        this.puncture_site = puncture_site;
     }
 
-    public String getBeginingOfDonation() {
-        return beginingOfDonation;
+    public String getBegining_of_donation() {
+        return begining_of_donation;
     }
 
-    public void setBeginingOfDonation(String beginingOfDonation) {
-        this.beginingOfDonation = beginingOfDonation;
+    public void setBegining_of_donation(String begining_of_donation) {
+        this.begining_of_donation = begining_of_donation;
     }
 
-    public String getEndOfDonation() {
-        return endOfDonation;
+    public String getEnd_of_donation() {
+        return end_of_donation;
     }
 
-    public void setEndOfDonation(String endOfDonation) {
-        this.endOfDonation = endOfDonation;
+    public void setEnd_of_donation(String end_of_donation) {
+        this.end_of_donation = end_of_donation;
     }
 
-    public int getAmountOfBloodTaken() {
-        return amountOfBloodTaken;
+    public int getAmount_of_blood_taken() {
+        return amount_of_blood_taken;
     }
 
-    public void setAmountOfBloodTaken(int amountOfBloodTaken) {
-        this.amountOfBloodTaken = amountOfBloodTaken;
+    public void setAmount_of_blood_taken(int amount_of_blood_taken) {
+        this.amount_of_blood_taken = amount_of_blood_taken;
     }
 
-    public String getReasonForSuspension() {
-        return reasonForSuspension;
+    public String getReason_for_suspension() {
+        return reason_for_suspension;
     }
 
-    public void setReasonForSuspension(String reasonForSuspension) {
-        this.reasonForSuspension = reasonForSuspension;
+    public void setReason_for_suspension(String reason_for_suspension) {
+        this.reason_for_suspension = reason_for_suspension;
     }
 
-    public Boolean isQ1() {
+    public Boolean getQ1() {
         return q1;
     }
 
@@ -494,7 +415,7 @@ public class BloodReport {
         this.q1 = q1;
     }
 
-    public Boolean isQ2() {
+    public Boolean getQ2() {
         return q2;
     }
 
@@ -502,7 +423,7 @@ public class BloodReport {
         this.q2 = q2;
     }
 
-    public Boolean isQ3() {
+    public Boolean getQ3() {
         return q3;
     }
 
@@ -510,7 +431,7 @@ public class BloodReport {
         this.q3 = q3;
     }
 
-    public Boolean isQ4() {
+    public Boolean getQ4() {
         return q4;
     }
 
@@ -518,7 +439,7 @@ public class BloodReport {
         this.q4 = q4;
     }
 
-    public Boolean isQ5() {
+    public Boolean getQ5() {
         return q5;
     }
 
@@ -526,7 +447,7 @@ public class BloodReport {
         this.q5 = q5;
     }
 
-    public Boolean isQ6() {
+    public Boolean getQ6() {
         return q6;
     }
 
@@ -534,7 +455,7 @@ public class BloodReport {
         this.q6 = q6;
     }
 
-    public Boolean isQ7() {
+    public Boolean getQ7() {
         return q7;
     }
 
@@ -542,7 +463,7 @@ public class BloodReport {
         this.q7 = q7;
     }
 
-    public Boolean isQ8() {
+    public Boolean getQ8() {
         return q8;
     }
 
@@ -550,7 +471,7 @@ public class BloodReport {
         this.q8 = q8;
     }
 
-    public Boolean isQ9() {
+    public Boolean getQ9() {
         return q9;
     }
 
@@ -558,7 +479,7 @@ public class BloodReport {
         this.q9 = q9;
     }
 
-    public Boolean isQ10() {
+    public Boolean getQ10() {
         return q10;
     }
 
@@ -566,7 +487,7 @@ public class BloodReport {
         this.q10 = q10;
     }
 
-    public Boolean isQ11() {
+    public Boolean getQ11() {
         return q11;
     }
 
@@ -574,7 +495,7 @@ public class BloodReport {
         this.q11 = q11;
     }
 
-    public Boolean isQ12() {
+    public Boolean getQ12() {
         return q12;
     }
 
@@ -582,7 +503,7 @@ public class BloodReport {
         this.q12 = q12;
     }
 
-    public Boolean isQ13() {
+    public Boolean getQ13() {
         return q13;
     }
 
@@ -590,7 +511,7 @@ public class BloodReport {
         this.q13 = q13;
     }
 
-    public Boolean isQ14() {
+    public Boolean getQ14() {
         return q14;
     }
 
@@ -598,7 +519,7 @@ public class BloodReport {
         this.q14 = q14;
     }
 
-    public Boolean isQ15() {
+    public Boolean getQ15() {
         return q15;
     }
 
@@ -606,7 +527,7 @@ public class BloodReport {
         this.q15 = q15;
     }
 
-    public Boolean isQ16() {
+    public Boolean getQ16() {
         return q16;
     }
 
@@ -614,7 +535,7 @@ public class BloodReport {
         this.q16 = q16;
     }
 
-    public Boolean isQ17() {
+    public Boolean getQ17() {
         return q17;
     }
 
@@ -622,7 +543,7 @@ public class BloodReport {
         this.q17 = q17;
     }
 
-    public Boolean isQ18() {
+    public Boolean getQ18() {
         return q18;
     }
 
@@ -630,7 +551,7 @@ public class BloodReport {
         this.q18 = q18;
     }
 
-    public Boolean isQ19() {
+    public Boolean getQ19() {
         return q19;
     }
 
@@ -638,7 +559,7 @@ public class BloodReport {
         this.q19 = q19;
     }
 
-    public Boolean isQ20a() {
+    public Boolean getQ20a() {
         return q20a;
     }
 
@@ -646,7 +567,7 @@ public class BloodReport {
         this.q20a = q20a;
     }
 
-    public Boolean isQ20b() {
+    public Boolean getQ20b() {
         return q20b;
     }
 
@@ -654,7 +575,7 @@ public class BloodReport {
         this.q20b = q20b;
     }
 
-    public Boolean isQ20c() {
+    public Boolean getQ20c() {
         return q20c;
     }
 
@@ -662,7 +583,7 @@ public class BloodReport {
         this.q20c = q20c;
     }
 
-    public Boolean isQ21() {
+    public Boolean getQ21() {
         return q21;
     }
 
@@ -670,7 +591,7 @@ public class BloodReport {
         this.q21 = q21;
     }
 
-    public Boolean isQ22a() {
+    public Boolean getQ22a() {
         return q22a;
     }
 
@@ -678,7 +599,7 @@ public class BloodReport {
         this.q22a = q22a;
     }
 
-    public Boolean isQ22b() {
+    public Boolean getQ22b() {
         return q22b;
     }
 
@@ -686,7 +607,7 @@ public class BloodReport {
         this.q22b = q22b;
     }
 
-    public Boolean isQ22c() {
+    public Boolean getQ22c() {
         return q22c;
     }
 
@@ -694,7 +615,7 @@ public class BloodReport {
         this.q22c = q22c;
     }
 
-    public Boolean isQ22d() {
+    public Boolean getQ22d() {
         return q22d;
     }
 
@@ -702,7 +623,7 @@ public class BloodReport {
         this.q22d = q22d;
     }
 
-    public Boolean isQ22e() {
+    public Boolean getQ22e() {
         return q22e;
     }
 
@@ -710,7 +631,7 @@ public class BloodReport {
         this.q22e = q22e;
     }
 
-    public Boolean isQ22f() {
+    public Boolean getQ22f() {
         return q22f;
     }
 
@@ -718,7 +639,7 @@ public class BloodReport {
         this.q22f = q22f;
     }
 
-    public Boolean isQ22g() {
+    public Boolean getQ22g() {
         return q22g;
     }
 
@@ -726,7 +647,7 @@ public class BloodReport {
         this.q22g = q22g;
     }
 
-    public Boolean isQ23a() {
+    public Boolean getQ23a() {
         return q23a;
     }
 
@@ -734,7 +655,7 @@ public class BloodReport {
         this.q23a = q23a;
     }
 
-    public Boolean isQ23b() {
+    public Boolean getQ23b() {
         return q23b;
     }
 
@@ -742,7 +663,7 @@ public class BloodReport {
         this.q23b = q23b;
     }
 
-    public Boolean isQ23c() {
+    public Boolean getQ23c() {
         return q23c;
     }
 
@@ -750,7 +671,7 @@ public class BloodReport {
         this.q23c = q23c;
     }
 
-    public Boolean isQ23d() {
+    public Boolean getQ23d() {
         return q23d;
     }
 
@@ -758,7 +679,7 @@ public class BloodReport {
         this.q23d = q23d;
     }
 
-    public Boolean isQ23e() {
+    public Boolean getQ23e() {
         return q23e;
     }
 
@@ -766,7 +687,7 @@ public class BloodReport {
         this.q23e = q23e;
     }
 
-    public Boolean isQ23f() {
+    public Boolean getQ23f() {
         return q23f;
     }
 
@@ -774,7 +695,7 @@ public class BloodReport {
         this.q23f = q23f;
     }
 
-    public Boolean isQ23g() {
+    public Boolean getQ23g() {
         return q23g;
     }
 
@@ -782,7 +703,7 @@ public class BloodReport {
         this.q23g = q23g;
     }
 
-    public Boolean isQ24() {
+    public Boolean getQ24() {
         return q24;
     }
 
@@ -790,7 +711,7 @@ public class BloodReport {
         this.q24 = q24;
     }
 
-    public Boolean isQ25() {
+    public Boolean getQ25() {
         return q25;
     }
 
@@ -798,11 +719,281 @@ public class BloodReport {
         this.q25 = q25;
     }
 
-    public Boolean isQ26() {
+    public Boolean getQ26() {
         return q26;
     }
 
     public void setQ26(Boolean q26) {
         this.q26 = q26;
+    }
+
+    public BloodReport(int num, String date, String name, String jmbg, String birth, String gender, String address, String township, String location, String phone_home, String phone_job, String phone_mobile, String company_or_school, String profession, int number_of_previous_blood_donations, String blood_type, String note_to_md, String copper_sulfate, int normal_level, int low_level, String hemoglobinometer, String read_value, String lungs, String heart, String TA, String TT, String TB, String bag_type, String note, Boolean accepted, String reason_for_rejection, int bag_lot_number, String puncture_site, String begining_of_donation, String end_of_donation, int amount_of_blood_taken, String reason_for_suspension, Boolean q1, Boolean q2, Boolean q3, Boolean q4, Boolean q5, Boolean q6, Boolean q7, Boolean q8, Boolean q9, Boolean q10, Boolean q11, Boolean q12, Boolean q13, Boolean q14, Boolean q15, Boolean q16, Boolean q17, Boolean q18, Boolean q19, Boolean q20a, Boolean q20b, Boolean q20c, Boolean q21, Boolean q22a, Boolean q22b, Boolean q22c, Boolean q22d, Boolean q22e, Boolean q22f, Boolean q22g, Boolean q23a, Boolean q23b, Boolean q23c, Boolean q23d, Boolean q23e, Boolean q23f, Boolean q23g, Boolean q24, Boolean q25, Boolean q26) {
+        this.num = num;
+        this.date = date;
+        this.name = name;
+        this.jmbg = jmbg;
+        this.birth = birth;
+        this.gender = gender;
+        this.address = address;
+        this.township = township;
+        this.location = location;
+        this.phone_home = phone_home;
+        this.phone_job = phone_job;
+        this.phone_mobile = phone_mobile;
+        this.company_or_school = company_or_school;
+        this.profession = profession;
+        this.number_of_previous_blood_donations = number_of_previous_blood_donations;
+        this.blood_type = blood_type;
+        this.note_to_md = note_to_md;
+        this.copper_sulfate = copper_sulfate;
+        this.normal_level = normal_level;
+        this.low_level = low_level;
+        this.hemoglobinometer = hemoglobinometer;
+        this.read_value = read_value;
+        this.lungs = lungs;
+        this.heart = heart;
+        this.TA = TA;
+        this.TT = TT;
+        this.TB = TB;
+        this.bag_type = bag_type;
+        this.note = note;
+        this.accepted = accepted;
+        this.reason_for_rejection = reason_for_rejection;
+        this.bag_lot_number = bag_lot_number;
+        this.puncture_site = puncture_site;
+        this.begining_of_donation = begining_of_donation;
+        this.end_of_donation = end_of_donation;
+        this.amount_of_blood_taken = amount_of_blood_taken;
+        this.reason_for_suspension = reason_for_suspension;
+        this.q1 = q1;
+        this.q2 = q2;
+        this.q3 = q3;
+        this.q4 = q4;
+        this.q5 = q5;
+        this.q6 = q6;
+        this.q7 = q7;
+        this.q8 = q8;
+        this.q9 = q9;
+        this.q10 = q10;
+        this.q11 = q11;
+        this.q12 = q12;
+        this.q13 = q13;
+        this.q14 = q14;
+        this.q15 = q15;
+        this.q16 = q16;
+        this.q17 = q17;
+        this.q18 = q18;
+        this.q19 = q19;
+        this.q20a = q20a;
+        this.q20b = q20b;
+        this.q20c = q20c;
+        this.q21 = q21;
+        this.q22a = q22a;
+        this.q22b = q22b;
+        this.q22c = q22c;
+        this.q22d = q22d;
+        this.q22e = q22e;
+        this.q22f = q22f;
+        this.q22g = q22g;
+        this.q23a = q23a;
+        this.q23b = q23b;
+        this.q23c = q23c;
+        this.q23d = q23d;
+        this.q23e = q23e;
+        this.q23f = q23f;
+        this.q23g = q23g;
+        this.q24 = q24;
+        this.q25 = q25;
+        this.q26 = q26;
+    }
+
+    public BloodReport(Long id, int num, String date, String name, String jmbg, String birth, String gender, String address, String township, String location, String phone_home, String phone_job, String phone_mobile, String company_or_school, String profession, int number_of_previous_blood_donations, String blood_type, String note_to_md, String copper_sulfate, int normal_level, int low_level, String hemoglobinometer, String read_value, String lungs, String heart, String TA, String TT, String TB, String bag_type, String note, Boolean accepted, String reason_for_rejection, int bag_lot_number, String puncture_site, String begining_of_donation, String end_of_donation, int amount_of_blood_taken, String reason_for_suspension, Boolean q1, Boolean q2, Boolean q3, Boolean q4, Boolean q5, Boolean q6, Boolean q7, Boolean q8, Boolean q9, Boolean q10, Boolean q11, Boolean q12, Boolean q13, Boolean q14, Boolean q15, Boolean q16, Boolean q17, Boolean q18, Boolean q19, Boolean q20a, Boolean q20b, Boolean q20c, Boolean q21, Boolean q22a, Boolean q22b, Boolean q22c, Boolean q22d, Boolean q22e, Boolean q22f, Boolean q22g, Boolean q23a, Boolean q23b, Boolean q23c, Boolean q23d, Boolean q23e, Boolean q23f, Boolean q23g, Boolean q24, Boolean q25, Boolean q26) {
+        this.id = id;
+        this.num = num;
+        this.date = date;
+        this.name = name;
+        this.jmbg = jmbg;
+        this.birth = birth;
+        this.gender = gender;
+        this.address = address;
+        this.township = township;
+        this.location = location;
+        this.phone_home = phone_home;
+        this.phone_job = phone_job;
+        this.phone_mobile = phone_mobile;
+        this.company_or_school = company_or_school;
+        this.profession = profession;
+        this.number_of_previous_blood_donations = number_of_previous_blood_donations;
+        this.blood_type = blood_type;
+        this.note_to_md = note_to_md;
+        this.copper_sulfate = copper_sulfate;
+        this.normal_level = normal_level;
+        this.low_level = low_level;
+        this.hemoglobinometer = hemoglobinometer;
+        this.read_value = read_value;
+        this.lungs = lungs;
+        this.heart = heart;
+        this.TA = TA;
+        this.TT = TT;
+        this.TB = TB;
+        this.bag_type = bag_type;
+        this.note = note;
+        this.accepted = accepted;
+        this.reason_for_rejection = reason_for_rejection;
+        this.bag_lot_number = bag_lot_number;
+        this.puncture_site = puncture_site;
+        this.begining_of_donation = begining_of_donation;
+        this.end_of_donation = end_of_donation;
+        this.amount_of_blood_taken = amount_of_blood_taken;
+        this.reason_for_suspension = reason_for_suspension;
+        this.q1 = q1;
+        this.q2 = q2;
+        this.q3 = q3;
+        this.q4 = q4;
+        this.q5 = q5;
+        this.q6 = q6;
+        this.q7 = q7;
+        this.q8 = q8;
+        this.q9 = q9;
+        this.q10 = q10;
+        this.q11 = q11;
+        this.q12 = q12;
+        this.q13 = q13;
+        this.q14 = q14;
+        this.q15 = q15;
+        this.q16 = q16;
+        this.q17 = q17;
+        this.q18 = q18;
+        this.q19 = q19;
+        this.q20a = q20a;
+        this.q20b = q20b;
+        this.q20c = q20c;
+        this.q21 = q21;
+        this.q22a = q22a;
+        this.q22b = q22b;
+        this.q22c = q22c;
+        this.q22d = q22d;
+        this.q22e = q22e;
+        this.q22f = q22f;
+        this.q22g = q22g;
+        this.q23a = q23a;
+        this.q23b = q23b;
+        this.q23c = q23c;
+        this.q23d = q23d;
+        this.q23e = q23e;
+        this.q23f = q23f;
+        this.q23g = q23g;
+        this.q24 = q24;
+        this.q25 = q25;
+        this.q26 = q26;
+    }
+
+    public BloodReport(int num, String date, String name, String jmbg, String birth, String gender, String address, String township, String location, String phone_home, String phone_job, String phone_mobile, String company_or_school, String profession, int number_of_previous_blood_donations, Boolean q1, Boolean q2, Boolean q3, Boolean q4, Boolean q5, Boolean q6, Boolean q7, Boolean q8, Boolean q9, Boolean q10, Boolean q11, Boolean q12, Boolean q13, Boolean q14, Boolean q15, Boolean q16, Boolean q17, Boolean q18, Boolean q19, Boolean q20a, Boolean q20b, Boolean q20c, Boolean q21, Boolean q22a, Boolean q22b, Boolean q22c, Boolean q22d, Boolean q22e, Boolean q22f, Boolean q22g, Boolean q23a, Boolean q23b, Boolean q23c, Boolean q23d, Boolean q23e, Boolean q23f, Boolean q23g, Boolean q24, Boolean q25, Boolean q26) {
+        this.num = num;
+        this.date = date;
+        this.name = name;
+        this.jmbg = jmbg;
+        this.birth = birth;
+        this.gender = gender;
+        this.address = address;
+        this.township = township;
+        this.location = location;
+        this.phone_home = phone_home;
+        this.phone_job = phone_job;
+        this.phone_mobile = phone_mobile;
+        this.company_or_school = company_or_school;
+        this.profession = profession;
+        this.number_of_previous_blood_donations = number_of_previous_blood_donations;
+        this.q1 = q1;
+        this.q2 = q2;
+        this.q3 = q3;
+        this.q4 = q4;
+        this.q5 = q5;
+        this.q6 = q6;
+        this.q7 = q7;
+        this.q8 = q8;
+        this.q9 = q9;
+        this.q10 = q10;
+        this.q11 = q11;
+        this.q12 = q12;
+        this.q13 = q13;
+        this.q14 = q14;
+        this.q15 = q15;
+        this.q16 = q16;
+        this.q17 = q17;
+        this.q18 = q18;
+        this.q19 = q19;
+        this.q20a = q20a;
+        this.q20b = q20b;
+        this.q20c = q20c;
+        this.q21 = q21;
+        this.q22a = q22a;
+        this.q22b = q22b;
+        this.q22c = q22c;
+        this.q22d = q22d;
+        this.q22e = q22e;
+        this.q22f = q22f;
+        this.q22g = q22g;
+        this.q23a = q23a;
+        this.q23b = q23b;
+        this.q23c = q23c;
+        this.q23d = q23d;
+        this.q23e = q23e;
+        this.q23f = q23f;
+        this.q23g = q23g;
+        this.q24 = q24;
+        this.q25 = q25;
+        this.q26 = q26;
+    }
+
+    public BloodReport(Long id, String blood_type, String note_to_md, String copper_sulfate, int normal_level, int low_level, String hemoglobinometer, String read_value, String lungs, String heart, String TA, String TT, String TB, String bag_type, String note, Boolean accepted, String reason_for_rejection, int bag_lot_number, String puncture_site, String begining_of_donation, String end_of_donation, int amount_of_blood_taken, String reason_for_suspension) {
+        this.id = id;
+        this.blood_type = blood_type;
+        this.note_to_md = note_to_md;
+        this.copper_sulfate = copper_sulfate;
+        this.normal_level = normal_level;
+        this.low_level = low_level;
+        this.hemoglobinometer = hemoglobinometer;
+        this.read_value = read_value;
+        this.lungs = lungs;
+        this.heart = heart;
+        this.TA = TA;
+        this.TT = TT;
+        this.TB = TB;
+        this.bag_type = bag_type;
+        this.note = note;
+        this.accepted = accepted;
+        this.reason_for_rejection = reason_for_rejection;
+        this.bag_lot_number = bag_lot_number;
+        this.puncture_site = puncture_site;
+        this.begining_of_donation = begining_of_donation;
+        this.end_of_donation = end_of_donation;
+        this.amount_of_blood_taken = amount_of_blood_taken;
+        this.reason_for_suspension = reason_for_suspension;
+    }
+
+    public BloodReport(String blood_type, String note_to_md, String copper_sulfate, int normal_level, int low_level, String hemoglobinometer, String read_value, String lungs, String heart, String TA, String TT, String TB, String bag_type, String note, Boolean accepted, String reason_for_rejection, int bag_lot_number, String puncture_site, String begining_of_donation, String end_of_donation, int amount_of_blood_taken, String reason_for_suspension) {
+        this.blood_type = blood_type;
+        this.note_to_md = note_to_md;
+        this.copper_sulfate = copper_sulfate;
+        this.normal_level = normal_level;
+        this.low_level = low_level;
+        this.hemoglobinometer = hemoglobinometer;
+        this.read_value = read_value;
+        this.lungs = lungs;
+        this.heart = heart;
+        this.TA = TA;
+        this.TT = TT;
+        this.TB = TB;
+        this.bag_type = bag_type;
+        this.note = note;
+        this.accepted = accepted;
+        this.reason_for_rejection = reason_for_rejection;
+        this.bag_lot_number = bag_lot_number;
+        this.puncture_site = puncture_site;
+        this.begining_of_donation = begining_of_donation;
+        this.end_of_donation = end_of_donation;
+        this.amount_of_blood_taken = amount_of_blood_taken;
+        this.reason_for_suspension = reason_for_suspension;
     }
 }
