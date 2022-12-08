@@ -1,5 +1,7 @@
 package com.example.demo.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalTime;
@@ -9,7 +11,7 @@ import java.time.LocalTime;
 @Table(name = "blood_appointments")
 public class BloodDonationAppointment implements Comparable<BloodDonationAppointment>{
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String date;
     private String time;
@@ -17,10 +19,10 @@ public class BloodDonationAppointment implements Comparable<BloodDonationAppoint
     private Boolean reserved;
     private Boolean active;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private User users;
+
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
     private CenterProfile center_profile;
 
     public BloodDonationAppointment() {
@@ -82,13 +84,13 @@ public class BloodDonationAppointment implements Comparable<BloodDonationAppoint
         this.active = active;
     }
 
-    public User getUsers() {
-        return users;
-    }
-
-    public void setUsers(User users) {
-        this.users = users;
-    }
+//    public User getUsers() {
+//        return users;
+//    }
+//
+//    public void setUsers(User users) {
+//        this.users = users;
+//    }
 
     @Override
     public int compareTo(BloodDonationAppointment u) {

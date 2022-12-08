@@ -14,13 +14,6 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import { Range, getTrackBackground } from "react-range";
-
-import { Dayjs } from "dayjs";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { TimePicker } from "@mui/x-date-pickers/TimePicker";
-
 import axios from "axios";
 import {
   Checkbox,
@@ -28,7 +21,6 @@ import {
   FormGroup,
   Typography,
 } from "@mui/material";
-import { parsePath } from "react-router-dom";
 
 interface Data {
   id: number;
@@ -119,11 +111,10 @@ interface EnhancedTableProps {
 function EnhancedTableHead(props: EnhancedTableProps) {
   const { order, orderBy, onRequestSort } = props;
 
-  const createSortHandler = (property: keyof Data) => (
-    event: React.MouseEvent<unknown>
-  ) => {
-    onRequestSort(event, property);
-  };
+  const createSortHandler =
+    (property: keyof Data) => (event: React.MouseEvent<unknown>) => {
+      onRequestSort(event, property);
+    };
 
   return (
     <TableRow>
@@ -152,7 +143,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
   );
 }
 
-export default function UpgradedTable() {
+export default function UpgradedAppointmentsTable() {
   const [order, setOrder] = React.useState<Order>("asc");
   const [orderBy, setOrderBy] = React.useState<keyof Data>("name");
   const [page, setPage] = React.useState(0);
@@ -256,97 +247,15 @@ export default function UpgradedTable() {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setChecked(event.target.checked);
   };
-
-  // FOR APPOINTMENT
-  const [date, setDate] = React.useState<Dayjs | null>(null);
-  const [time, setTime] = React.useState<Dayjs | null>(null);
-  const [filteredDate, setFilteredDate] = useState("");
-  const [filteredTime, setFilteredTime] = useState("");
-
-  const findAppointment = () => {
-    if (filteredDate && filteredTime) {
-      // Time
-      var fTime = filteredTime.split(":");
-      var fTimeH: number = Number(fTime[0]) + 1;
-      var fTimeHToStr;
-      if (fTimeH < 10) fTimeHToStr = "0" + fTimeH + ":" + fTime[1];
-      else fTimeHToStr = fTimeH + ":" + fTime[1];
-
-      // Date
-      var fDate = filteredDate.substring(1).split("-");
-      var fDateD: number = Number(fDate[2]) + 1;
-      var fDateDToStr;
-      if (fDateD < 10)
-        fDateDToStr = fDate[0] + "-" + fDate[1] + "-" + "0" + fDateD;
-      else fDateDToStr = fDate[0] + "-" + fDate[1] + "-" + fDateD;
-
-      // console.log(fDateDToStr, fTimeHToStr);
-
-      axios
-        .get(
-          process.env.REACT_APP_API_URL +
-            "/user/blood-appointment/find/" +
-            fDateDToStr +
-            "/" +
-            fTimeHToStr,
-          config
-        )
-        .then((res) => setRows(res.data))
-        .catch((e) => alert("No Center Found!"));
-    }
-  };
-
   return (
-    <Box sx={{ width: "680px", margin: "20px auto" }}>
+    <Box sx={{ width: "940px", margin: "20px auto" }}>
       <Paper sx={{ width: "auto", mb: 2 }}>
         {/* <EnhancedTableToolbar /> */}
-        <TableContainer style={{ width: "680px", padding: "20px" }}>
-          <Table sx={{ width: "640px" }} aria-labelledby="tableTitle">
+        <TableContainer style={{ width: "940px", padding: "20px" }}>
+          <Table sx={{ width: "800px" }} aria-labelledby="tableTitle">
             <TableHead>
               <TableRow>
-                <TableCell colSpan={1} style={{ paddingLeft: "0" }}>
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DatePicker
-                      label="Appointment Date"
-                      value={date}
-                      onChange={(newValue: any) => {
-                        setDate(newValue);
-                        setFilteredDate(JSON.stringify(newValue).split("T")[0]);
-
-                        // setFilteredDate(newValue.replace("/", "-"));
-                      }}
-                      renderInput={(params) => <TextField {...params} />}
-                    />
-                  </LocalizationProvider>
-                </TableCell>
-                <TableCell colSpan={1} style={{ paddingLeft: "0" }}>
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <TimePicker
-                      label="Appointment Time"
-                      value={time}
-                      onChange={(newValue: any) => {
-                        setTime(newValue);
-                        setFilteredTime(
-                          JSON.stringify(newValue)
-                            .split("T")[1]
-                            .slice(0, 5)
-                        );
-                      }}
-                      renderInput={(params) => <TextField {...params} />}
-                      views={["hours"]}
-                      inputFormat={"HH:mm"}
-                    />
-                  </LocalizationProvider>
-                </TableCell>
-                <TableCell style={{ padding: "0" }}>
-                  <Button onClick={findAppointment}>Find</Button>
-                  <Button onClick={() => reset()}>
-                    <RestartAltIcon />
-                  </Button>
-                </TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell colSpan={2} style={{ padding: "0" }}>
+                <TableCell colSpan={2} style={{ padding: "0 10px" }}>
                   <TextField
                     id="standard-basic"
                     label="Search"

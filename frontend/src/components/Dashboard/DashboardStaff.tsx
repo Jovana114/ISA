@@ -20,6 +20,7 @@ import Center from "../CenterProfile/Center";
 import CustomCalendar from "../CalendarWithEvents/CustomCalendar";
 import CircularLoader from "../Loader/CircularLoader";
 import axios from "axios";
+import BloodReport from "../BloodReport/BloodReport";
 
 export const DashboardStaff = () => {
   // const [data, setData] = useState({});
@@ -35,9 +36,10 @@ export const DashboardStaff = () => {
   const [open, setOpen] = React.useState(false);
   const [open1, setOpen1] = React.useState(false);
   const [open2, setOpen2] = React.useState(false);
+  const [open3, setOpen3] = React.useState(true);
 
   const pages = ["Pricing", "Blog"];
-  const settings = ["Products", "Profile", "Logout", "Change password"];
+  const settings = ["Update center", "Profile", "Logout", "Change password"];
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -78,6 +80,7 @@ export const DashboardStaff = () => {
     setOpen2(false);
   };
 
+
   const handleSettings = (selectedSetting: string) => {
     handleCloseUserMenu();
     if (selectedSetting === "Profile") {
@@ -86,7 +89,7 @@ export const DashboardStaff = () => {
       logout();
     } else if (selectedSetting === "Change password") {
       handleClickOpen1();
-    } else if (selectedSetting === "Products") {
+    } else if (selectedSetting === "Update center") {
       handleClickOpen2();
     }
   };

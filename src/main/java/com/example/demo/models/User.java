@@ -1,5 +1,7 @@
 package com.example.demo.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -18,7 +20,7 @@ import javax.validation.constraints.Size;
     })
 public class User {
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
   @NotBlank
@@ -71,22 +73,52 @@ public class User {
   // @NotBlank
   private int penals;
 
+  @OneToOne(fetch = FetchType.LAZY)
+  private BloodReport blood_report;
+
   @ManyToMany(fetch = FetchType.LAZY)
   @JoinTable(  name = "user_roles", 
         joinColumns = @JoinColumn(name = "user_id"), 
         inverseJoinColumns = @JoinColumn(name = "role_id"))
   private Set<Role> roles = new HashSet<>();
 
-  @OneToMany(mappedBy = "users", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-  private List<BloodDonationAppointment> appointments;
+  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  @JoinTable(  name = "user_appointments",
+          joinColumns = @JoinColumn(name = "user_id"),
+          inverseJoinColumns = @JoinColumn(name = "blood_appointment_id"))
+  private Set<BloodDonationAppointment> appointments = new HashSet<>();
 
   @ManyToOne(fetch = FetchType.LAZY)
+  @JsonIgnore
   private CenterProfile center_profile;
+
+  public User(Long id, String username, String email, String password, String firstname, String surname, String address, String city, String state, String phone, String jmbg, String gender, String occupation, String empscho, int points, int penals, BloodReport blood_report, Set<Role> roles, Set<BloodDonationAppointment> appointments, CenterProfile center_profile) {
+    this.id = id;
+    this.username = username;
+    this.email = email;
+    this.password = password;
+    this.firstname = firstname;
+    this.surname = surname;
+    this.address = address;
+    this.city = city;
+    this.state = state;
+    this.phone = phone;
+    this.jmbg = jmbg;
+    this.gender = gender;
+    this.occupation = occupation;
+    this.empscho = empscho;
+    this.points = points;
+    this.penals = penals;
+    this.blood_report = blood_report;
+    this.roles = roles;
+    this.appointments = appointments;
+    this.center_profile = center_profile;
+  }
 
   public User() {
   }
 
-  public User(String username, String email, String password, String firstname, String surname, String address, String city, String state, String phone, String jmbg, String gender, String occupation, String empscho, int points,int penals) {
+  public User(String username, String email, String password, String firstname, String surname, String address, String city, String state, String phone, String jmbg, String gender, String occupation, String empscho, int points, int penals) {
     this.username = username;
     this.email = email;
     this.password = password;
@@ -299,11 +331,11 @@ public class User {
     this.points = points;
   }
 
-  public List<BloodDonationAppointment> getAppointments() {
+  public Set<BloodDonationAppointment> getAppointments() {
     return appointments;
   }
 
-  public void setAppointments(List<BloodDonationAppointment> appointments) {
+  public void setAppointments(Set<BloodDonationAppointment> appointments) {
     this.appointments = appointments;
   }
 

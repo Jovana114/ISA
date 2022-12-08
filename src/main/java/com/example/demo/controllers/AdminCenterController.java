@@ -28,7 +28,7 @@ public class AdminCenterController {
 
     @Autowired
     CenterProfileRepository centerProfileRepository;
-
+    
     @PutMapping("/update/{id}")
     @PreAuthorize("hasAuthority('ROLE_STAFF')")
     public ResponseEntity<?> updateAdminCenter(@PathVariable("id") Long id, @RequestBody User user) {
