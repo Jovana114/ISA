@@ -92,7 +92,7 @@ public class User {
   @JsonIgnore
   private CenterProfile center_profile;
 
-  public User(Long id, String username, String email, String password, String firstname, String surname, String address, String city, String state, String phone, String jmbg, String gender, String occupation, String empscho, int points, int penals, BloodReport blood_report, Set<Role> roles, List<BloodDonationAppointment> appointments, CenterProfile center_profile) {
+  public User(Long id, String username, String email, String password, String firstname, String surname, String address, String city, String state, String phone, String jmbg, String gender, String occupation, String empscho, int points, int penals, BloodReport blood_report, Set<Role> roles, Set<BloodDonationAppointment> appointments, CenterProfile center_profile) {
     this.id = id;
     this.username = username;
     this.email = email;
