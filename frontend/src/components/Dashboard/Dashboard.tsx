@@ -19,9 +19,11 @@ import axios from "axios";
 import TableCenter from "../Table/TableCenter";
 import UpgradedTable from "../Table/UpgradedTable";
 import CircularLoader from "../Loader/CircularLoader";
+import Appointments from "../Appointments/Appointments";
 
 export const Dashboard = () => {
   const [navigate, setNavigate] = useState(false);
+  const [navigatePage, setNavigatePage] = useState("");
 
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
@@ -30,8 +32,9 @@ export const Dashboard = () => {
     null
   );
   const [open, setOpen] = React.useState(false);
+  const [openAppointments, setOpenAppointments] = useState(false);
 
-  const pages = ["Products", "Pricing", "Blog"];
+  const pages = ["Appointments"];
   const settings = ["Profile", "Logout"];
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -52,9 +55,15 @@ export const Dashboard = () => {
   const handleClickOpen = () => {
     setOpen(true);
   };
+  const handleClickOpenAppointments = () => {
+    setOpenAppointments(true);
+  };
 
   const handleClose = () => {
     setOpen(false);
+  };
+  const handleCloseAppointments = () => {
+    setOpenAppointments(false);
   };
 
   const handleSettings = (selectedSetting: string) => {
@@ -63,6 +72,8 @@ export const Dashboard = () => {
       handleClickOpen();
     } else if (selectedSetting === "Logout") {
       logout();
+    } else if (selectedSetting === "Appointments") {
+      handleClickOpenAppointments();
     }
   };
   const logout = async () => {
@@ -97,6 +108,7 @@ export const Dashboard = () => {
   }
 
   if (navigate) {
+    if (navigatePage !== "") return <Navigate to="/appointments" />;
     return <Navigate to="/login" />;
   }
   // useEffect(() => {
@@ -167,7 +179,7 @@ export const Dashboard = () => {
                 }}
               >
                 {pages.map((page: any) => (
-                  <MenuItem key={page} onClick={handleCloseNavMenu}>
+                  <MenuItem key={page} onClick={() => handleSettings(page)}>
                     <Typography textAlign="center">{page}</Typography>
                   </MenuItem>
                 ))}
@@ -197,7 +209,7 @@ export const Dashboard = () => {
                 {pages.map((page: any) => (
                   <Button
                     key={page}
-                    onClick={handleCloseNavMenu}
+                    onClick={() => handleSettings(page)}
                     sx={{ my: 2, color: "white", display: "block" }}
                   >
                     {page}
@@ -248,6 +260,8 @@ export const Dashboard = () => {
       <UpgradedTable />
 
       <EditProfile open={open} onClose={handleClose} />
+
+      <Appointments open={openAppointments} onClose={handleCloseAppointments} />
 
       {/* {data ? : <></>} */}
       {/* <h3>Hi {name}</h3> */}

@@ -31,16 +31,13 @@ public class CenterProfile {
     @NotNull
     private Double averageRating;
 
-    @NotBlank
-    private String appointmentStart;
-
-    @NotBlank
-    private String appointmentEnd;
 
     @OneToMany(mappedBy = "center_profile", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<User> users;
 
     @OneToMany(mappedBy = "center_profile", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<BloodDonationAppointment> bloodDonationAppointments;
 
     private int bloodA;
@@ -91,13 +88,11 @@ public class CenterProfile {
         this.bloodO = bloodO;
     }
 
-    public CenterProfile(String name, String address, String description, Double averageRating, String appointmentStart, String appointmentEnd, int bloodA, int bloodB, int bloodAB, int bloodO) {
+    public CenterProfile(String name, String address, String description, Double averageRating, int bloodA, int bloodB, int bloodAB, int bloodO) {
         this.name = name;
         this.address = address;
         this.description = description;
         this.averageRating = averageRating;
-        this.appointmentStart = appointmentStart;
-        this.appointmentEnd = appointmentEnd;
         this.bloodA = bloodA;
         this.bloodB = bloodB;
         this.bloodAB = bloodAB;
@@ -112,25 +107,20 @@ public class CenterProfile {
         this.users = users;
     }
 
-    public CenterProfile(String name, String address, String description, Double averageRating, String appointmentStart, String appointmentEnd) {
+    public CenterProfile(String name, String address, String description, Double averageRating) {
         this.name = name;
         this.address = address;
         this.description = description;
         this.averageRating = averageRating;
-        this.appointmentStart = appointmentStart;
-        this.appointmentEnd = appointmentEnd;
     }
 
-    public CenterProfile(Long id, String name, String address, String description, Double averageRating,
-                         String appointmentStart, String appointmentEnd) {
+    public CenterProfile(Long id, String name, String address, String description, Double averageRating) {
 
         this.id = id;
         this.name = name;
         this.address = address;
         this.description = description;
         this.averageRating = averageRating;
-        this.appointmentStart = appointmentStart;
-        this.appointmentEnd = appointmentEnd;
     }
 
     @Override
@@ -140,9 +130,7 @@ public class CenterProfile {
                 ", name='" + name + '\'' +
                 ", address='" + address + '\'' +
                 ", description='" + description + '\'' +
-                ", averageRating=" + averageRating +
-                ", appointmentStart='" + appointmentStart + '\'' +
-                ", appointmentEnd='" + appointmentEnd + '\'' +
+                ", averageRating=" + averageRating + '\'' +
                 '}';
     }
 
@@ -184,21 +172,5 @@ public class CenterProfile {
 
     public void setAverageRating(Double averageRating) {
         this.averageRating = averageRating;
-    }
-
-    public String getAppointmentStart() {
-        return appointmentStart;
-    }
-
-    public void setAppointmentStart(String appointmentStart) {
-        this.appointmentStart = appointmentStart;
-    }
-
-    public String getAppointmentEnd() {
-        return appointmentEnd;
-    }
-
-    public void setAppointmentEnd(String appointmentEnd) {
-        this.appointmentEnd = appointmentEnd;
     }
 }

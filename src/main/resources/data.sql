@@ -3,14 +3,14 @@ insert into roles (name) values ('ROLE_STAFF');
 insert into roles (name) values ('ROLE_USER');
 
 
-insert into center_profile(name, address, description, average_rating, appointment_start, appointment_end, bloodA, bloodB, bloodAB, bloodO) values ('Poliklinika Radic', 'Bulevar Cara Lazara 2', 'Poliklinika', 5, '2020-01-01', '2020-01-01', 0, 0, 0, 0);
-insert into center_profile(name, address, description, average_rating, appointment_start, appointment_end, bloodA, bloodB, bloodAB, bloodO) values ('EuroLab', 'Bulevar Cara Lazara 2', 'Laboratorija', 5, '2020-01-01', '2020-01-01', 0, 0, 0, 0);
-insert into center_profile(name, address, description, average_rating, appointment_start, appointment_end, bloodA, bloodB, bloodAB, bloodO) values ('Laboratorija Radovic', 'Brace Ribnikar 14', 'Laboratorija', 3, '2020-01-01', '2020-01-01', 0, 0, 0, 0);
-insert into center_profile(name, address, description, average_rating, appointment_start, appointment_end, bloodA, bloodB, bloodAB, bloodO) values ('Apoteka Biljana i Luka', 'Maksima Gorkog 34a', 'Apoteka', 7, '2020-01-01', '2020-01-01', 0, 0, 0, 0);
-insert into center_profile(name, address, description, average_rating, appointment_start, appointment_end, bloodA, bloodB, bloodAB, bloodO) values ('Klinika Bajic', 'Bulevar Cara Lazara 52', 'Klinika', 4, '2020-01-01', '2020-01-01', 0, 0, 0, 0);
-insert into center_profile(name, address, description, average_rating, appointment_start, appointment_end, bloodA, bloodB, bloodAB, bloodO) values ('Klinika Jankovic', 'Bulevar Oslobodjenja 34', 'Klinika', 6, '2020-01-01', '2020-01-01', 0, 0, 0, 0);
-insert into center_profile(name, address, description, average_rating, appointment_start, appointment_end, bloodA, bloodB, bloodAB, bloodO) values ('Poliklinika Luka', 'Cara Dusana 76', 'Poliklinika', 5, '2020-01-01', '2020-01-01', 0, 0, 0, 0);
-insert into center_profile(name, address, description, average_rating, appointment_start, appointment_end, bloodA, bloodB, bloodAB, bloodO) values ('Apoteka Jovanovic', 'Bulevar Oslobodnejna 24', 'Apoteka', 8, '2020-01-01', '2020-01-01', 0, 0, 0, 0);
+insert into center_profile(name, address, description, average_rating, bloodA, bloodB, bloodAB, bloodO) values ('Poliklinika Radic', 'Bulevar Cara Lazara 2', 'Poliklinika', 5, 0, 0, 0, 0);
+insert into center_profile(name, address, description, average_rating, bloodA, bloodB, bloodAB, bloodO) values ('EuroLab', 'Bulevar Cara Lazara 2', 'Laboratorija', 5, 0, 0, 0, 0);
+insert into center_profile(name, address, description, average_rating, bloodA, bloodB, bloodAB, bloodO) values ('Laboratorija Radovic', 'Brace Ribnikar 14', 'Laboratorija', 3, 0, 0, 0, 0);
+insert into center_profile(name, address, description, average_rating, bloodA, bloodB, bloodAB, bloodO) values ('Apoteka Biljana i Luka', 'Maksima Gorkog 34a', 'Apoteka', 7, 0, 0, 0, 0);
+insert into center_profile(name, address, description, average_rating, bloodA, bloodB, bloodAB, bloodO) values ('Klinika Bajic', 'Bulevar Cara Lazara 52', 'Klinika', 4, 0, 0, 0, 0);
+insert into center_profile(name, address, description, average_rating, bloodA, bloodB, bloodAB, bloodO) values ('Klinika Jankovic', 'Bulevar Oslobodjenja 34', 'Klinika', 6, 0, 0, 0, 0);
+insert into center_profile(name, address, description, average_rating, bloodA, bloodB, bloodAB, bloodO) values ('Poliklinika Luka', 'Cara Dusana 76', 'Poliklinika', 5, 0, 0, 0, 0);
+insert into center_profile(name, address, description, average_rating, bloodA, bloodB, bloodAB, bloodO) values ('Apoteka Jovanovic', 'Bulevar Oslobodnejna 24', 'Apoteka', 8, 0, 0, 0, 0);
 
 
 insert into users (address, city, state, email, empscho, firstname, surname, username, gender, jmbg, occupation, password, phone, points, penals) values ('7309 Weeping Birch Plaza', 'Siikajoki', 'Finland', 'jdjorevic2s@i2i.jp', 'Fatz', 'Joline', 'Djorevic', 'admin', 'F', '647717210112', 'Senior Quality Engineer', '$2a$10$Jy8l3NpmvQR7T41xqqb6W.iodZWXl1IWyou3KItLpvyECWiUrpU8O', '143-467-7820',0,0);
@@ -415,12 +415,12 @@ insert into user_roles (user_id, role_id) values (198, 2);
 insert into user_roles (user_id, role_id) values (199, 3);
 insert into user_roles (user_id, role_id) values (200, 2);
 
-insert into blood_appointments(active, date, duration, time, reserved, center_profile_id) values (true, (SELECT TO_CHAR(NOW() :: DATE, 'yyyy-mm-dd')),30,'11:30', false, 1);
-insert into blood_appointments(active, date, duration, time, reserved, center_profile_id) values (true, (SELECT TO_CHAR(NOW() :: DATE, 'yyyy-mm-dd')),30,'12:30', false, 1);
-insert into blood_appointments(active, date, duration, time, reserved, center_profile_id) values (true, (SELECT TO_CHAR(NOW() :: DATE, 'yyyy-mm-dd')),30,'13:30', false, 1);
-insert into blood_appointments(active, date, duration, time, reserved, center_profile_id) values (true, (SELECT TO_CHAR(NOW() :: DATE, 'yyyy-mm-dd')),30,'14:30', false, 1);
-insert into blood_appointments(active, date, duration, time, reserved, center_profile_id) values (true, (SELECT TO_CHAR(NOW() :: DATE, 'yyyy-mm-dd')),30,'15:30', false, 1);
-insert into blood_appointments(active, date, duration, time, reserved, center_profile_id) values (true, (SELECT TO_CHAR(NOW() :: DATE, 'yyyy-mm-dd')),30,'16:30', false, 1);
+insert into blood_appointments(active, date, duration, time, reserved, center_profile_id) values (false, (SELECT TO_CHAR(NOW() :: DATE, 'yyyy-mm-dd')),30,'11:00', false, 1);
+insert into blood_appointments(active, date, duration, time, reserved, center_profile_id) values (false, (SELECT TO_CHAR(NOW() :: DATE, 'yyyy-mm-dd')),30,'12:00', false, 1);
+insert into blood_appointments(active, date, duration, time, reserved, center_profile_id) values (false, (SELECT TO_CHAR(NOW() :: DATE, 'yyyy-mm-dd')),30,'13:00', false, 1);
+insert into blood_appointments(active, date, duration, time, reserved, center_profile_id) values (false, (SELECT TO_CHAR(NOW() :: DATE, 'yyyy-mm-dd')),30,'14:00', false, 1);
+insert into blood_appointments(active, date, duration, time, reserved, center_profile_id) values (false, (SELECT TO_CHAR(NOW() :: DATE, 'yyyy-mm-dd')),30,'15:00', false, 1);
+insert into blood_appointments(active, date, duration, time, reserved, center_profile_id) values (false, (SELECT TO_CHAR(NOW() :: DATE, 'yyyy-mm-dd')),30,'16:00', false, 1);
 
 insert into user_appointments (user_id, blood_appointment_id) values (3, 1);
 insert into user_appointments (user_id, blood_appointment_id) values (5, 2);

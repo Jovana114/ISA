@@ -7,6 +7,7 @@ import com.example.demo.payload.response.MessageResponse;
 import com.example.demo.repository.CenterProfileRepository;
 import com.example.demo.service.CenterProfileService;
 import com.example.demo.service.UserService;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,7 @@ import java.util.Optional;
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("api/centerProfile")
+@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"})
 public class CenterProfileController {
 
     @Autowired
@@ -42,7 +44,6 @@ public class CenterProfileController {
             _CenterProfile.setAddress(centerProfile.getAddress());
             _CenterProfile.setDescription(centerProfile.getDescription());
             _CenterProfile.setAverageRating(centerProfile.getAverageRating());
-            _CenterProfile.setAppointmentEnd(centerProfile.getAppointmentEnd());
             return new ResponseEntity<>(centerProfileRepository.save(_CenterProfile), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -58,8 +59,7 @@ public class CenterProfileController {
                     .badRequest()
                     .body(new MessageResponse("Error: Name is already taken!"));
         }
-        CenterProfile cp = new CenterProfile(cr.getName(), cr.getAddress(), cr.getDescription(), cr.getAverageRating(),
-                cr.getAppointmentStart(), cr.getAppointmentEnd(), 0, 0, 0, 0);
+        CenterProfile cp = new CenterProfile(cr.getName(), cr.getAddress(), cr.getDescription(), cr.getAverageRating(), 0, 0, 0, 0);
         List<User> newList = new ArrayList<User>();
         User uu = userService.getOne(cr.getCentreAdmin());
         newList.add(uu);

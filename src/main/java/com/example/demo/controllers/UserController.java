@@ -126,13 +126,19 @@ public class UserController {
         return new ResponseEntity<>(listOfUsers,HttpStatus.ACCEPTED);
     }
 
-    @GetMapping("/blood-appointment/find/{data}")
+    @GetMapping("/blood-appointment/find/{date}/{time}")
     @PreAuthorize(" hasAuthority('ROLE_USER')")
-    public ResponseEntity<?> findAppointments(@PathVariable("data") String data){
+    public ResponseEntity<?> findAppointments(@PathVariable("date") String date, @PathVariable("time") String time){
         List<BloodDonationAppointment> bloodDonationAppointments = new ArrayList<>();
-        bloodDonationAppointments = bloodDurationAppointmentRepository.findByReservedFalseAndDateContainingOrTimeContaining(data,data);
-        if(!bloodDonationAppointments.isEmpty())
-            return new ResponseEntity<>(bloodDonationAppointments, HttpStatus.OK);
+        bloodDonationAppointments = bloodDurationAppointmentRepository.findByReservedFalseAndDateAndTime(date,time);
+        if(!bloodDonationAppointments.isEmpty()) {
+            List<Optional<CenterProfile>> centerProfileList = new ArrayList<>();
+            for (BloodDonationAppointment b : bloodDonationAppointments) {
+                centerProfileList.add(centerProfileRepository.findById(b.getCenter_profile().getId()));
+            }
+            if (!centerProfileList.isEmpty())
+                return new ResponseEntity<>(centerProfileList, HttpStatus.OK);
+        }
         return new ResponseEntity<>(bloodDonationAppointments,HttpStatus.ACCEPTED);
     }
 
