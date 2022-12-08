@@ -1,4 +1,4 @@
-import {useEffect, useRef, useState} from "react";
+import { useEffect, useRef, useState } from "react";
 import { Navigate } from "react-router-dom";
 import * as React from "react";
 import AppBar from "@mui/material/AppBar";
@@ -17,9 +17,9 @@ import AdbIcon from "@mui/icons-material/Adb";
 import axios from "axios";
 import "./UsersList.css";
 export const UsersList = () => {
-    const [data, setData] = useState({});
-    const inputRef = useRef<HTMLInputElement>(null);
-    const [usersData, setUsersData] = useState([]);
+  const [data, setData] = useState({});
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [usersData, setUsersData] = useState([]);
   const [navigate, setNavigate] = useState(false);
 
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
@@ -73,22 +73,25 @@ export const UsersList = () => {
   };
 
   const getUsers = () => {
-    axios.get(
-        process.env.REACT_APP_API_URL + '/user/getall', config
-    ).then((res: any) => {
+    axios
+      .get(process.env.REACT_APP_API_URL + "/user/getall", config)
+      .then((res: any) => {
         setUsersData(res.data);
-    });
-  }
+      });
+  };
 
   const searchUsers = () => {
     const searchUser = inputRef.current!.value;
-    axios.get(
-        process.env.REACT_APP_API_URL + '/user/getByName/' + searchUser, config
-    ).then((res: any) => {
-      console.log(res.data);
-      setUsersData(res.data);
-    });
-  }
+    axios
+      .get(
+        process.env.REACT_APP_API_URL + "/user/getByName/" + searchUser,
+        config
+      )
+      .then((res: any) => {
+        console.log(res.data);
+        setUsersData(res.data);
+      });
+  };
 
   useEffect(() => {
     (async () => {
@@ -102,9 +105,8 @@ export const UsersList = () => {
       }
     })();
     // (async () => {
-      getUsers();
+    getUsers();
     // })()
-
   }, [data]);
 
   const logout = async () => {
@@ -118,9 +120,9 @@ export const UsersList = () => {
   if (navigate) {
     return <Navigate to="/login" />;
   }
-    return (
-        <>
-            <AppBar position="static">
+  return (
+    <>
+      <AppBar position="static">
         <Container maxWidth="xl">
           <Toolbar disableGutters>
             <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
@@ -255,27 +257,39 @@ export const UsersList = () => {
           </Toolbar>
         </Container>
       </AppBar>
-          <div className="user-list-component">
-          <ul className="users-list">
-            {usersData?.map((user:any)=>(
-                <li key={user.id} className="user-item">
-                  <p><strong>Firstname: </strong><span>{user.firstname}</span></p>
-                  <p><strong>Surname: </strong><span>{user.surname}</span></p>
-                  <p><strong>Username: </strong><span>{user.username}</span></p>
-                  <p><strong>Number: </strong><span>{user.jmbg}</span></p>
-
-                </li>
-            ))}
-          </ul>
-            <div className="search-field">
-              <p>Search user</p>
-              <div>
-                <input ref={inputRef} type="text"/>
-                <button type="button" onClick={searchUsers}>Search</button>
-              </div>
-            </div>
+      <div className="user-list-component">
+        <ul className="users-list">
+          {usersData.map((user: any) => (
+            <li className="user-item">
+              <p>
+                <strong>Firstname: </strong>
+                <span>{user.firstname}</span>
+              </p>
+              <p>
+                <strong>Surname: </strong>
+                <span>{user.surname}</span>
+              </p>
+              <p>
+                <strong>Username: </strong>
+                <span>{user.username}</span>
+              </p>
+              <p>
+                <strong>Number: </strong>
+                <span>{user.jmbg}</span>
+              </p>
+            </li>
+          ))}
+        </ul>
+        <div className="search-field">
+          <p>Search user</p>
+          <div>
+            <input ref={inputRef} type="text" />
+            <button type="button" onClick={searchUsers}>
+              Search
+            </button>
           </div>
-      
+        </div>
+      </div>
     </>
-    )
-}
+  );
+};
