@@ -10,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.Optional;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -20,6 +19,32 @@ public class BloodReportController {
 
     @Autowired
     BloodReportRepository bloodReportRepository;
+
+    @PostMapping("/createBloodReport/")
+    @PreAuthorize("hasAuthority('ROLE_STAFF')")
+    public ResponseEntity<?> createBloodReport()
+    {
+
+        BloodReport bloodReport1 = new BloodReport(0, "", "",
+                "", "", "", "",
+                "", "", "", "",
+                "", "", "",
+                0,
+                "", "", "", 0,
+                0, "", "", "","",
+                "", "", "", "",
+                "", false, "", 0,
+                "", "", "",
+                0, "", false, false, false, false, false,
+                false, false, false, false, false, false, false, false, false,
+                false,false, false, false, false, false, false, false, false,
+                false, false,false, false, false, false, false, false, false,
+                false, false, false,false, false, false, false, false);
+
+        bloodReportRepository.save(bloodReport1);
+
+        return ResponseEntity.ok(new MessageResponse("Blood report registered successfully!"));
+    }
 
     @PutMapping("/updateBloodReport/{id}")
     @PreAuthorize("hasAuthority('ROLE_STAFF')")
