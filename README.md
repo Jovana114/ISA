@@ -10,6 +10,18 @@ Minimal [Spring Boot](http://projects.spring.io/spring-boot/) sample app.
 - git pull (main branch)
 - git checkout dev
 
+# On Ubuntu For frontent:
+- In package.json, change from   
+  
+  "scripts": {
+    "start": "react-scripts --openssl-legacy-provider start",
+  
+  to
+  
+  "scripts": {
+    "start": "react-scripts start",
+
+
 ## Project Specification
 - [Internet Softverske Arhitekture](https://github.com/ivana-k/isa-vezbe/blob/main/Specifikacija%20projekta/Specifikacija%20projekta%20E2-IN%20ISA%202022_2023.pdf)
 ## Requirements
