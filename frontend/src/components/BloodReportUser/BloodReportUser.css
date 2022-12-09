@@ -1,0 +1,39 @@
+.divSize50R,.divSize50L {
+    width: 48%;
+    margin-right: 2%;
+    display: inline-block;
+}
+.divSize50L{
+    margin-right: 0;
+    margin-left: 2%;
+}
+
+.report-wrapper{
+    position: absolute;
+    width: 680px;
+    height: 710px;
+    background: white;
+    z-index: 100;
+    border-radius: 20px;
+}
+
+.report-form-wrapper{
+    position: relative;
+    width: 100%;
+    display: block;
+    max-height: 660px;
+    height: 100%;
+    margin: 0 auto;
+    margin-top: 50px;
+    padding: 20px auto;
+    overflow: hidden;
+    overflow-y: scroll;
+}
+
+.report-exit{
+    right: 10px;
+    top: 10px;
+    float: right;
+    min-width: unset;
+    padding: 5px;
+}

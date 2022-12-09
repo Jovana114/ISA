@@ -135,7 +135,7 @@ let dataBloodReport = JSON.parse(sessionStorage.getItem("blood_report")!);
                 <form className="Auth-form" onSubmit={handleEditProfile}>
                   <div className="Auth-form-content">
                     <div className="form-group mt-3">
-                      <label style={{ textTransform: "capitalize" }}>Blood type</label>
+                      <label style={{  }}>Blood type</label>
                       <input
                         required
                         type="text"
@@ -144,7 +144,7 @@ let dataBloodReport = JSON.parse(sessionStorage.getItem("blood_report")!);
                       />
                     </div>
                     <div className="form-group mt-3">
-                      <label style={{ textTransform: "capitalize" }}>Note to md</label>
+                      <label style={{  }}>Note to md</label>
                       <input
                         required
                         type="text"
@@ -153,7 +153,7 @@ let dataBloodReport = JSON.parse(sessionStorage.getItem("blood_report")!);
                       />
                     </div>
                     <div className="form-group mt-3">
-                      <label style={{ textTransform: "capitalize" }}>Copper sulfate</label>
+                      <label style={{}}>Copper sulfate</label>
                       <input
                         required
                         type="text"
@@ -162,7 +162,7 @@ let dataBloodReport = JSON.parse(sessionStorage.getItem("blood_report")!);
                       />
                     </div>
                     <div className="form-group mt-3">
-                      <label style={{ textTransform: "capitalize" }}>Normal level</label>
+                      <label style={{  }}>Normal level</label>
                       <input
                         required
                         type="text"
@@ -171,7 +171,7 @@ let dataBloodReport = JSON.parse(sessionStorage.getItem("blood_report")!);
                       />
                     </div>
                     <div className="form-group mt-3">
-                      <label style={{ textTransform: "capitalize" }}>Low level</label>
+                      <label style={{  }}>Low level</label>
                       <input
                         required
                         type="text"
@@ -189,7 +189,7 @@ let dataBloodReport = JSON.parse(sessionStorage.getItem("blood_report")!);
                       />
                     </div>
                     <div className="form-group mt-3">
-                      <label style={{ textTransform: "capitalize" }}>Read value</label>
+                      <label style={{  }}>Read value</label>
                       <input
                         required
                         type="text"
@@ -234,7 +234,7 @@ let dataBloodReport = JSON.parse(sessionStorage.getItem("blood_report")!);
                       />
                     </div>
                     <div className="form-group mt-3">
-                      <label style={{ textTransform: "capitalize" }}>TB</label>
+                      <label style={{ }}>TB</label>
                       <input
                         required
                         type="text"
@@ -243,7 +243,7 @@ let dataBloodReport = JSON.parse(sessionStorage.getItem("blood_report")!);
                       />
                     </div>
                     <div className="form-group mt-3">
-                      <label style={{ textTransform: "capitalize" }}>Bag type</label>
+                      <label style={{ }}>Bag type</label>
                       <input
                         required
                         type="text"
@@ -252,7 +252,7 @@ let dataBloodReport = JSON.parse(sessionStorage.getItem("blood_report")!);
                       />
                     </div>
                     <div className="form-group mt-3">
-                      <label style={{ textTransform: "capitalize" }}>Note</label>
+                      <label style={{  }}>Note</label>
                       <input
                         required
                         type="text"
@@ -261,7 +261,7 @@ let dataBloodReport = JSON.parse(sessionStorage.getItem("blood_report")!);
                       />
                     </div>
                     <div className="form-group mt-3">
-                      <label style={{ textTransform: "capitalize" }}>Accepted</label>
+                      <label style={{ }}>Accepted</label>
                       <input
                         required
                         type="text"
@@ -270,7 +270,7 @@ let dataBloodReport = JSON.parse(sessionStorage.getItem("blood_report")!);
                       />
                     </div>
                     <div className="form-group mt-3">
-                      <label style={{ textTransform: "capitalize" }}>Reason for rejection</label>
+                      <label style={{  }}>Reason for rejection</label>
                       <input
                         required
                         type="text"
@@ -279,7 +279,7 @@ let dataBloodReport = JSON.parse(sessionStorage.getItem("blood_report")!);
                       />
                     </div>
                     <div className="form-group mt-3">
-                      <label style={{ textTransform: "capitalize" }}>Bag lot number</label>
+                      <label style={{  }}>Bag lot number</label>
                       <input
                         required
                         type="text"
@@ -288,7 +288,7 @@ let dataBloodReport = JSON.parse(sessionStorage.getItem("blood_report")!);
                       />
                     </div>
                     <div className="form-group mt-3">
-                      <label style={{ textTransform: "capitalize" }}>Reason for rejection</label>
+                      <label style={{  }}>Reason for rejection</label>
                       <input
                         required
                         type="text"
@@ -297,7 +297,7 @@ let dataBloodReport = JSON.parse(sessionStorage.getItem("blood_report")!);
                       />
                     </div>
                     <div className="form-group mt-3">
-                      <label style={{ textTransform: "capitalize" }}>Puncture site</label>
+                      <label style={{ }}>Puncture site</label>
                       <input
                         required
                         type="text"
@@ -306,7 +306,7 @@ let dataBloodReport = JSON.parse(sessionStorage.getItem("blood_report")!);
                       />
                     </div>
                     <div className="form-group mt-3">
-                      <label style={{ textTransform: "capitalize" }}>Begining of donation</label>
+                      <label style={{ }}>Begining of donation</label>
                       <input
                         required
                         type="text"
@@ -315,7 +315,7 @@ let dataBloodReport = JSON.parse(sessionStorage.getItem("blood_report")!);
                       />
                     </div>
                     <div className="form-group mt-3">
-                      <label style={{ textTransform: "capitalize" }}>End of donation</label>
+                      <label style={{  }}>End of donation</label>
                       <input
                         required
                         type="text"
@@ -324,7 +324,7 @@ let dataBloodReport = JSON.parse(sessionStorage.getItem("blood_report")!);
                       />
                     </div>
                     <div className="form-group mt-3">
-                      <label style={{ textTransform: "capitalize" }}>Amount of blood taken</label>
+                      <label style={{  }}>Amount of blood taken</label>
                       <input
                         required
                         type="text"
@@ -333,7 +333,7 @@ let dataBloodReport = JSON.parse(sessionStorage.getItem("blood_report")!);
                       />
                     </div>
                     <div className="form-group mt-3">
-                      <label style={{ textTransform: "capitalize" }}>Reason for suspension</label>
+                      <label style={{  }}>Reason for suspension</label>
                       <input
                         required
                         type="text"
