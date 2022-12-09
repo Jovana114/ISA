@@ -1,9 +1,3 @@
-.divSize50R,.divSize50L {
-    width: 48%;
-    margin-right: 2%;
-    display: inline-block;
-}
-.divSize50L{
-    margin-right: 0;
-    margin-left: 2%;
+.dialog{
+    padding: 20px;
 }
