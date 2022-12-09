@@ -11,68 +11,173 @@ interface props {
 }
 
 export default function BloodReportUser({ showReport, id, close }: props) {
-  const handleUserReport = async (e: any) => {
-    e.preventDefault();
-  };
-
   const [checked, setChecked] = useState(false);
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setChecked(event.target.checked);
+  const [num, setNum] = useState(0);
+  const [date, setDate] = useState("");
+  const [name, setName] = useState("");
+  const [jmbg, setJmbg] = useState("");
+  const [birth, setBirth] = useState("");
+  const [gender, setGender] = useState("");
+  const [address, setAddress] = useState("");
+  const [township, setTownship] = useState("");
+  const [location, setLocation] = useState("");
+  const [phoneHome, setPhoneHome] = useState("");
+  const [phoneJob, setPhoneJob] = useState("");
+  const [phoneMobile, setPhoneMobile] = useState("");
+  const [companyOrSchool, setCompanyOrSchool] = useState("");
+  const [profession, setProfession] = useState("");
+  const [
+    numberOfPreviousBloodDonations,
+    setNumberOfPreviousBloodDonations,
+  ] = useState(0);
+  const [q1, setQ1] = useState(false);
+  const [q2, setQ2] = useState(false);
+  const [q3, setQ3] = useState(false);
+  const [q4, setQ4] = useState(false);
+  const [q5, setQ5] = useState(false);
+  const [q6, setQ6] = useState(false);
+  const [q7, setQ7] = useState(false);
+  const [q8, setQ8] = useState(false);
+  const [q9, setQ9] = useState(false);
+  const [q10, setQ10] = useState(false);
+  const [q11, setQ11] = useState(false);
+  const [q12, setQ12] = useState(false);
+  const [q13, setQ13] = useState(false);
+  const [q14, setQ14] = useState(false);
+  const [q15, setQ15] = useState(false);
+  const [q16, setQ16] = useState(false);
+  const [q17, setQ17] = useState(false);
+  const [q18, setQ18] = useState(false);
+  const [q19, setQ19] = useState(false);
+  const [q20a, setQ20a] = useState(false);
+  const [q20b, setQ20b] = useState(false);
+  const [q20c, setQ20c] = useState(false);
+  const [q21, setQ21] = useState(false);
+  const [q22a, setQ22a] = useState(false);
+  const [q22b, setQ22b] = useState(false);
+  const [q22c, setQ22c] = useState(false);
+  const [q22d, setQ22d] = useState(false);
+  const [q22e, setQ22e] = useState(false);
+  const [q22f, setQ22f] = useState(false);
+  const [q22g, setQ22g] = useState(false);
+  const [q23a, setQ23a] = useState(false);
+  const [q23b, setQ23b] = useState(false);
+  const [q23c, setQ23c] = useState(false);
+  const [q23d, setQ23d] = useState(false);
+  const [q23e, setQ23e] = useState(false);
+  const [q23f, setQ23f] = useState(false);
+  const [q24, setQ24] = useState(false);
+  const [q25, setQ25] = useState(false);
+  const [q26, setQ26] = useState(false);
+
+  var jsonData = {
+    center_profile_id: id,
+    num: num,
+    date: date,
+    name: name,
+    jmbg: jmbg,
+    birth: birth,
+    gender: gender,
+    address: address,
+    township: township,
+    location: location,
+    phone_home: phoneHome,
+    phone_job: phoneJob,
+    phone_mobile: phoneMobile,
+    company_or_school: companyOrSchool,
+    profession: profession,
+    number_of_previous_blood_donations: numberOfPreviousBloodDonations,
+    q1: q1,
+    q2: q2,
+    q3: q3,
+    q4: q4,
+    q5: q5,
+    q6: q6,
+    q7: q7,
+    q8: q8,
+    q9: q9,
+    q10: q10,
+    q11: q11,
+    q12: q12,
+    q13: q13,
+    q14: q14,
+    q15: q15,
+    q16: q16,
+    q17: q17,
+    q18: q18,
+    q19: q19,
+    q20a: q20a,
+    q20b: q20b,
+    q20c: q20c,
+    q21: q21,
+    q22a: q22a,
+    q22b: q22b,
+    q22c: q22c,
+    q22d: q22d,
+    q22e: q22e,
+    q22g: q22g,
+    q23a: q23a,
+    q23b: q23b,
+    q23c: q23c,
+    q23d: q23d,
+    q23e: q23e,
+    q23f: q23f,
+    q24: q24,
+    q25: q25,
+    q26: q26,
   };
+
+  // const config = {
+  //   headers: {
+  //     "Content-type": "application/json",
+  //     Authorization: `Bearer ${JSON.parse(sessionStorage.getItem("token")!)}`,
+  //   },
+  // };
+
+  const handleUserReport = async (e: any) => {
+    e.preventDefault();
+
+    const requestOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${JSON.parse(sessionStorage.getItem("token")!)}`,
+      },
+
+      body: JSON.stringify(jsonData),
+    };
+    fetch(
+      process.env.REACT_APP_API_URL + `/bloodReport/createBloodReport/${id}`,
+      requestOptions
+    ).then((response) => {
+      if (response.ok) close();
+    });
+  };
+
   return (
     <div
+      className="report-wrapper"
       style={{
-        position: "absolute",
-        width: "680px",
-        height: "710px",
-        background: "white",
-        zIndex: "100",
         display: `${showReport ? "block" : "none"}`,
-        borderRadius: "20px",
       }}
     >
-      <div
-        style={{
-          position: "relative",
-        }}
-      >
-        <Button
-          onClick={close}
-          style={{
-            right: "10px",
-            top: "10px",
-            float: "right",
-            minWidth: "unset",
-            padding: "5px",
-          }}
-        >
+      <div>
+        <Button onClick={close} className="report-exit">
           <CloseIcon />
         </Button>
       </div>
-      <div
-        style={{
-          position: "relative",
-          width: "100%",
-          display: "block",
-          maxHeight: '660px',
-          height: "100%",
-          margin: "0 auto",
-          marginTop: "50px",
-          padding: "20px auto",
-          overflow: 'hidden',
-          overflowY: 'scroll'
-        }}
-      >
-        {/* Ovde pises */}
+      <div className="report-form-wrapper">
         <div className="Auth-form-container dialog">
           <form className="Auth-form" onSubmit={handleUserReport}>
             <div className="Auth-form-content">
               <div className="form-group mt-3 divSize50R">
                 <label style={{ textTransform: "capitalize" }}>No</label>
                 <input
+                  value={num}
+                  onChange={(e) => setNum(Number(e.target.value))}
                   required
-                  type="text"
+                  type="number"
                   className="form-control mt-1"
                   placeholder={""}
                 />
@@ -80,326 +185,396 @@ export default function BloodReportUser({ showReport, id, close }: props) {
               <div className="form-group mt-3 divSize50L">
                 <label style={{ textTransform: "capitalize" }}>Date</label>
                 <input
+                  value={date}
+                  onChange={(e) => setDate(e.target.value)}
                   required
                   type="text"
                   className="form-control mt-1"
-                  placeholder={"Placeholder"}
-                  defaultValue={"yyyy-mm-dd"}
+                  placeholder={""}
                 />
               </div>
               <div className="form-group mt-3 divSize50R">
                 <label style={{}}>Last name, parent's name, first name</label>
-                <input required type="text" className="form-control mt-1" />
+                <input
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  required
+                  type="text"
+                  className="form-control mt-1"
+                />
               </div>
               <div className="form-group mt-3 divSize50L">
                 <label style={{ textTransform: "capitalize" }}>Jmbg</label>
-                <input required type="text" className="form-control mt-1" />
-              </div><div className="form-group mt-3">
-                <label style={{ textTransform: "capitalize" }}>Gender</label>
                 <input
+                  value={jmbg}
+                  onChange={(e) => setJmbg(e.target.value)}
                   required
                   type="text"
                   className="form-control mt-1"
-                  placeholder={"Placeholder"}
-                  defaultValue={"F/M"}
                 />
-                <label style={{ textTransform: "capitalize" }}>Address</label>
-                <input required type="text" className="form-control mt-1" />
               </div>
               <div className="form-group mt-3">
                 <label style={{ textTransform: "capitalize" }}>
-                  Date of birth
+                  Date of Birth
                 </label>
                 <input
+                  value={birth}
+                  onChange={(e) => setBirth(e.target.value)}
+                  required
+                  type="date"
+                  className="form-control mt-1"
+                />
+              </div>
+              <div className="form-group mt-3">
+                <label style={{ textTransform: "capitalize" }}>Gender</label>
+                <input
+                  value={gender}
+                  onChange={(e) => setGender(e.target.value)}
                   required
                   type="text"
                   className="form-control mt-1"
-                  placeholder={"Placeholder"}
-                  defaultValue={"yyyy-mm-dd"}
+                  placeholder={"F/M"}
                 />
               </div>
-              
+              <div className="form-group mt-3">
+                <label style={{ textTransform: "capitalize" }}>Address</label>
+                <input
+                  value={address}
+                  onChange={(e) => setAddress(e.target.value)}
+                  required
+                  type="text"
+                  className="form-control mt-1"
+                />
+              </div>
               <div className="form-group mt-3 divSize50R">
                 <label style={{ textTransform: "capitalize" }}>Township</label>
-                <input required type="text" className="form-control mt-1" />
+                <input
+                  value={township}
+                  onChange={(e) => setTownship(e.target.value)}
+                  required
+                  type="text"
+                  className="form-control mt-1"
+                />
               </div>
               <div className="form-group mt-3 divSize50L">
                 <label style={{ textTransform: "capitalize" }}>Location</label>
-                <input required type="text" className="form-control mt-1" />
+                <input
+                  value={location}
+                  onChange={(e) => setLocation(e.target.value)}
+                  required
+                  type="text"
+                  className="form-control mt-1"
+                />
               </div>
               <div className="form-group mt-3 divSize50R">
                 <label style={{ textTransform: "capitalize" }}>
                   Phone-home
                 </label>
-                <input required type="text" className="form-control mt-1" />
+                <input
+                  value={phoneHome}
+                  onChange={(e) => setPhoneHome(e.target.value)}
+                  required
+                  type="text"
+                  className="form-control mt-1"
+                />
               </div>
               <div className="form-group mt-3 divSize50L">
                 <label style={{ textTransform: "capitalize" }}>Phone-job</label>
-                <input required type="text" className="form-control mt-1" />
+                <input
+                  value={phoneJob}
+                  onChange={(e) => setPhoneJob(e.target.value)}
+                  required
+                  type="text"
+                  className="form-control mt-1"
+                />
               </div>
               <div className="form-group mt-3">
                 <label style={{ textTransform: "capitalize" }}>
                   Phone-mobile
                 </label>
-                <input required type="text" className="form-control mt-1" />
+                <input
+                  value={phoneMobile}
+                  onChange={(e) => setPhoneMobile(e.target.value)}
+                  required
+                  type="text"
+                  className="form-control mt-1"
+                />
               </div>
               <div className="form-group mt-3">
-                <label style={{ }}>
+                <label style={{ textTransform: "capitalize" }}>
                   Company, school or college
                 </label>
-                </div>
+                <input
+                  value={companyOrSchool}
+                  onChange={(e) => setCompanyOrSchool(e.target.value)}
+                  required
+                  type="text"
+                  className="form-control mt-1"
+                />
+              </div>
               <div className="form-group mt-3">
-                <input required type="text" className="form-control mt-1" />
                 <label style={{ textTransform: "capitalize" }}>
                   Profession
                 </label>
-                <input required type="text" className="form-control mt-1" />
+                <input
+                  value={profession}
+                  onChange={(e) => setProfession(e.target.value)}
+                  required
+                  type="text"
+                  className="form-control mt-1"
+                />
               </div>
               <div className="form-group mt-3">
-                <label style={{  }}>
+                <label style={{ textTransform: "capitalize" }}>
                   Number of previous blood donations
                 </label>
-                <input required type="text" className="form-control mt-1" />
+                <input
+                  value={numberOfPreviousBloodDonations}
+                  onChange={(e) =>
+                    setNumberOfPreviousBloodDonations(Number(e.target.value))
+                  }
+                  required
+                  type="number"
+                  className="form-control mt-1"
+                />
               </div>
               <div className="form-group mt-3">
-                <label style={{  }}>
+                <label style={{}}>
                   1) Da li ste do sada dobrovoljno davali krv ili komponente
                   krvi?
                 </label>
                 <Switch
-                  checked={checked}
-                  onChange={handleChange}
+                  checked={q1}
+                  onChange={() => setQ1(!q1)}
                   inputProps={{ "aria-label": "controlled" }}
                 />
               </div>
               <div className="form-group mt-3">
-                <label style={{ }}>
+                <label style={{}}>
                   2) Da li ste ikada bili odbijeni kao davalac krvi ili
                   komponente krvi?
                 </label>
                 <Switch
-                  checked={checked}
-                  onChange={handleChange}
+                  checked={q2}
+                  onChange={() => setQ2(!q2)}
                   inputProps={{ "aria-label": "controlled" }}
                 />
               </div>
               <div className="form-group mt-3">
-                <label style={{  }}>
+                <label style={{}}>
                   3) Da li se trenutno osećate zdravim, sposobnim i odmornim da
                   date krv ili komponente krvi?
                 </label>
                 <Switch
-                  checked={checked}
-                  onChange={handleChange}
+                  checked={q3}
+                  onChange={() => setQ3(!q3)}
                   inputProps={{ "aria-label": "controlled" }}
                 />
               </div>
               <div className="form-group mt-3">
-                <label style={{ }}>
+                <label style={{}}>
                   4) Da li ste nešto jeli pre dolaska na davanje krvi ili
                   komponente krvi?
                 </label>
                 <Switch
-                  checked={checked}
-                  onChange={handleChange}
+                  checked={q4}
+                  onChange={() => setQ4(!q4)}
                   inputProps={{ "aria-label": "controlled" }}
                 />
               </div>
               <div className="form-group mt-3">
-                <label style={{  }}>
+                <label style={{}}>
                   5) Da li se bavite opasnim zanimanjem ili hobijem?
                 </label>
                 <Switch
-                  checked={checked}
-                  onChange={handleChange}
+                  checked={q5}
+                  onChange={() => setQ5(!q5)}
                   inputProps={{ "aria-label": "controlled" }}
                 />
               </div>
               <div className="form-group mt-3">
-                <label style={{ }}>
+                <label style={{}}>
                   6) Da li redovno (svakodnevno) uzimate bilo kakve lekove?
                 </label>
                 <Switch
-                  checked={checked}
-                  onChange={handleChange}
+                  checked={q6}
+                  onChange={() => setQ6(!q6)}
                   inputProps={{ "aria-label": "controlled" }}
                 />
               </div>
               <div className="form-group mt-3">
-                <label style={{  }}>
+                <label style={{}}>
                   7) Da li ste poslednja 2-3 dana uzimali bilo kakve lekove
                   (npr. Brufen, Kafetin, Analgin...)?
                 </label>
                 <Switch
-                  checked={checked}
-                  onChange={handleChange}
+                  checked={q7}
+                  onChange={() => setQ7(!q7)}
                   inputProps={{ "aria-label": "controlled" }}
                 />
               </div>
               <div className="form-group mt-3">
-                <label style={{ }}>
+                <label style={{}}>
                   8) Da li stalno uzimate Aspirin (Cardiopirin)? Da li ste ga
                   uzimali u poslednjih 5 dana?
                 </label>
                 <Switch
-                  checked={checked}
-                  onChange={handleChange}
+                  checked={q8}
+                  onChange={() => setQ8(!q8)}
                   inputProps={{ "aria-label": "controlled" }}
                 />
               </div>
               <div className="form-group mt-3">
-                <label style={{  }}>
+                <label style={{}}>
                   9) Da li ste do sada ispitivani ili lečeni u bolnici ili ste
                   trenutno na ispitivanju ili bolovanju?
                 </label>
                 <Switch
-                  checked={checked}
-                  onChange={handleChange}
+                  checked={q9}
+                  onChange={() => setQ9(!q9)}
                   inputProps={{ "aria-label": "controlled" }}
                 />
               </div>
               <div className="form-group mt-3">
-                <label style={{  }}>
+                <label style={{}}>
                   10) Da li ste vadili zub u proteklih 7 dana?
                 </label>
                 <Switch
-                  checked={checked}
-                  onChange={handleChange}
+                  checked={q10}
+                  onChange={() => setQ10(!q10)}
                   inputProps={{ "aria-label": "controlled" }}
                 />
               </div>
               <div className="form-group mt-3">
-                <label style={{  }}>
+                <label style={{}}>
                   11) Da li ste u poslednjih 7 do 10 dana imali temperaturu
                   preko 38 C, kijavicu, prehladu ili uzimali antibiotike?
                 </label>
                 <Switch
-                  checked={checked}
-                  onChange={handleChange}
+                  checked={q11}
+                  onChange={() => setQ11(!q11)}
                   inputProps={{ "aria-label": "controlled" }}
                 />
               </div>
               <div className="form-group mt-3">
-                <label style={{  }}>
+                <label style={{}}>
                   12) Da li ste primili bilo koju vakcinu ili serum u proteklih
                   12 meseci?
                 </label>
                 <Switch
-                  checked={checked}
-                  onChange={handleChange}
+                  checked={q12}
+                  onChange={() => setQ12(!q12)}
                   inputProps={{ "aria-label": "controlled" }}
                 />
               </div>
               <div className="form-group mt-3">
-                <label style={{  }}>
+                <label style={{}}>
                   13) Da li ste u poslednjih 6 meseci naglo izgubili na težini?
                 </label>
                 <Switch
-                  checked={checked}
-                  onChange={handleChange}
+                  checked={q13}
+                  onChange={() => setQ13(!q13)}
                   inputProps={{ "aria-label": "controlled" }}
                 />
               </div>
               <div className="form-group mt-3">
-                <label style={{  }}>
+                <label style={{}}>
                   14) Da li ste imali ubode krpelja u proteklih 12 meseci i da
                   li ste se zbog toga javljali lekaru?
                 </label>
                 <Switch
-                  checked={checked}
-                  onChange={handleChange}
+                  checked={q14}
+                  onChange={() => setQ14(!q14)}
                   inputProps={{ "aria-label": "controlled" }}
                 />
               </div>
               <div className="form-group mt-3">
-                <label style={{  }}>
+                <label style={{}}>
                   15) Da li ste ikada lečeni od epilepsije (padavice), šećerne
                   bolesti, astme, tuberkuloze, infarkta, moždanog udara,
                   malignih oboljenja, mentalnih bolesti ili malarije?
                 </label>
                 <Switch
-                  checked={checked}
-                  onChange={handleChange}
+                  checked={q15}
+                  onChange={() => setQ15(!q15)}
                   inputProps={{ "aria-label": "controlled" }}
                 />
               </div>
               <div className="form-group mt-3">
-                <label style={{  }}>
+                <label style={{}}>
                   16) Da li bolujete od neke druge hronične bolesti: srca,
                   pluća, bubrega, jetre, želuca i creva, kostiju i zglobova,
                   nervnog sistema, krvi i krvnih sudova?
                 </label>
                 <Switch
-                  checked={checked}
-                  onChange={handleChange}
+                  checked={q16}
+                  onChange={() => setQ16(!q16)}
                   inputProps={{ "aria-label": "controlled" }}
                 />
               </div>
               <div className="form-group mt-3">
-                <label style={{  }}>
+                <label style={{}}>
                   17) Da li ste ikada imali problema sa štitastom žlezdom,
                   hipofizom i/ili primali hormone?
                 </label>
                 <Switch
-                  checked={checked}
-                  onChange={handleChange}
+                  checked={q17}
+                  onChange={() => setQ17(!q17)}
                   inputProps={{ "aria-label": "controlled" }}
                 />
               </div>
               <div className="form-group mt-3">
-                <label style={{ }}>
+                <label style={{}}>
                   18) Da li imate neke promene na koži ili bolujete od alergije?
                 </label>
                 <Switch
-                  checked={checked}
-                  onChange={handleChange}
+                  checked={q18}
+                  onChange={() => setQ18(!q18)}
                   inputProps={{ "aria-label": "controlled" }}
                 />
               </div>
               <div className="form-group mt-3">
-                <label style={{  }}>
+                <label style={{}}>
                   19) Da li dugo krvarite posle povrede ili spontano dobijate
                   modrice?
                 </label>
                 <Switch
-                  checked={checked}
-                  onChange={handleChange}
+                  checked={q19}
+                  onChange={() => setQ19(!q19)}
                   inputProps={{ "aria-label": "controlled" }}
                 />
               </div>
               <div className="form-group mt-3">
-                <label style={{  }}>
-                  20) Da li ste u proteklih 6 meseci:
-                </label>
-                <label style={{  }}>
+                <label style={{}}>20) Da li ste u proteklih 6 meseci:</label>
+                <label style={{}}>
                   {" "}
                   a) imali neku operaciju ili primili krv?
                 </label>
                 <Switch
-                  checked={checked}
-                  onChange={handleChange}
+                  checked={q20a}
+                  onChange={() => setQ20a(!q20a)}
                   inputProps={{ "aria-label": "controlled" }}
                 />
               </div>
               <div className="form-group mt-3">
-                <label style={{  }}>
+                <label style={{}}>
                   {" "}
                   b) putovali ili živeli u inostranstvu?
                 </label>
                 <Switch
-                  checked={checked}
-                  onChange={handleChange}
+                  checked={q20b}
+                  onChange={() => setQ20b(!q20b)}
                   inputProps={{ "aria-label": "controlled" }}
                 />
               </div>
               <div className="form-group mt-3">
-                <label style={{  }}>
+                <label style={{}}>
                   {" "}
                   c) imali akupunkturu, pirsing ili tetovažu?
                 </label>
                 <Switch
-                  checked={checked}
-                  onChange={handleChange}
+                  checked={q20c}
+                  onChange={() => setQ20c(!q20c)}
                   inputProps={{ "aria-label": "controlled" }}
                 />
               </div>
@@ -408,212 +583,193 @@ export default function BloodReportUser({ showReport, id, close }: props) {
                   21) Da li ste pili alkohol u poslednjih 6 sati?
                 </label>
                 <Switch
-                  checked={checked}
-                  onChange={handleChange}
+                  checked={q21}
+                  onChange={() => setQ21(!q21)}
                   inputProps={{ "aria-label": "controlled" }}
                 />
               </div>
               <div className="form-group mt-3">
-                <label style={{  }}>
+                <label style={{}}>
                   22) Oblici rizičnih stanja i ponašanja::
                 </label>
-                <label style={{ }}>
+                <label style={{}}>
                   {" "}
                   a) Da li ste bolovali ili bolujete od hepatitisa (žutice) A, B
                   ili C?
                 </label>
                 <Switch
-                  checked={checked}
-                  onChange={handleChange}
+                  checked={q22a}
+                  onChange={() => setQ22a(!q22a)}
                   inputProps={{ "aria-label": "controlled" }}
                 />
               </div>
               <div className="form-group mt-3">
-                <label style={{  }}>
+                <label style={{}}>
                   {" "}
                   b) Da li ste bili u kontaktu ili živite sa osobom obolelom od
                   hepatitisa (žutice)?
                 </label>
                 <Switch
-                  checked={checked}
-                  onChange={handleChange}
+                  checked={q22b}
+                  onChange={() => setQ22b(!q22b)}
                   inputProps={{ "aria-label": "controlled" }}
                 />
               </div>
               <div className="form-group mt-3">
-                <label style={{  }}>
+                <label style={{}}>
                   {" "}
                   c) Da li mislite da je postojala mogućnost da se zarazite
                   HIV-om?
                 </label>
                 <Switch
-                  checked={checked}
-                  onChange={handleChange}
+                  checked={q22c}
+                  onChange={() => setQ22c(!q22c)}
                   inputProps={{ "aria-label": "controlled" }}
                 />
               </div>
               <div className="form-group mt-3">
-                <label style={{  }}>
+                <label style={{}}>
                   {" "}
                   d) Da li ste ikada koristili bilo koju vrstu droge?
                 </label>
                 <Switch
-                  checked={checked}
-                  onChange={handleChange}
+                  checked={q22d}
+                  onChange={() => setQ22d(!q22d)}
                   inputProps={{ "aria-label": "controlled" }}
                 />
               </div>
               <div className="form-group mt-3">
-                <label style={{  }}>
+                <label style={{}}>
                   {" "}
                   e) Da li ste ikada koristili preparate koji se zvanično ne
                   izdaju na recept i/ili preparate za bodi bilding (steroide)?
                 </label>
                 <Switch
-                  checked={checked}
-                  onChange={handleChange}
+                  checked={q22e}
+                  onChange={() => setQ22e(!q22e)}
                   inputProps={{ "aria-label": "controlled" }}
                 />
               </div>
               <div className="form-group mt-3">
-                <label style={{  }}>
+                <label style={{}}>
                   {" "}
                   f) Da li ste ikada za pružanje seksualnih usluga uzimali novac
                   ili drogu?
                 </label>
                 <Switch
-                  checked={checked}
-                  onChange={handleChange}
+                  checked={q22f}
+                  onChange={() => setQ22f(!q22f)}
                   inputProps={{ "aria-label": "controlled" }}
                 />
               </div>
               <div className="form-group mt-3">
-                <label style={{  }}>
+                <label style={{}}>
                   {" "}
                   g) Da li znate na koje sve načine ste mogli izložiti sebe
                   riziku od zaraznih, krvlju prenosivih bolesti?
                 </label>
                 <Switch
-                  checked={checked}
-                  onChange={handleChange}
+                  checked={q22g}
+                  onChange={() => setQ22g(!q22g)}
                   inputProps={{ "aria-label": "controlled" }}
                 />
               </div>
               <div className="form-group mt-3">
-                <label style={{ textTransform: "capitalize" }}>
-                  {" "}
-                  e) Da li znate na koje sve načine ste mogli izložiti sebe
-                  riziku od zaraznih, krvlju prenosivih bolesti?
-                </label>
-                <Switch
-                  checked={checked}
-                  onChange={handleChange}
-                  inputProps={{ "aria-label": "controlled" }}
-                />
-              </div>
-              <div className="form-group mt-3">
-                <label style={{  }}>
+                <label style={{}}>
                   23) Da li ste imali seksualne odnose tokom proteklih 6 meseci
                   bez zaštite:
                 </label>
-                <label style={{  }}>
-                  {" "}
-                  a) sa osobom koja je HIV pozitivna?
-                </label>
+                <label style={{}}> a) sa osobom koja je HIV pozitivna?</label>
                 <Switch
-                  checked={checked}
-                  onChange={handleChange}
+                  checked={q23a}
+                  onChange={() => setQ23a(!q23a)}
                   inputProps={{ "aria-label": "controlled" }}
                 />
               </div>
               <div className="form-group mt-3">
-                <label style={{  }}>
+                <label style={{}}>
                   {" "}
                   b) sa osobom koja ima ili je imala hepatitis (žuticu) B ili C?
                 </label>
                 <Switch
-                  checked={checked}
-                  onChange={handleChange}
+                  checked={q23b}
+                  onChange={() => setQ23b(!q23b)}
                   inputProps={{ "aria-label": "controlled" }}
                 />
               </div>
               <div className="form-group mt-3">
-                <label style={{  }}>
+                <label style={{}}>
                   {" "}
                   c) sa osobom koja je ikada za pružanje seksualnih usluga
                   uzimala novac ili drogu?
                 </label>
                 <Switch
-                  checked={checked}
-                  onChange={handleChange}
+                  checked={q23c}
+                  onChange={() => setQ23c(!q23c)}
                   inputProps={{ "aria-label": "controlled" }}
                 />
               </div>
               <div className="form-group mt-3">
-                <label style={{ }}>
+                <label style={{}}>
                   {" "}
                   d) sa osobom koja je ikada koristila bilo koju vrstu droge na
                   bilo koji način?
                 </label>
                 <Switch
-                  checked={checked}
-                  onChange={handleChange}
+                  checked={q23d}
+                  onChange={() => setQ23d(!q23d)}
                   inputProps={{ "aria-label": "controlled" }}
                 />
               </div>
               <div className="form-group mt-3">
-                <label style={{  }}>
+                <label style={{}}>
                   {" "}
                   e) sa osobom čije Vas je dotadašnje seksualno ponašanje moglo
                   dovesti u rizik dobijanja seksualno prenosive bolesti?
                 </label>
                 <Switch
-                  checked={checked}
-                  onChange={handleChange}
+                  checked={q23e}
+                  onChange={() => setQ23e(!q23e)}
                   inputProps={{ "aria-label": "controlled" }}
                 />
               </div>
               <div className="form-group mt-3">
-                <label style={{  }}>
+                <label style={{}}>
                   {" "}
                   f) da li ste Vi imali analne seksualne odnose tokom proteklih
                   6 meseci?
                 </label>
                 <Switch
-                  checked={checked}
-                  onChange={handleChange}
+                  checked={q23f}
+                  onChange={() => setQ23f(!q23f)}
                   inputProps={{ "aria-label": "controlled" }}
                 />
               </div>
               <div className="form-group mt-3">
-                <label style={{  }}>For women</label>
-                <label style={{  }}>
-                  24) Da li ste u drugom stanju?
-                </label>
+                <label style={{}}>For women</label>
+                <label style={{}}>24) Da li ste u drugom stanju?</label>
                 <Switch
-                  checked={checked}
-                  onChange={handleChange}
+                  checked={q24}
+                  onChange={() => setQ24(!q24)}
                   inputProps={{ "aria-label": "controlled" }}
                 />
               </div>
               <div className="form-group mt-3">
-                <label style={{  }}>
-                  25) Da li trenutno imate menstruaciju?
-                </label>
+                <label style={{}}>25) Da li trenutno imate menstruaciju?</label>
                 <Switch
-                  checked={checked}
-                  onChange={handleChange}
+                  checked={q25}
+                  onChange={() => setQ25(!q25)}
                   inputProps={{ "aria-label": "controlled" }}
                 />
               </div>
               <div className="form-group mt-3">
-                <label style={{  }}>
+                <label style={{}}>
                   26) Da li ste u poslednjih 6 meseci imali porođaj ili prekid
                   trudnoće?
                 </label>
                 <Switch
-                  checked={checked}
-                  onChange={handleChange}
+                  checked={q26}
+                  onChange={() => setQ26(!q26)}
                   inputProps={{ "aria-label": "controlled" }}
                 />
               </div>

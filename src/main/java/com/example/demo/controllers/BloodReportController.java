@@ -1,10 +1,12 @@
 package com.example.demo.controllers;
 
 import com.example.demo.models.BloodReport;
+import com.example.demo.models.CenterProfile;
 import com.example.demo.payload.request.UpdateReportAdminCenterRequest;
 import com.example.demo.payload.request.UpdateReportUserRequest;
 import com.example.demo.payload.response.MessageResponse;
 import com.example.demo.repository.BloodReportRepository;
+import com.example.demo.repository.CenterProfileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,30 +22,45 @@ public class BloodReportController {
     @Autowired
     BloodReportRepository bloodReportRepository;
 
-    @PostMapping("/createBloodReport/")
-    @PreAuthorize("hasAuthority('ROLE_STAFF')")
-    public ResponseEntity<?> createBloodReport()
-    {
+    @Autowired
+    CenterProfileRepository centerProfileRepository;
+    @PostMapping("/createBloodReport/{id}")
+    @PreAuthorize("hasAuthority('ROLE_USER')")
 
-        BloodReport bloodReport1 = new BloodReport(0, "", "",
-                "", "", "", "",
-                "", "", "", "",
-                "", "", "",
-                0,
+
+    public ResponseEntity<?> createBloodReport(@RequestBody BloodReport bloodReport,@PathVariable("id") Long centreId)
+    {
+        Optional<CenterProfile> centerProfile = centerProfileRepository.findById(centreId);
+
+        if(centerProfile.isPresent()){
+            CenterProfile _ceCenterProfile =  centerProfile.get();
+        BloodReport bloodReport1 = new BloodReport(_ceCenterProfile, bloodReport.getNum(), bloodReport.getDate(), bloodReport.getName(),
+                bloodReport.getJmbg(), bloodReport.getBirth(), bloodReport.getGender(), bloodReport.getAddress(),
+                bloodReport.getTownship(), bloodReport.getLocation(), bloodReport.getPhone_home(), bloodReport.getPhone_job(),
+                bloodReport.getPhone_mobile(), bloodReport.getCompany_or_school(), bloodReport.getProfession(),
+                bloodReport.getNumber_of_previous_blood_donations(),
                 "", "", "", 0,
                 0, "", "", "","",
                 "", "", "", "",
                 "", false, "", 0,
                 "", "", "",
-                0, "", false, false, false, false, false,
-                false, false, false, false, false, false, false, false, false,
-                false,false, false, false, false, false, false, false, false,
-                false, false,false, false, false, false, false, false, false,
-                false, false, false,false, false, false, false, false);
+                0, "", bloodReport.getQ1(), bloodReport.getQ2(), bloodReport.getQ3(),
+                bloodReport.getQ4(),bloodReport.getQ5(),
+                bloodReport.getQ6(), bloodReport.getQ7(), bloodReport.getQ8(), bloodReport.getQ9(),
+                bloodReport.getQ10(), bloodReport.getQ11(), bloodReport.getQ12(), bloodReport.getQ13(), bloodReport.getQ14(),
+                bloodReport.getQ15(),bloodReport.getQ16(), bloodReport.getQ17(), bloodReport.getQ18(), bloodReport.getQ19(),
+                bloodReport.getQ20a(), bloodReport.getQ20b(), bloodReport.getQ20c(), bloodReport.getQ21(),
+                bloodReport.getQ22a(), bloodReport.getQ22b(),bloodReport.getQ22c(), bloodReport.getQ22d(),
+                bloodReport.getQ22e(), bloodReport.getQ22f(), bloodReport.getQ22g(), bloodReport.getQ23a(),
+                bloodReport.getQ23b(), bloodReport.getQ23c(),
+                bloodReport.getQ23d(), bloodReport.getQ23e(),bloodReport.getQ23f(),
+                bloodReport.getQ24(), bloodReport.getQ25(), bloodReport.getQ26());
 
         bloodReportRepository.save(bloodReport1);
 
         return ResponseEntity.ok(new MessageResponse("Blood report registered successfully!"));
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     @PutMapping("/updateBloodReport/{id}")
@@ -150,7 +167,6 @@ public class BloodReportController {
                 _BloodReport.setQ23d(updateReportUserRequest.getQ23d());
                 _BloodReport.setQ23e(updateReportUserRequest.getQ23e());
                 _BloodReport.setQ23f(updateReportUserRequest.getQ23f());
-                _BloodReport.setQ23g(updateReportUserRequest.getQ23g());
                 _BloodReport.setQ24(updateReportUserRequest.getQ24());
                 _BloodReport.setQ25(updateReportUserRequest.getQ25());
                 _BloodReport.setQ26(updateReportUserRequest.getQ26());

@@ -40,10 +40,36 @@ public class CenterProfile {
     @JsonIgnore
     private List<BloodDonationAppointment> bloodDonationAppointments;
 
+    @OneToMany(mappedBy = "center_profile", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<BloodReport> bloodReports;
     private int bloodA;
     private int bloodB;
     private int bloodAB;
     private int bloodO;
+
+    public List<BloodReport> getBloodReports() {
+        return bloodReports;
+    }
+
+    public void setBloodReports(List<BloodReport> bloodReports) {
+        this.bloodReports = bloodReports;
+    }
+
+    public CenterProfile(Long id, String name, String address, String description, Double averageRating, List<User> users, List<BloodDonationAppointment> bloodDonationAppointments, List<BloodReport> bloodReports, int bloodA, int bloodB, int bloodAB, int bloodO) {
+        this.id = id;
+        this.name = name;
+        this.address = address;
+        this.description = description;
+        this.averageRating = averageRating;
+        this.users = users;
+        this.bloodDonationAppointments = bloodDonationAppointments;
+        this.bloodReports = bloodReports;
+        this.bloodA = bloodA;
+        this.bloodB = bloodB;
+        this.bloodAB = bloodAB;
+        this.bloodO = bloodO;
+    }
 
     public CenterProfile() {
     }
