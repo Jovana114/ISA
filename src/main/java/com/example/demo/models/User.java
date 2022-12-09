@@ -73,8 +73,11 @@ public class User {
   // @NotBlank
   private int penals;
 
-  @OneToOne(fetch = FetchType.LAZY)
-  private BloodReport blood_report;
+  @OneToMany(fetch = FetchType.LAZY)
+  @JoinTable(  name = "user_blood_reports",
+          joinColumns = @JoinColumn(name = "user_id"),
+          inverseJoinColumns = @JoinColumn(name = "blood_report_id"))
+  private Set<BloodReport> blood_report = new HashSet<>();;
 
   @ManyToMany(fetch = FetchType.LAZY)
   @JoinTable(  name = "user_roles", 
@@ -92,7 +95,7 @@ public class User {
   @JsonIgnore
   private CenterProfile center_profile;
 
-  public User(Long id, String username, String email, String password, String firstname, String surname, String address, String city, String state, String phone, String jmbg, String gender, String occupation, String empscho, int points, int penals, BloodReport blood_report, Set<Role> roles, Set<BloodDonationAppointment> appointments, CenterProfile center_profile) {
+  public User(Long id, String username, String email, String password, String firstname, String surname, String address, String city, String state, String phone, String jmbg, String gender, String occupation, String empscho, int points, int penals, Set<BloodReport> blood_report, Set<Role> roles, Set<BloodDonationAppointment> appointments, CenterProfile center_profile) {
     this.id = id;
     this.username = username;
     this.email = email;
