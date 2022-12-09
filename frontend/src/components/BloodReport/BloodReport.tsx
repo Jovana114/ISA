@@ -68,7 +68,7 @@ export default function BloodReport({ showReport, id, close }: props) {
           <form className="Auth-form" onSubmit={handleReport}>
             <div className="Auth-form-content">
               <div className="form-group mt-3 divSize50R">
-                <label style={{ textTransform: "capitalize" }}>No</label>
+                <label style={{ }}>Blood type</label>
                 <input
                   required
                   type="text"
@@ -76,6 +76,106 @@ export default function BloodReport({ showReport, id, close }: props) {
                   placeholder={""}
                 />
               </div>
+              <div className="form-group mt-3 divSize50R">
+                <label style={{ }}>Note to md</label>
+                <input
+                  required
+                  type="text"
+                  className="form-control mt-1"
+                  placeholder={""}
+                />
+              </div>
+              <div className="form-group mt-3 divSize50R">
+                <label style={{ }}>Copper sulfate</label>
+                <input
+                  required
+                  type="text"
+                  className="form-control mt-1"
+                  placeholder={""}
+                />
+              </div>
+              <div className="form-group mt-3 divSize50R">
+                <label style={{ }}>Normal level</label>
+                <input
+                  required
+                  type="text"
+                  className="form-control mt-1"
+                  placeholder={""}
+                />
+              </div>
+              <div className="form-group mt-3 divSize50R">
+                <label style={{ }}>Low level</label>
+                <input
+                  required
+                  type="text"
+                  className="form-control mt-1"
+                  placeholder={""}
+                />
+              </div>
+              <div className="form-group mt-3 divSize50R">
+                <label style={{ }}>Hemoglobinometer</label>
+                <input
+                  required
+                  type="text"
+                  className="form-control mt-1"
+                  placeholder={""}
+                />
+              </div>
+              <div className="form-group mt-3 divSize50R">
+                <label style={{ }}>Read value</label>
+                <input
+                  required
+                  type="text"
+                  className="form-control mt-1"
+                  placeholder={""}
+                />
+              </div>
+              <div className="form-group mt-3 divSize50R">
+                <label style={{ }}>Lungs</label>
+                <input
+                  required
+                  type="text"
+                  className="form-control mt-1"
+                  placeholder={""}
+                />
+              </div>
+              <div className="form-group mt-3 divSize50R">
+                <label style={{ }}>Heart</label>
+                <input
+                  required
+                  type="text"
+                  className="form-control mt-1"
+                  placeholder={""}
+                />
+              </div>
+              <div className="form-group mt-3 divSize50R">
+                <label style={{ }}>TA</label>
+                <input
+                  required
+                  type="text"
+                  className="form-control mt-1"
+                  placeholder={""}
+                />
+              </div>
+              <div className="form-group mt-3 divSize50R">
+                <label style={{ }}>TT</label>
+                <input
+                  required
+                  type="text"
+                  className="form-control mt-1"
+                  placeholder={""}
+                />
+              </div>
+              <div className="form-group mt-3 divSize50R">
+                <label style={{ }}>TB</label>
+                <input
+                  required
+                  type="text"
+                  className="form-control mt-1"
+                  placeholder={""}
+                />
+              </div>
+
               <div className="d-grid gap-2 mt-3">
                 <button type="submit" className="btn btn-primary">
                   Submit
