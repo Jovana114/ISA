@@ -29,6 +29,7 @@ import {
   Typography,
 } from "@mui/material";
 import { parsePath } from "react-router-dom";
+import BloodReportUser from "../BloodReportUser/BloodReportUser";
 
 interface Data {
   id: number;
@@ -103,6 +104,12 @@ const headCells: readonly HeadCell[] = [
     numeric: true,
     disablePadding: false,
     label: "Rating",
+  },
+  {
+    id: "id",
+    numeric: false,
+    disablePadding: false,
+    label: "Reserve",
   },
 ];
 
@@ -263,6 +270,9 @@ export default function UpgradedTable() {
   const [filteredDate, setFilteredDate] = useState("");
   const [filteredTime, setFilteredTime] = useState("");
 
+  const [showReport, setShowReport] = useState(false);
+  const [userId, setUserId] = useState(0);
+
   const findAppointment = () => {
     if (filteredDate && filteredTime) {
       // Time
@@ -296,202 +306,229 @@ export default function UpgradedTable() {
     }
   };
 
+  const reserve = (id: any) => {
+    setShowReport(true);
+    setUserId(id);
+  };
+
+  const closeReport = () => {
+    setShowReport(false);
+    setUserId(0);
+  };
+
   return (
-    <Box sx={{ width: "680px", margin: "20px auto" }}>
-      <Paper sx={{ width: "auto", mb: 2 }}>
-        {/* <EnhancedTableToolbar /> */}
-        <TableContainer style={{ width: "680px", padding: "20px" }}>
-          <Table sx={{ width: "640px" }} aria-labelledby="tableTitle">
-            <TableHead>
-              <TableRow>
-                <TableCell colSpan={1} style={{ paddingLeft: "0" }}>
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DatePicker
-                      label="Appointment Date"
-                      value={date}
-                      onChange={(newValue: any) => {
-                        setDate(newValue);
-                        setFilteredDate(JSON.stringify(newValue).split("T")[0]);
-
-                        // setFilteredDate(newValue.replace("/", "-"));
-                      }}
-                      renderInput={(params) => <TextField {...params} />}
-                    />
-                  </LocalizationProvider>
-                </TableCell>
-                <TableCell colSpan={1} style={{ paddingLeft: "0" }}>
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <TimePicker
-                      label="Appointment Time"
-                      value={time}
-                      onChange={(newValue: any) => {
-                        setTime(newValue);
-                        setFilteredTime(
-                          JSON.stringify(newValue)
-                            .split("T")[1]
-                            .slice(0, 5)
-                        );
-                      }}
-                      renderInput={(params) => <TextField {...params} />}
-                      views={["hours"]}
-                      inputFormat={"HH:mm"}
-                    />
-                  </LocalizationProvider>
-                </TableCell>
-                <TableCell style={{ padding: "0" }}>
-                  <Button onClick={findAppointment}>Find</Button>
-                  <Button onClick={() => reset()}>
-                    <RestartAltIcon />
-                  </Button>
-                </TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell colSpan={2} style={{ padding: "0" }}>
-                  <TextField
-                    id="standard-basic"
-                    label="Search"
-                    variant="standard"
-                    onChange={(e) => setSearchText(e.target.value)}
-                    style={{ width: "100%" }}
-                    value={searchText}
-                  />
-                </TableCell>
-                <TableCell style={{ padding: "0 10px" }}>
-                  <Button onClick={() => search(searchText)}>Search</Button>
-                  <Button onClick={() => reset()}>
-                    <RestartAltIcon />
-                  </Button>
-                  <span>{state}</span>
-                </TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell>
-                  <FormGroup>
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          checked={checked}
-                          onChange={handleChange}
-                          inputProps={{ "aria-label": "controlled" }}
-                        />
-                      }
-                      label="Enable Filter"
-                    />
-                  </FormGroup>
-                </TableCell>
-                <TableCell colSpan={2}>
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "center",
-                      flexWrap: "wrap",
-                      margin: "5px auto",
-                    }}
-                  >
-                    <Range
-                      step={STEP}
-                      min={MIN}
-                      max={MAX}
-                      values={state}
-                      onChange={(values) => setState(values)}
-                      disabled={checked ? false : true}
-                      renderTrack={({ props, children, disabled }) => (
-                        <div
-                          {...props}
-                          style={{
-                            ...props.style,
-                            height: "6px",
-                            width: "100%",
-                            borderRadius: "4px",
-                            background: getTrackBackground({
-                              values: state,
-                              colors: ["#548BF4", "#ccc"],
-                              min: MIN,
-                              max: MAX,
-                            }),
-                            alignSelf: "center",
-                          }}
-                        >
-                          {children}
-                        </div>
-                      )}
-                      renderThumb={({ props, isDragged }) => (
-                        <div
-                          {...props}
-                          style={{
-                            ...props.style,
-                            height: "42px",
-                            width: "42px",
-                            borderRadius: "4px",
-                            backgroundColor: "#FFF",
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            boxShadow: "0px 2px 6xp #AAA",
-                          }}
-                        >
-                          <div
-                            style={{
-                              height: "16px",
-                              width: "5px",
-                              backgroundColor: isDragged ? "#548BF4" : "#CCC",
-                            }}
-                          ></div>
-                        </div>
-                      )}
-                    />
-                  </div>
-                </TableCell>
-              </TableRow>
-              <EnhancedTableHead
-                order={order}
-                orderBy={orderBy}
-                onRequestSort={handleRequestSort}
-                rowCount={rows.length}
-              />
-            </TableHead>
-            <TableBody>
-              {/* if you don't need to support IE11, you can replace the `stableSort` call with:
-              rows.sort(getComparator(order, orderBy)).slice() */}
-              {stableSort(rows, getComparator(order, orderBy))
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row, index) => {
-                  const labelId = `enhanced-table-checkbox-${index}`;
-
-                  return (
-                    <TableRow hover tabIndex={-1} key={row.id}>
-                      <TableCell
-                        component="th"
-                        id={labelId}
-                        scope="row"
-                        padding="none"
-                      >
-                        {row.name}
-                      </TableCell>
-                      <TableCell align="left">{row.address}</TableCell>
-                      <TableCell align="right">{row.averageRating}</TableCell>
-                    </TableRow>
-                  );
-                })}
-              {emptyRows > 0 && (
-                <TableRow style={{}}>
-                  <TableCell colSpan={6} />
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <TablePagination
-          style={{ width: "600px" }}
-          rowsPerPageOptions={[5, 10, 25]}
-          component="div"
-          count={rows.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
+    <>
+      <Box sx={{ width: "680px", margin: "20px auto" }}>
+        <BloodReportUser
+          showReport={showReport}
+          id={userId}
+          close={closeReport}
         />
-      </Paper>
-    </Box>
+        <Paper sx={{ width: "auto", mb: 2 }}>
+          {/* <EnhancedTableToolbar /> */}
+          <TableContainer style={{ width: "680px", padding: "20px" }}>
+            <Table sx={{ width: "640px" }} aria-labelledby="tableTitle">
+              <TableHead>
+                <TableRow>
+                  <TableCell colSpan={1} style={{ paddingLeft: "0" }}>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <DatePicker
+                        label="Appointment Date"
+                        value={date}
+                        onChange={(newValue: any) => {
+                          setDate(newValue);
+                          setFilteredDate(
+                            JSON.stringify(newValue).split("T")[0]
+                          );
+
+                          // setFilteredDate(newValue.replace("/", "-"));
+                        }}
+                        renderInput={(params) => <TextField {...params} />}
+                      />
+                    </LocalizationProvider>
+                  </TableCell>
+                  <TableCell colSpan={1} style={{ paddingLeft: "0" }}>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <TimePicker
+                        label="Appointment Time"
+                        value={time}
+                        onChange={(newValue: any) => {
+                          setTime(newValue);
+                          setFilteredTime(
+                            JSON.stringify(newValue)
+                              .split("T")[1]
+                              .slice(0, 5)
+                          );
+                        }}
+                        renderInput={(params) => <TextField {...params} />}
+                        views={["hours"]}
+                        inputFormat={"HH:mm"}
+                      />
+                    </LocalizationProvider>
+                  </TableCell>
+                  <TableCell colSpan={2} style={{ padding: "0" }}>
+                    <Button onClick={findAppointment}>Find</Button>
+                    <Button onClick={() => reset()}>
+                      <RestartAltIcon />
+                    </Button>
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell colSpan={2} style={{ padding: "0" }}>
+                    <TextField
+                      id="standard-basic"
+                      label="Search"
+                      variant="standard"
+                      onChange={(e) => setSearchText(e.target.value)}
+                      style={{ width: "100%" }}
+                      value={searchText}
+                    />
+                  </TableCell>
+                  <TableCell colSpan={2} style={{ padding: "0 10px" }}>
+                    <Button onClick={() => search(searchText)}>Search</Button>
+                    <Button onClick={() => reset()}>
+                      <RestartAltIcon />
+                    </Button>
+                    <span>{state}</span>
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell>
+                    <FormGroup>
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            checked={checked}
+                            onChange={handleChange}
+                            inputProps={{ "aria-label": "controlled" }}
+                          />
+                        }
+                        label="Enable Filter"
+                      />
+                    </FormGroup>
+                  </TableCell>
+                  <TableCell colSpan={3}>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        flexWrap: "wrap",
+                        margin: "5px auto",
+                      }}
+                    >
+                      <Range
+                        step={STEP}
+                        min={MIN}
+                        max={MAX}
+                        values={state}
+                        onChange={(values) => setState(values)}
+                        disabled={checked ? false : true}
+                        renderTrack={({ props, children, disabled }) => (
+                          <div
+                            {...props}
+                            style={{
+                              ...props.style,
+                              height: "6px",
+                              width: "100%",
+                              borderRadius: "4px",
+                              background: getTrackBackground({
+                                values: state,
+                                colors: ["#548BF4", "#ccc"],
+                                min: MIN,
+                                max: MAX,
+                              }),
+                              alignSelf: "center",
+                            }}
+                          >
+                            {children}
+                          </div>
+                        )}
+                        renderThumb={({ props, isDragged }) => (
+                          <div
+                            {...props}
+                            style={{
+                              ...props.style,
+                              height: "42px",
+                              width: "42px",
+                              borderRadius: "4px",
+                              backgroundColor: "#FFF",
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                              boxShadow: "0px 2px 6xp #AAA",
+                            }}
+                          >
+                            <div
+                              style={{
+                                height: "16px",
+                                width: "5px",
+                                backgroundColor: isDragged ? "#548BF4" : "#CCC",
+                              }}
+                            ></div>
+                          </div>
+                        )}
+                      />
+                    </div>
+                  </TableCell>
+                </TableRow>
+                <EnhancedTableHead
+                  order={order}
+                  orderBy={orderBy}
+                  onRequestSort={handleRequestSort}
+                  rowCount={rows.length}
+                />
+              </TableHead>
+              <TableBody>
+                {/* if you don't need to support IE11, you can replace the `stableSort` call with:
+              rows.sort(getComparator(order, orderBy)).slice() */}
+                {stableSort(rows, getComparator(order, orderBy))
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((row, index) => {
+                    const labelId = `enhanced-table-checkbox-${index}`;
+
+                    return (
+                      <TableRow hover tabIndex={-1} key={row.id}>
+                        <TableCell
+                          component="th"
+                          id={labelId}
+                          scope="row"
+                          padding="none"
+                        >
+                          {row.name}
+                        </TableCell>
+                        <TableCell align="left">{row.address}</TableCell>
+                        <TableCell align="right">{row.averageRating}</TableCell>
+                        <TableCell align="right">
+                          <Button
+                            onClick={() => reserve(row.id)}
+                            style={{ background: "#0d6efd", color: "white" }}
+                          >
+                            Reserve
+                          </Button>
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
+                {emptyRows > 0 && (
+                  <TableRow style={{}}>
+                    <TableCell colSpan={6} />
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          <TablePagination
+            style={{ width: "600px" }}
+            rowsPerPageOptions={[5, 10, 25]}
+            component="div"
+            count={rows.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
+        </Paper>
+      </Box>
+    </>
   );
 }
