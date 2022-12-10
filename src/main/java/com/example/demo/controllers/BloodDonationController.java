@@ -33,10 +33,19 @@ public class BloodDonationController {
         else
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
-    @GetMapping("/all/{date}")
+    @GetMapping("/all/center/{id}")
+    @PreAuthorize("hasAuthority('ROLE_STAFF') or hasAuthority('ROLE_ADMIN') ")
+    public ResponseEntity<?> allAppointmentsAssignedToCentre(@PathVariable("id") Long id) {
+        List<BloodDonationAppointment> bloodDonationAppointments = service.findAllByCentreProfile(id);
+        if(!bloodDonationAppointments.isEmpty())
+            return new ResponseEntity<>(bloodDonationAppointments, HttpStatus.OK);
+        else
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+    @GetMapping("/all/center/{id}/{date}")
     @PreAuthorize("hasAuthority('ROLE_STAFF') or hasAuthority('ROLE_ADMIN')")
-    public ResponseEntity<?> bloodAppointmentsByDate(@PathVariable("date") String date) {
-        List<BloodDonationAppointment> bloodDonationAppointments = service.findAllByDate(date);
+    public ResponseEntity<?> bloodAppointmentsByDateAndCenter(@PathVariable("id") Long id,@PathVariable("date") String date) {
+        List<BloodDonationAppointment> bloodDonationAppointments = service.findAllByDateAndCenter(id, date);
         if(!bloodDonationAppointments.isEmpty())
             return new ResponseEntity<>(bloodDonationAppointments, HttpStatus.OK);
         else

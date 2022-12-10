@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from "react";
 
 interface props {
+  id: number
   date: string;
 }
 
-export default function Times({ date }: props) {
+export default function Times({ id, date }: props) {
   const [appointments, setAppointments] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       const data = await fetch(
-        process.env.REACT_APP_API_URL + `/blood/all/${date}`,
+        process.env.REACT_APP_API_URL + `/blood/all/center/${id}/${date}`,
         {
           headers: {
             "Content-type": "application/json",
