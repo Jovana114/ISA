@@ -18,6 +18,10 @@ public class UpdateReportUserRequest {
     private String profession;
     private int number_of_previous_blood_donations;
 
+    private int weigh;
+    private Boolean low_pressure;
+    private Boolean high_pressure;
+
     private Boolean q1;
     private Boolean q2;
     private Boolean q3;
@@ -499,7 +503,31 @@ public class UpdateReportUserRequest {
         this.q26 = q26;
     }
 
-    public UpdateReportUserRequest(int num, String date, String name, String jmbg, String birth, String gender, String address, String township, String location, String phone_home, String phone_job, String phone_mobile, String company_or_school, String profession, int number_of_previous_blood_donations, Boolean q1, Boolean q2, Boolean q3, Boolean q4, Boolean q5, Boolean q6, Boolean q7, Boolean q8, Boolean q9, Boolean q10, Boolean q11, Boolean q12, Boolean q13, Boolean q14, Boolean q15, Boolean q16, Boolean q17, Boolean q18, Boolean q19, Boolean q20a, Boolean q20b, Boolean q20c, Boolean q21, Boolean q22a, Boolean q22b, Boolean q22c, Boolean q22d, Boolean q22e, Boolean q22f, Boolean q22g, Boolean q23a, Boolean q23b, Boolean q23c, Boolean q23d, Boolean q23e, Boolean q23f, Boolean q23g, Boolean q24, Boolean q25, Boolean q26) {
+    public int getWeigh() {
+        return weigh;
+    }
+
+    public void setWeigh(int weigh) {
+        this.weigh = weigh;
+    }
+
+    public Boolean getLow_pressure() {
+        return low_pressure;
+    }
+
+    public void setLow_pressure(Boolean low_pressure) {
+        this.low_pressure = low_pressure;
+    }
+
+    public Boolean getHigh_pressure() {
+        return high_pressure;
+    }
+
+    public void setHigh_pressure(Boolean high_pressure) {
+        this.high_pressure = high_pressure;
+    }
+
+    public UpdateReportUserRequest(int num, String date, String name, String jmbg, String birth, String gender, String address, String township, String location, String phone_home, String phone_job, String phone_mobile, String company_or_school, String profession, int number_of_previous_blood_donations, int weigh, Boolean low_pressure, Boolean high_pressure, Boolean q1, Boolean q2, Boolean q3, Boolean q4, Boolean q5, Boolean q6, Boolean q7, Boolean q8, Boolean q9, Boolean q10, Boolean q11, Boolean q12, Boolean q13, Boolean q14, Boolean q15, Boolean q16, Boolean q17, Boolean q18, Boolean q19, Boolean q20a, Boolean q20b, Boolean q20c, Boolean q21, Boolean q22a, Boolean q22b, Boolean q22c, Boolean q22d, Boolean q22e, Boolean q22f, Boolean q22g, Boolean q23a, Boolean q23b, Boolean q23c, Boolean q23d, Boolean q23e, Boolean q23f, Boolean q24, Boolean q25, Boolean q26) {
         this.num = num;
         this.date = date;
         this.name = name;
@@ -515,6 +543,9 @@ public class UpdateReportUserRequest {
         this.company_or_school = company_or_school;
         this.profession = profession;
         this.number_of_previous_blood_donations = number_of_previous_blood_donations;
+        this.weigh = weigh;
+        this.low_pressure = low_pressure;
+        this.high_pressure = high_pressure;
         this.q1 = q1;
         this.q2 = q2;
         this.q3 = q3;
@@ -551,7 +582,6 @@ public class UpdateReportUserRequest {
         this.q23d = q23d;
         this.q23e = q23e;
         this.q23f = q23f;
-        this.q23g = q23g;
         this.q24 = q24;
         this.q25 = q25;
         this.q26 = q26;

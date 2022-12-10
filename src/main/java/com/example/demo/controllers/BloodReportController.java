@@ -12,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Objects;
 import java.util.Optional;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -24,11 +26,42 @@ public class BloodReportController {
 
     @Autowired
     CenterProfileRepository centerProfileRepository;
+
+    @GetMapping("/getUserPartOfReport/{id}")
+    @PreAuthorize("hasAuthority('ROLE_STAFF')")
+    public ResponseEntity<?> getUSerPartOfBloodReport(@PathVariable Long id)
+    {
+        Optional<BloodReport> bloodReport1 = bloodReportRepository.findById(id);
+
+        if (bloodReport1.isPresent()) {
+        BloodReport _BloodReport = bloodReport1.get();
+        try {
+
+            if(_BloodReport.getWeigh() < 50 || !_BloodReport.getQ3() || !_BloodReport.getQ19() ||
+                    !_BloodReport.getLow_pressure() || !_BloodReport.getHigh_pressure() || !_BloodReport.getQ11() ||
+                    ((Objects.equals(_BloodReport.getGender(), "F")) && (!_BloodReport.getQ25())) ||
+                    !_BloodReport.getQ10() || !_BloodReport.getQ20c()){
+
+                return new ResponseEntity("Korisnik ne ispunjava uslove da bude davalac krvi.", HttpStatus.OK);
+
+            } else {
+                return new ResponseEntity("Korisnik ispunjava uslove da bude davalac krvi", HttpStatus.CREATED);
+            }
+
+        } catch (Exception e) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error exception: " + e));
+        }
+    }else {
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    }
+
     @PostMapping("/createBloodReport/{id}")
     @PreAuthorize("hasAuthority('ROLE_USER')")
-
-
-    public ResponseEntity<?> createBloodReport(@RequestBody BloodReport bloodReport,@PathVariable("id") Long centreId)
+    public ResponseEntity<?> createBloodReport(@RequestBody BloodReport bloodReport, @PathVariable("id") Long centreId)
     {
         Optional<CenterProfile> centerProfile = centerProfileRepository.findById(centreId);
 
@@ -38,7 +71,7 @@ public class BloodReportController {
                 bloodReport.getJmbg(), bloodReport.getBirth(), bloodReport.getGender(), bloodReport.getAddress(),
                 bloodReport.getTownship(), bloodReport.getLocation(), bloodReport.getPhone_home(), bloodReport.getPhone_job(),
                 bloodReport.getPhone_mobile(), bloodReport.getCompany_or_school(), bloodReport.getProfession(),
-                bloodReport.getNumber_of_previous_blood_donations(),
+                bloodReport.getNumber_of_previous_blood_donations(), bloodReport.getWeigh(), bloodReport.getLow_pressure(), bloodReport.getHigh_pressure(),
                 "", "", "", 0,
                 0, "", "", "","",
                 "", "", "", "",

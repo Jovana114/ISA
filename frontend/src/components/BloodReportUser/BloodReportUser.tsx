@@ -31,6 +31,9 @@ export default function BloodReportUser({ showReport, id, close }: props) {
     numberOfPreviousBloodDonations,
     setNumberOfPreviousBloodDonations,
   ] = useState(0);
+  const [weigh, setWeigh] = useState(0);
+  const [low_pressure, setLow_pressure] = useState(false);
+  const [high_pressure, setHigh_pressure] = useState(false);
   const [q1, setQ1] = useState(false);
   const [q2, setQ2] = useState(false);
   const [q3, setQ3] = useState(false);
@@ -88,6 +91,9 @@ export default function BloodReportUser({ showReport, id, close }: props) {
     company_or_school: companyOrSchool,
     profession: profession,
     number_of_previous_blood_donations: numberOfPreviousBloodDonations,
+    weigh: weigh,
+    low_pressure: low_pressure,
+    high_pressure: high_pressure,
     q1: q1,
     q2: q2,
     q3: q3,
@@ -172,7 +178,7 @@ export default function BloodReportUser({ showReport, id, close }: props) {
           <form className="Auth-form" onSubmit={handleUserReport}>
             <div className="Auth-form-content">
               <div className="form-group mt-3 divSize50R">
-                <label style={{ textTransform: "capitalize" }}>No</label>
+                <label style={{ textTransform: "capitalize" }}>Broj</label>
                 <input
                   value={num}
                   onChange={(e) => setNum(Number(e.target.value))}
@@ -183,7 +189,7 @@ export default function BloodReportUser({ showReport, id, close }: props) {
                 />
               </div>
               <div className="form-group mt-3 divSize50L">
-                <label style={{ textTransform: "capitalize" }}>Date</label>
+                <label style={{ textTransform: "capitalize" }}>Datum</label>
                 <input
                   value={date}
                   onChange={(e) => setDate(e.target.value)}
@@ -194,7 +200,7 @@ export default function BloodReportUser({ showReport, id, close }: props) {
                 />
               </div>
               <div className="form-group mt-3 divSize50R">
-                <label style={{}}>Last name, parent's name, first name</label>
+                <label style={{}}>Prezime, ime roditelja, ime</label>
                 <input
                   value={name}
                   onChange={(e) => setName(e.target.value)}
@@ -215,7 +221,7 @@ export default function BloodReportUser({ showReport, id, close }: props) {
               </div>
               <div className="form-group mt-3">
                 <label style={{ textTransform: "capitalize" }}>
-                  Date of Birth
+                  Datum rodjenja
                 </label>
                 <input
                   value={birth}
@@ -226,7 +232,7 @@ export default function BloodReportUser({ showReport, id, close }: props) {
                 />
               </div>
               <div className="form-group mt-3">
-                <label style={{ textTransform: "capitalize" }}>Gender</label>
+                <label style={{ textTransform: "capitalize" }}>Pol</label>
                 <input
                   value={gender}
                   onChange={(e) => setGender(e.target.value)}
@@ -237,7 +243,7 @@ export default function BloodReportUser({ showReport, id, close }: props) {
                 />
               </div>
               <div className="form-group mt-3">
-                <label style={{ textTransform: "capitalize" }}>Address</label>
+                <label style={{ textTransform: "capitalize" }}>Adresa</label>
                 <input
                   value={address}
                   onChange={(e) => setAddress(e.target.value)}
@@ -247,7 +253,7 @@ export default function BloodReportUser({ showReport, id, close }: props) {
                 />
               </div>
               <div className="form-group mt-3 divSize50R">
-                <label style={{ textTransform: "capitalize" }}>Township</label>
+                <label style={{ textTransform: "capitalize" }}>Opstina</label>
                 <input
                   value={township}
                   onChange={(e) => setTownship(e.target.value)}
@@ -257,7 +263,7 @@ export default function BloodReportUser({ showReport, id, close }: props) {
                 />
               </div>
               <div className="form-group mt-3 divSize50L">
-                <label style={{ textTransform: "capitalize" }}>Location</label>
+                <label style={{ textTransform: "capitalize" }}>Lokacija</label>
                 <input
                   value={location}
                   onChange={(e) => setLocation(e.target.value)}
@@ -268,7 +274,7 @@ export default function BloodReportUser({ showReport, id, close }: props) {
               </div>
               <div className="form-group mt-3 divSize50R">
                 <label style={{ textTransform: "capitalize" }}>
-                  Phone-home
+                  Kucni telefon
                 </label>
                 <input
                   value={phoneHome}
@@ -279,7 +285,9 @@ export default function BloodReportUser({ showReport, id, close }: props) {
                 />
               </div>
               <div className="form-group mt-3 divSize50L">
-                <label style={{ textTransform: "capitalize" }}>Phone-job</label>
+                <label style={{ textTransform: "capitalize" }}>
+                  Poslovni telefon
+                </label>
                 <input
                   value={phoneJob}
                   onChange={(e) => setPhoneJob(e.target.value)}
@@ -290,7 +298,7 @@ export default function BloodReportUser({ showReport, id, close }: props) {
               </div>
               <div className="form-group mt-3">
                 <label style={{ textTransform: "capitalize" }}>
-                  Phone-mobile
+                  Mobilni telefon
                 </label>
                 <input
                   value={phoneMobile}
@@ -302,7 +310,7 @@ export default function BloodReportUser({ showReport, id, close }: props) {
               </div>
               <div className="form-group mt-3">
                 <label style={{ textTransform: "capitalize" }}>
-                  Company, school or college
+                  Kompanija, skola ili fakultet
                 </label>
                 <input
                   value={companyOrSchool}
@@ -313,9 +321,7 @@ export default function BloodReportUser({ showReport, id, close }: props) {
                 />
               </div>
               <div className="form-group mt-3">
-                <label style={{ textTransform: "capitalize" }}>
-                  Profession
-                </label>
+                <label style={{ textTransform: "capitalize" }}>Profesija</label>
                 <input
                   value={profession}
                   onChange={(e) => setProfession(e.target.value)}
@@ -326,7 +332,7 @@ export default function BloodReportUser({ showReport, id, close }: props) {
               </div>
               <div className="form-group mt-3">
                 <label style={{ textTransform: "capitalize" }}>
-                  Number of previous blood donations
+                  Broj prethodnih davanja krvi
                 </label>
                 <input
                   value={numberOfPreviousBloodDonations}
@@ -336,6 +342,36 @@ export default function BloodReportUser({ showReport, id, close }: props) {
                   required
                   type="number"
                   className="form-control mt-1"
+                />
+              </div>
+              <div className="form-group mt-3">
+                <label style={{ textTransform: "capitalize" }}>Tezina:</label>
+                <input
+                  value={weigh}
+                  onChange={(e) => setWeigh(Number(e.target.value))}
+                  required
+                  type="number"
+                  className="form-control mt-1"
+                />
+              </div>
+              <div className="form-group mt-3">
+                <label style={{}}>
+                  Da li imate problem s niskim pritiskom?
+                </label>
+                <Switch
+                  checked={low_pressure}
+                  onChange={() => setLow_pressure(!low_pressure)}
+                  inputProps={{ "aria-label": "controlled" }}
+                />
+              </div>
+              <div className="form-group mt-3">
+                <label style={{}}>
+                  Da li imate problem s visokim pritiskom?
+                </label>
+                <Switch
+                  checked={high_pressure}
+                  onChange={() => setHigh_pressure(!high_pressure)}
+                  inputProps={{ "aria-label": "controlled" }}
                 />
               </div>
               <div className="form-group mt-3">
