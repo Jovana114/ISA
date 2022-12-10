@@ -22,6 +22,8 @@ export default function Times({ id, date }: props) {
         }
       );
       const json = await data.json();
+      console.log(json);
+      
       if (json) setAppointments(json);
     };
 
@@ -42,6 +44,9 @@ export default function Times({ id, date }: props) {
             </p>
             <p>
               Duration: <b>{appointment.duration}</b> mins
+            </p>
+            <p>
+              User: <b>{appointment.first_name + ' ' + appointment.last_name}</b>
             </p>
           </div>
         </div>
