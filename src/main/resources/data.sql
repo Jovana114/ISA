@@ -416,14 +416,12 @@ insert into user_roles (user_id, role_id) values (198, 2);
 insert into user_roles (user_id, role_id) values (199, 3);
 insert into user_roles (user_id, role_id) values (200, 2);
 
-insert into blood_appointments(active, date, duration, time, reserved, center_profile_id) values (false, (SELECT TO_CHAR(NOW() :: DATE, 'yyyy-mm-dd')),30,'11:00', false, 1);
-insert into blood_appointments(active, date, duration, time, reserved, center_profile_id) values (false, (SELECT TO_CHAR(NOW() :: DATE, 'yyyy-mm-dd')),30,'12:00', false, 1);
-insert into blood_appointments(active, date, duration, time, reserved, center_profile_id) values (false, (SELECT TO_CHAR(NOW() :: DATE, 'yyyy-mm-dd')),30,'13:00', false, 1);
-insert into blood_appointments(active, date, duration, time, reserved, center_profile_id) values (false, (SELECT TO_CHAR(NOW() :: DATE, 'yyyy-mm-dd')),30,'14:00', false, 1);
-insert into blood_appointments(active, date, duration, time, reserved, center_profile_id) values (false, (SELECT TO_CHAR(NOW() :: DATE, 'yyyy-mm-dd')),30,'15:00', false, 1);
-insert into blood_appointments(active, date, duration, time, reserved, center_profile_id) values (false, (SELECT TO_CHAR(NOW() :: DATE, 'yyyy-mm-dd')),30,'16:00', false, 1);
+insert into blood_appointments(active, date, duration, time, reserved, center_profile_id, users_id) values (false, (SELECT TO_CHAR(NOW() :: DATE, 'yyyy-mm-dd')),30,'11:00', false, 1, 3);
+insert into blood_appointments(active, date, duration, time, reserved, center_profile_id, users_id) values (false, (SELECT TO_CHAR(NOW() :: DATE, 'yyyy-mm-dd')),30,'12:00', false, 1, 177);
+insert into blood_appointments(active, date, duration, time, reserved, center_profile_id, users_id) values (false, (SELECT TO_CHAR(NOW() :: DATE, 'yyyy-mm-dd')),30,'13:00', false, 1, 194);
+insert into blood_appointments(active, date, duration, time, reserved, center_profile_id, users_id) values (false, (SELECT TO_CHAR(NOW() :: DATE, 'yyyy-mm-dd')),30,'14:00', false, 1, 196);
+insert into blood_appointments(active, date, duration, time, reserved, center_profile_id, users_id) values (false, (SELECT TO_CHAR(NOW() :: DATE, 'yyyy-mm-dd')),30,'15:00', false, 1, 197);
+insert into blood_appointments(active, date, duration, time, reserved, center_profile_id, users_id) values (false, (SELECT TO_CHAR(NOW() :: DATE, 'yyyy-mm-dd')),30,'16:00', false, 1, 199);
 
-insert into user_appointments (user_id, blood_appointment_id) values (3, 1);
-insert into user_appointments (user_id, blood_appointment_id) values (5, 2);
 
 insert into user_blood_reports (user_id, blood_report_id) values (1, 1);

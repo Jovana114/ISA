@@ -177,7 +177,7 @@ public class UserController {
         Optional<User> user = userRepository.findById(userId);
 
         if(user.isPresent()){
-            Set<BloodDonationAppointment> bloodDonationAppointments = user.get().getAppointments();
+            List<BloodDonationAppointment> bloodDonationAppointments = user.get().getAppointments();
             if(!bloodDonationAppointments.isEmpty()) {
                 return new ResponseEntity<>(bloodDonationAppointments, HttpStatus.OK);
             }

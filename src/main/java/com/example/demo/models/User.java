@@ -85,17 +85,17 @@ public class User {
         inverseJoinColumns = @JoinColumn(name = "role_id"))
   private Set<Role> roles = new HashSet<>();
 
-  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-  @JoinTable(  name = "user_appointments",
-          joinColumns = @JoinColumn(name = "user_id"),
-          inverseJoinColumns = @JoinColumn(name = "blood_appointment_id"))
-  private Set<BloodDonationAppointment> appointments = new HashSet<>();
+  @OneToMany(mappedBy = "users", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+ // @JoinTable(  name = "user_appointments",
+   //       joinColumns = @JoinColumn(name = "user_id"),
+     //     inverseJoinColumns = @JoinColumn(name = "blood_appointment_id"))
+  private List<BloodDonationAppointment> blood_appointments;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JsonIgnore
   private CenterProfile center_profile;
 
-  public User(Long id, String username, String email, String password, String firstname, String surname, String address, String city, String state, String phone, String jmbg, String gender, String occupation, String empscho, int points, int penals, Set<BloodReport> blood_report, Set<Role> roles, Set<BloodDonationAppointment> appointments, CenterProfile center_profile) {
+  public User(Long id, String username, String email, String password, String firstname, String surname, String address, String city, String state, String phone, String jmbg, String gender, String occupation, String empscho, int points, int penals, Set<BloodReport> blood_report, Set<Role> roles, List<BloodDonationAppointment> appointments, CenterProfile center_profile) {
     this.id = id;
     this.username = username;
     this.email = email;
@@ -114,7 +114,7 @@ public class User {
     this.penals = penals;
     this.blood_report = blood_report;
     this.roles = roles;
-    this.appointments = appointments;
+    this.blood_appointments = appointments;
     this.center_profile = center_profile;
   }
 
@@ -334,12 +334,12 @@ public class User {
     this.points = points;
   }
 
-  public Set<BloodDonationAppointment> getAppointments() {
-    return appointments;
+  public List<BloodDonationAppointment> getAppointments() {
+    return blood_appointments;
   }
 
-  public void setAppointments(Set<BloodDonationAppointment> appointments) {
-    this.appointments = appointments;
+  public void setAppointments(List<BloodDonationAppointment> appointments) {
+    this.blood_appointments = appointments;
   }
 
   public int getPenals() {
