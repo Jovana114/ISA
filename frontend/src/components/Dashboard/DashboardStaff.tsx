@@ -145,6 +145,7 @@ export const DashboardStaff = () => {
     sessionStorage.removeItem("user");
     sessionStorage.removeItem("id");
     sessionStorage.removeItem("role");
+    sessionStorage.removeItem("centerId");
     setNavigate(true);
   };
 

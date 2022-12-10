@@ -27,4 +27,35 @@ public class BloodDonationAppoinmentService {
         }
         else return new ArrayList<>();
     }
+    public List<BloodDonationAppointment> findAllByDateAndCenter(Long id,String date){
+        List<BloodDonationAppointment> list = repository.findByDate(date);
+        List<BloodDonationAppointment> newList = new ArrayList<>();
+        if(!list.isEmpty()){
+            Collections.sort(list);
+            for (BloodDonationAppointment b:list) {
+                if(b.getCenter_profile().getId()==id){
+                    newList.add(b);
+                }
+            }
+            Collections.sort(newList);
+            return newList;
+        }
+        else return new ArrayList<>();
+    }
+
+    public List<BloodDonationAppointment> findAllByCentreProfile(Long id){
+        List<BloodDonationAppointment> list = repository.findAll();
+        List<BloodDonationAppointment> newList = new ArrayList<>();
+        if(!list.isEmpty()){
+            Collections.sort(list);
+            for (BloodDonationAppointment b:list) {
+                if(b.getCenter_profile().getId()==id){
+                    newList.add(b);
+                }
+            }
+            Collections.sort(newList);
+            return newList;
+        }
+        else return new ArrayList<>();
+    }
 }

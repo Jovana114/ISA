@@ -29,6 +29,7 @@ export default function Center({ open, onClose }: CenterProps) {
   const [centreId, setCentreId] = useState(0)
 
   const token = JSON.parse(sessionStorage.getItem("token")!);
+  // const centerId = JSON.parse(sessionStorage.getItem("centerId")!);
 
   const config = {
     headers: {
@@ -71,6 +72,8 @@ export default function Center({ open, onClose }: CenterProps) {
       setDescription(data.description)
       setAverageRating(data.averageRating)
       setCentreId(data.id)
+      
+      sessionStorage.setItem("centerId", JSON.stringify(data.id));
       })
     }
   }
