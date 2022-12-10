@@ -10,45 +10,74 @@ interface CenterProps {
   // data: any;
 }
 
+interface Center {
+  id: number
+  name: string
+  address: string
+  description: string
+  averageRating: number
+}
+
 // export default function EditProfile({ open, onClose, data }: EditProfileProps) {
-  export default function Center({ open, onClose }: CenterProps) {
+export default function Center({ open, onClose }: CenterProps) {
 
   // const [dataUser, setDataUser] = useState()
-let user = JSON.parse(sessionStorage.getItem("user")!);
-let dataUser = user.center_profile;
+  let user = JSON.parse(sessionStorage.getItem("user")!);
+  let id = JSON.parse(sessionStorage.getItem("id")!);
 
-const config = {
-  headers: {
-    "Content-type": "application/json",
-    Authorization: `Bearer ${JSON.parse(sessionStorage.getItem("token")!)}`,
-  },
-};
+  const [centreData, setCentreData] = useState([])
+  const [centreId, setCentreId] = useState(0)
+
+  const token = JSON.parse(sessionStorage.getItem("token")!);
+
+  const config = {
+    headers: {
+      "Content-type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  };
 
   const [name, setName] = useState("");
   const [address, setAddress] = useState("");
   const [description, setDescription] = useState("");
-  const [averageRating, setAverageRating] = useState("");
-  const [appointmentStart, setAppointmentStart] = useState("");
-  const [appointmentEnd, setAppointmentEnd] = useState("");
-  
+  const [averageRating, setAverageRating] = useState(0);
+
+  let centreDataFiltrated: any
+
+  const getCentreData = (id: number) => {
+    const requestOptions = {
+      method: "GET",
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    if (id !== undefined || null) {
+
+
+      fetch(
+        process.env.REACT_APP_API_URL + `/user/getCentreByUserId/${id}`,
+        requestOptions
+      ).then(response => {
+        return response.json()
+      }).then(data => {
+        // console.log(data);
+        
+        setCentreData(data)
+        
+      setName(data.name)
+      setAddress(data.address)
+      setDescription(data.description)
+      setAverageRating(data.averageRating)
+      setCentreId(data.id)
+      })
+    }
+  }
 
   useEffect(() => {
-    try {
-      if(name === ""){
-        // setDataUser(userData)
-        setName(dataUser.name);
-        setAddress(dataUser.address);
-        setDescription(dataUser.description);
-        setAverageRating(dataUser.averageRating);
-        setAppointmentStart(dataUser.appointmentStart);
-        setAppointmentEnd(dataUser.appointmentEnd);
-      }
-      
-    } catch (e) {
-      // return <Navigate to="/login" />;
-    }
-    
-  }, [name]);
+    getCentreData(id)
+  }, []);
 
   const handleClose = () => {
     onClose();
@@ -60,19 +89,16 @@ const config = {
     try {
       const { data } = await axios.put(
         process.env.REACT_APP_API_URL +
-        `/centerProfile/update/${dataUser.id}`,
+        `/centerProfile/updateCenterProfile/${centreId}`,
         {
           name,
           address,
           description,
-          averageRating,
-          appointmentStart,
-          appointmentEnd
+          averageRating
         },
         config
       );
-      // console.log(data);
-      
+
       sessionStorage.setItem("center_profile", JSON.stringify(data));
 
       alert("Update successful!");
@@ -87,19 +113,19 @@ const config = {
   return (
     <>
       <Dialog onClose={handleClose} open={open}>
-        <DialogTitle>Edit profile center</DialogTitle>
-        {dataUser ? 
-                <div className="Auth-form-container dialog">
-                <form className="Auth-form" onSubmit={handleEditCenterProfile}>
-                  <div className="Auth-form-content">
-                  <div className="form-group mt-3">
+        <>
+          <DialogTitle>Update profile center</DialogTitle>
+            <div className="Auth-form-container dialog">
+              <form className="Auth-form" onSubmit={handleEditCenterProfile}>
+                <div className="Auth-form-content">
+                    <div className="form-group mt-3">
                       <label style={{ textTransform: "capitalize" }}>Name</label>
                       <input
                         required
                         type="text"
                         className="form-control mt-1"
                         placeholder={"Enter name"}
-                        defaultValue={dataUser.name}
+                        value={name}
                         onChange={(e) => setName(e.target.value)}
                       />
                     </div>
@@ -110,7 +136,7 @@ const config = {
                         type="text"
                         className="form-control mt-1"
                         placeholder={"Enter address"}
-                        defaultValue={dataUser.address}
+                        value={address}
                         onChange={(e) => setAddress(e.target.value)}
                       />
                     </div>
@@ -121,7 +147,7 @@ const config = {
                         type="text"
                         className="form-control mt-1"
                         placeholder={"Enter description"}
-                        defaultValue={dataUser.description}
+                        value={description}
                         onChange={(e) => setDescription(e.target.value)}
                       />
                     </div>
@@ -132,47 +158,19 @@ const config = {
                         type="text"
                         className="form-control mt-1"
                         placeholder={"Enter averageRating"}
-                        defaultValue={dataUser.averageRating}
-                        onChange={(e) => setAverageRating(e.target.value)}
+                        value={averageRating}
+                        onChange={(e) => setAverageRating(Number(e.target.value))}
                       />
                     </div>
-                    <div className="form-group mt-3">
-                      <label style={{ textTransform: "capitalize" }}>Appointment start</label>
-                      <input
-                        required
-                        type="text"
-                        className="form-control mt-1"
-                        placeholder={"Enter appointmentStart"}
-                        defaultValue={dataUser.appointmentStart}
-                        onChange={(e) => setAppointmentStart(e.target.value)}
-                      />
-                    </div>
-                    <div className="form-group mt-3">
-                      <label style={{ textTransform: "capitalize" }}>Appointment end</label>
-                      <input
-                        required
-                        type="text"
-                        className="form-control mt-1"
-                        placeholder={"Enter appointmentEnd"}
-                        defaultValue={dataUser.appointmentEnd}
-                        onChange={(e) => setAppointmentEnd(e.target.value)}
-                      />
-                    </div>
-                    <div className="d-grid gap-2 mt-3">
-                      <button type="submit" className="btn btn-primary">
-                        Submit
-                      </button>
-                    </div>
+                  <div className="d-grid gap-2 mt-3">
+                    <button type="submit" className="btn btn-primary">
+                      Submit
+                    </button>
                   </div>
-                </form>
-              </div>
-        : <></>}
-        {/* {data.roles.map((role: any) => (
-          <DialogTitle style={{ fontSize: "1rem" }}>
-            {role}
-          </DialogTitle>
-        ))} */}
-
+                </div>
+              </form>
+            </div>
+        </>
       </Dialog>
     </>
   );

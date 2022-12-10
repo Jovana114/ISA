@@ -117,6 +117,18 @@ public class UserController {
         return ResponseEntity.ok(listOfUsers);
     }
 
+    @GetMapping("/getCentreByUserId/{id}")
+    public ResponseEntity<?> getCentreByUserId(@PathVariable("id") Long id) {
+        Optional<User> user = userRepository.findById(id);
+            if(user.isPresent()){
+                Optional<CenterProfile> centerProfile = centerProfileRepository.findById(user.get().getCenter_profile().getId());
+                if(centerProfile.isPresent()){
+                    return ResponseEntity.ok(centerProfile);
+                }
+            }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
     @GetMapping("/getByName/{searchData}")
     @PreAuthorize(" hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_STAFF')")
     public ResponseEntity<?> getByName(@PathVariable("searchData") String searchData) {

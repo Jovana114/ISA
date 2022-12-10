@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface CenterProfileRepository extends JpaRepository<CenterProfile, Long> {
@@ -12,6 +13,7 @@ public interface CenterProfileRepository extends JpaRepository<CenterProfile, Lo
     public CenterProfile findByName(String name);
     Boolean existsByName(String name);
 
+//    public Optional<CenterProfile> findByUser_id(Long id);
 
     public List<CenterProfile> findByNameContainingOrAddressContaining(String name, String address);
 

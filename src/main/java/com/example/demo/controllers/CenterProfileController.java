@@ -33,7 +33,7 @@ public class CenterProfileController {
     @Autowired
     UserService userService;
     
-    @PutMapping("/update/{id}")
+    @PutMapping("/updateCenterProfile/{id}")
     @PreAuthorize("hasAuthority('ROLE_STAFF')")
     public ResponseEntity<CenterProfile> updateCenterProfile(@PathVariable("id") long id, @RequestBody CenterProfile centerProfile) {
         Optional<CenterProfile> CenterProfileData = centerProfileRepository.findById(id);

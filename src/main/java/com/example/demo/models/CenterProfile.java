@@ -43,6 +43,7 @@ public class CenterProfile {
     @OneToMany(mappedBy = "center_profile", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
     private List<BloodReport> bloodReports;
+
     private int bloodA;
     private int bloodB;
     private int bloodAB;
