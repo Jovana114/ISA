@@ -25,27 +25,29 @@ let dataBloodReport = JSON.parse(sessionStorage.getItem("blood_report")!);
   const [bloodB, setBloodB] = useState(false);
   const [bloodAB, setBloodAB] = useState(false);
   const [bloodO, setBloodO] = useState(false);
-  const [note_to_md, setNote_to_md] = useState(dataBloodReport === null ? "": dataBloodReport.note_to_md);
-  const [copper_sulfate, setCopper_sulfate] = useState(dataBloodReport === null ? "": dataBloodReport.copper_sulfate);
-  const [normal_level, setNormal_level] = useState(dataBloodReport === null ? "": dataBloodReport.normal_level);
-  const [low_level, setLow_level] = useState(dataBloodReport === null ? "": dataBloodReport.low_level);
-  const [hemoglobinometer, setHemoglobinometer] = useState(dataBloodReport === null ? "": dataBloodReport.hemoglobinometer);
-  const [read_value, setRead_value] = useState(dataBloodReport === null ? "": dataBloodReport.read_value);
-  const [lungs, setLungs] = useState(dataBloodReport === null ? "": dataBloodReport.lungs);
-  const [heart, setHeart] = useState(dataBloodReport === null ? "": dataBloodReport.heart);
-  const [TA, setTA] = useState(dataBloodReport === null ? "": dataBloodReport.TA);
-  const [TT, setTT] = useState(dataBloodReport === null ? "": dataBloodReport.TT);
-  const [TB, setTB] = useState(dataBloodReport === null ? "": dataBloodReport.TB);
-  const [bag_type, setBag_type] = useState(dataBloodReport === null ? "": dataBloodReport.bag_type);
-  const [note, setNote] = useState(dataBloodReport === null ? "": dataBloodReport.note);
-  const [accepted, setAccepted] = useState(dataBloodReport === null ? "": dataBloodReport.accepted);
-  const [reason_for_rejection, setReason_for_rejection] = useState(dataBloodReport === null ? "": dataBloodReport.reason_for_rejection);
-  const [bag_lot_number, setBag_lot_number] = useState(dataBloodReport === null ? "": dataBloodReport.bag_lot_number);
-  const [puncture_site, setPuncture_site] = useState(dataBloodReport === null ? "": dataBloodReport.puncture_site);
-  const [begining_of_donation, setBegining_of_donation] = useState(dataBloodReport === null ? "": dataBloodReport.begining_of_donation);
-  const [end_of_donation, setEnd_of_donation] = useState(dataBloodReport === null ? "": dataBloodReport.end_of_donation);
-  const [amount_of_blood_taken, setAmount_of_blood_taken] = useState(dataBloodReport === null ? "": dataBloodReport.amount_of_blood_taken);
-  const [reason_for_suspension, setReason_for_suspension] = useState(dataBloodReport === null ? "": dataBloodReport.reason_for_suspension);
+  const [note_to_md, setNote_to_md] = useState("");
+  const [copper_sulfate, setCopper_sulfate] = useState("");
+  const [normal_level, setNormal_level] = useState(0);
+  const [low_level, setLow_level] = useState(0);
+  const [hemoglobinometer, setHemoglobinometer] = useState("");
+  const [read_value, setRead_value] = useState("");
+  const [lungs, setLungs] = useState("");
+  const [heart, setHeart] = useState("");
+  const [TA, setTA] = useState("");
+  const [TT, setTT] = useState("");
+  const [TB, setTB] = useState("");
+  const [bag_type, setBag_type] = useState("");
+  const [note, setNote] = useState("");
+  const [accepted, setAccepted] = useState(false);
+  const [reason_for_rejection, setReason_for_rejection] = useState("");
+  const [syringes_number, setSyringes_number] = useState(0);
+  const [gloves_number, setGloves_number] = useState(0);
+  const [bag_lot_number, setBag_lot_number] = useState(0);
+  const [puncture_site, setPuncture_site] = useState("");
+  const [begining_of_donation, setBegining_of_donation] = useState("");
+  const [end_of_donation, setEnd_of_donation] = useState("");
+  const [amount_of_blood_taken, setAmount_of_blood_taken] = useState(0);
+  const [reason_for_suspension, setReason_for_suspension] = useState("");
 
   const handleChangeA = () => {
     setBloodA(!bloodA);
@@ -95,6 +97,8 @@ let dataBloodReport = JSON.parse(sessionStorage.getItem("blood_report")!);
           note,
           accepted,
           reason_for_rejection,
+          syringes_number,
+          gloves_number,
           bag_lot_number,
           puncture_site,
           begining_of_donation,
@@ -178,7 +182,7 @@ let dataBloodReport = JSON.parse(sessionStorage.getItem("blood_report")!);
                         required
                         type="text"
                         className="form-control mt-1"
-                        onChange={(e) => setNormal_level(e.target.value)}
+                        onChange={(e) => setNormal_level(Number(e.target.value))}
                       />
                     </div>
                     <div className="form-group mt-3">
@@ -187,7 +191,7 @@ let dataBloodReport = JSON.parse(sessionStorage.getItem("blood_report")!);
                         required
                         type="text"
                         className="form-control mt-1"
-                        onChange={(e) => setLow_level(e.target.value)}
+                        onChange={(e) => setLow_level(Number(e.target.value))}
                       />
                     </div>
                     <div className="form-group mt-3">
@@ -277,7 +281,7 @@ let dataBloodReport = JSON.parse(sessionStorage.getItem("blood_report")!);
                         required
                         type="text"
                         className="form-control mt-1"
-                        onChange={(e) => setAccepted(e.target.value)}
+                        onChange={(e) => setAccepted(Boolean(e.target.value))}
                       />
                     </div>
                     <div className="form-group mt-3">
@@ -290,12 +294,30 @@ let dataBloodReport = JSON.parse(sessionStorage.getItem("blood_report")!);
                       />
                     </div>
                     <div className="form-group mt-3">
+                      <label style={{  }}>Syringes number</label>
+                      <input
+                        required
+                        type="text"
+                        className="form-control mt-1"
+                        onChange={(e) => setSyringes_number(Number(e.target.value))}
+                      />
+                    </div>
+                    <div className="form-group mt-3">
+                      <label style={{  }}>Gloves number</label>
+                      <input
+                        required
+                        type="text"
+                        className="form-control mt-1"
+                        onChange={(e) => setGloves_number(Number(e.target.value))}
+                      />
+                    </div>
+                    <div className="form-group mt-3">
                       <label style={{  }}>Bag lot number</label>
                       <input
                         required
                         type="text"
                         className="form-control mt-1"
-                        onChange={(e) => setBag_lot_number(e.target.value)}
+                        onChange={(e) => setBag_lot_number(Number(e.target.value))}
                       />
                     </div>
                     <div className="form-group mt-3">
@@ -340,7 +362,7 @@ let dataBloodReport = JSON.parse(sessionStorage.getItem("blood_report")!);
                         required
                         type="text"
                         className="form-control mt-1"
-                        onChange={(e) => setAmount_of_blood_taken(e.target.value)}
+                        onChange={(e) => setAmount_of_blood_taken(Number(e.target.value))}
                       />
                     </div>
                     <div className="form-group mt-3">
