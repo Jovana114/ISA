@@ -141,6 +141,8 @@ export default function BloodReportUser({ showReport, id, close }: props) {
   //   },
   // };
 
+  let userId = JSON.parse(sessionStorage.getItem("id")!);
+
   const handleUserReport = async (e: any) => {
     e.preventDefault();
 
@@ -154,7 +156,8 @@ export default function BloodReportUser({ showReport, id, close }: props) {
       body: JSON.stringify(jsonData),
     };
     fetch(
-      process.env.REACT_APP_API_URL + `/bloodReport/createBloodReport/${id}`,
+      process.env.REACT_APP_API_URL +
+        `/bloodReport/createBloodReport/${id}/${userId}`,
       requestOptions
     ).then((response) => {
       if (response.ok) close();
