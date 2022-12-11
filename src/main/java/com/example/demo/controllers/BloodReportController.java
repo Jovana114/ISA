@@ -139,6 +139,25 @@ public class BloodReportController {
 
                 bloodReportRepository.save(_BloodReport);
 
+                if(_BloodReport.getCenter_profile() != null){
+                    CenterProfile centerProfile = _BloodReport.getCenter_profile();
+
+                    if(_BloodReport.getBloodA()){
+                        centerProfile.setBloodA(centerProfile.getBloodA() + _BloodReport.getAmount_of_blood_taken());
+                    } else if(_BloodReport.getBloodB()){
+                        centerProfile.setBloodB(centerProfile.getBloodB() + _BloodReport.getAmount_of_blood_taken());
+                    } else if (_BloodReport.getBloodAB()){
+                        centerProfile.setBloodAB(centerProfile.getBloodAB() + _BloodReport.getAmount_of_blood_taken());
+                    } else {
+                        centerProfile.setBloodO(centerProfile.getBloodO() + _BloodReport.getAmount_of_blood_taken());
+                    }
+
+                    centerProfile.setSyringes_number(centerProfile.getSyringes_number() - _BloodReport.getSyringes_number());
+                    centerProfile.setGloves_number(centerProfile.getGloves_number() - _BloodReport.getGloves_number());
+                    centerProfile.setBag_lot_number(centerProfile.getBag_lot_number() - _BloodReport.getGloves_number());
+                    centerProfileRepository.save(centerProfile);
+                }
+
                 return new ResponseEntity<>(HttpStatus.OK);
             } catch (Exception e) {
                 return ResponseEntity
