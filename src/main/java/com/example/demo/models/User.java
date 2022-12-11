@@ -73,11 +73,8 @@ public class User {
   // @NotBlank
   private int penals;
 
-  @OneToMany(fetch = FetchType.LAZY)
-  @JoinTable(  name = "user_blood_reports",
-          joinColumns = @JoinColumn(name = "user_id"),
-          inverseJoinColumns = @JoinColumn(name = "blood_report_id"))
-  private Set<BloodReport> blood_report = new HashSet<>();;
+  @OneToMany(mappedBy = "users", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  private List<BloodReport> blood_report;
 
   @ManyToMany(fetch = FetchType.LAZY)
   @JoinTable(  name = "user_roles", 
@@ -86,16 +83,13 @@ public class User {
   private Set<Role> roles = new HashSet<>();
 
   @OneToMany(mappedBy = "users", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
- // @JoinTable(  name = "user_appointments",
-   //       joinColumns = @JoinColumn(name = "user_id"),
-     //     inverseJoinColumns = @JoinColumn(name = "blood_appointment_id"))
   private List<BloodDonationAppointment> blood_appointments;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JsonIgnore
   private CenterProfile center_profile;
 
-  public User(Long id, String username, String email, String password, String firstname, String surname, String address, String city, String state, String phone, String jmbg, String gender, String occupation, String empscho, int points, int penals, Set<BloodReport> blood_report, Set<Role> roles, List<BloodDonationAppointment> appointments, CenterProfile center_profile) {
+  public User(Long id, String username, String email, String password, String firstname, String surname, String address, String city, String state, String phone, String jmbg, String gender, String occupation, String empscho, int points, int penals, List<BloodReport> blood_report, Set<Role> roles, List<BloodDonationAppointment> appointments, CenterProfile center_profile) {
     this.id = id;
     this.username = username;
     this.email = email;

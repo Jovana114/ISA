@@ -2,7 +2,11 @@ package com.example.demo.payload.request;
 
 public class UpdateReportAdminCenterRequest {
 
-    private String blood_type;
+    private Boolean bloodA;
+    private Boolean bloodB;
+    private Boolean bloodAB;
+    private Boolean bloodO;
+
     private String note_to_md;
 
     private String copper_sulfate;
@@ -21,6 +25,9 @@ public class UpdateReportAdminCenterRequest {
     private Boolean accepted;
     private String reason_for_rejection;
 
+    // equipment
+    private int syringes_number;
+    private int gloves_number;
     private int bag_lot_number;
 
     private String puncture_site;
@@ -29,12 +36,36 @@ public class UpdateReportAdminCenterRequest {
     private int amount_of_blood_taken;
     private String reason_for_suspension;
 
-    public String getBlood_type() {
-        return blood_type;
+    public Boolean getBloodA() {
+        return bloodA;
     }
 
-    public void setBlood_type(String blood_type) {
-        this.blood_type = blood_type;
+    public void setBloodA(Boolean bloodA) {
+        this.bloodA = bloodA;
+    }
+
+    public Boolean getBloodB() {
+        return bloodB;
+    }
+
+    public void setBloodB(Boolean bloodB) {
+        this.bloodB = bloodB;
+    }
+
+    public Boolean getBloodAB() {
+        return bloodAB;
+    }
+
+    public void setBloodAB(Boolean bloodAB) {
+        this.bloodAB = bloodAB;
+    }
+
+    public Boolean getBloodO() {
+        return bloodO;
+    }
+
+    public void setBloodO(Boolean bloodO) {
+        this.bloodO = bloodO;
     }
 
     public String getNote_to_md() {
@@ -157,6 +188,22 @@ public class UpdateReportAdminCenterRequest {
         this.reason_for_rejection = reason_for_rejection;
     }
 
+    public int getSyringes_number() {
+        return syringes_number;
+    }
+
+    public void setSyringes_number(int syringes_number) {
+        this.syringes_number = syringes_number;
+    }
+
+    public int getGloves_number() {
+        return gloves_number;
+    }
+
+    public void setGloves_number(int gloves_number) {
+        this.gloves_number = gloves_number;
+    }
+
     public int getBag_lot_number() {
         return bag_lot_number;
     }
@@ -205,8 +252,11 @@ public class UpdateReportAdminCenterRequest {
         this.reason_for_suspension = reason_for_suspension;
     }
 
-    public UpdateReportAdminCenterRequest(String blood_type, String note_to_md, String copper_sulfate, int normal_level, int low_level, String hemoglobinometer, String read_value, String lungs, String heart, String TA, String TT, String TB, String bag_type, String note, Boolean accepted, String reason_for_rejection, int bag_lot_number, String puncture_site, String begining_of_donation, String end_of_donation, int amount_of_blood_taken, String reason_for_suspension) {
-        this.blood_type = blood_type;
+    public UpdateReportAdminCenterRequest(Boolean bloodA, Boolean bloodB, Boolean bloodAB, Boolean bloodO, String note_to_md, String copper_sulfate, int normal_level, int low_level, String hemoglobinometer, String read_value, String lungs, String heart, String TA, String TT, String TB, String bag_type, String note, Boolean accepted, String reason_for_rejection, int syringes_number, int gloves_number, int bag_lot_number, String puncture_site, String begining_of_donation, String end_of_donation, int amount_of_blood_taken, String reason_for_suspension) {
+        this.bloodA = bloodA;
+        this.bloodB = bloodB;
+        this.bloodAB = bloodAB;
+        this.bloodO = bloodO;
         this.note_to_md = note_to_md;
         this.copper_sulfate = copper_sulfate;
         this.normal_level = normal_level;
@@ -222,6 +272,8 @@ public class UpdateReportAdminCenterRequest {
         this.note = note;
         this.accepted = accepted;
         this.reason_for_rejection = reason_for_rejection;
+        this.syringes_number = syringes_number;
+        this.gloves_number = gloves_number;
         this.bag_lot_number = bag_lot_number;
         this.puncture_site = puncture_site;
         this.begining_of_donation = begining_of_donation;

@@ -7,6 +7,7 @@ import com.example.demo.payload.request.UpdateReportUserRequest;
 import com.example.demo.payload.response.MessageResponse;
 import com.example.demo.repository.BloodReportRepository;
 import com.example.demo.repository.CenterProfileRepository;
+import com.example.demo.service.BloodReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +27,9 @@ public class BloodReportController {
 
     @Autowired
     CenterProfileRepository centerProfileRepository;
+
+    @Autowired
+    BloodReportService bloodReportService;
 
     @GetMapping("/getUserPartOfReport/{id}")
     @PreAuthorize("hasAuthority('ROLE_STAFF')")
@@ -67,15 +71,15 @@ public class BloodReportController {
 
         if(centerProfile.isPresent()){
             CenterProfile _ceCenterProfile =  centerProfile.get();
-        BloodReport bloodReport1 = new BloodReport(_ceCenterProfile, bloodReport.getNum(), bloodReport.getDate(), bloodReport.getName(),
+        BloodReport bloodReport1 = new BloodReport(_ceCenterProfile, null,  bloodReport.getNum(), bloodReport.getDate(), bloodReport.getName(),
                 bloodReport.getJmbg(), bloodReport.getBirth(), bloodReport.getGender(), bloodReport.getAddress(),
                 bloodReport.getTownship(), bloodReport.getLocation(), bloodReport.getPhone_home(), bloodReport.getPhone_job(),
                 bloodReport.getPhone_mobile(), bloodReport.getCompany_or_school(), bloodReport.getProfession(),
                 bloodReport.getNumber_of_previous_blood_donations(), bloodReport.getWeigh(), bloodReport.getLow_pressure(), bloodReport.getHigh_pressure(),
-                "", "", "", 0,
+                false, false, false, false, "", "", 0,
                 0, "", "", "","",
                 "", "", "", "",
-                "", false, "", 0,
+                "", false, "", 0, 0, 0,
                 "", "", "",
                 0, "", bloodReport.getQ1(), bloodReport.getQ2(), bloodReport.getQ3(),
                 bloodReport.getQ4(),bloodReport.getQ5(),
@@ -98,14 +102,17 @@ public class BloodReportController {
 
     @PutMapping("/updateBloodReport/{id}")
     @PreAuthorize("hasAuthority('ROLE_STAFF')")
-    public ResponseEntity<?> updateBloodReportByStaff(@PathVariable("id") Long id, @RequestBody UpdateReportAdminCenterRequest updateReportAdminCenterRequest) {
-        Optional<BloodReport> BloodReport = bloodReportRepository.findById(id);
+    public ResponseEntity<?> updateBloodReportByStaff(@PathVariable("id") Long userId, @RequestBody UpdateReportAdminCenterRequest updateReportAdminCenterRequest) {
+        Optional<BloodReport> BloodReport = Optional.ofNullable(bloodReportService.findByUser(userId));
 
         if (BloodReport.isPresent()) {
             BloodReport _BloodReport = BloodReport.get();
 
             try {
-                _BloodReport.setBlood_type(updateReportAdminCenterRequest.getBlood_type());
+                _BloodReport.setBloodA(updateReportAdminCenterRequest.getBloodA());
+                _BloodReport.setBloodB(updateReportAdminCenterRequest.getBloodB());
+                _BloodReport.setBloodAB(updateReportAdminCenterRequest.getBloodAB());
+                _BloodReport.setBloodO(updateReportAdminCenterRequest.getBloodO());
                 _BloodReport.setNote_to_md(updateReportAdminCenterRequest.getNote_to_md());
                 _BloodReport.setCopper_sulfate(updateReportAdminCenterRequest.getCopper_sulfate());
                 _BloodReport.setNormal_level(updateReportAdminCenterRequest.getNormal_level());
@@ -117,6 +124,8 @@ public class BloodReportController {
                 _BloodReport.setTA(updateReportAdminCenterRequest.getTA());
                 _BloodReport.setTT(updateReportAdminCenterRequest.getTT());
                 _BloodReport.setTB(updateReportAdminCenterRequest.getTB());
+                _BloodReport.setSyringes_number(updateReportAdminCenterRequest.getSyringes_number());
+                _BloodReport.setGloves_number(updateReportAdminCenterRequest.getGloves_number());
                 _BloodReport.setBag_type(updateReportAdminCenterRequest.getBag_type());
                 _BloodReport.setNote(updateReportAdminCenterRequest.getNote());
                 _BloodReport.setAccepted(updateReportAdminCenterRequest.getAccepted());
@@ -127,7 +136,9 @@ public class BloodReportController {
                 _BloodReport.setEnd_of_donation(updateReportAdminCenterRequest.getEnd_of_donation());
                 _BloodReport.setAmount_of_blood_taken(updateReportAdminCenterRequest.getAmount_of_blood_taken());
                 _BloodReport.setReason_for_suspension(updateReportAdminCenterRequest.getReason_for_suspension());
+
                 bloodReportRepository.save(_BloodReport);
+
                 return new ResponseEntity<>(HttpStatus.OK);
             } catch (Exception e) {
                 return ResponseEntity

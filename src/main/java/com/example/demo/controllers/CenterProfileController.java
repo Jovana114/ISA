@@ -44,6 +44,13 @@ public class CenterProfileController {
             _CenterProfile.setAddress(centerProfile.getAddress());
             _CenterProfile.setDescription(centerProfile.getDescription());
             _CenterProfile.setAverageRating(centerProfile.getAverageRating());
+            _CenterProfile.setBloodA(centerProfile.getBloodA());
+            _CenterProfile.setBloodB(centerProfile.getBloodB());
+            _CenterProfile.setBloodAB(centerProfile.getBloodAB());
+            _CenterProfile.setBloodO(centerProfile.getBloodO());
+            _CenterProfile.setSyringes_number(centerProfile.getSyringes_number());
+            _CenterProfile.setGloves_number(centerProfile.getGloves_number());
+            _CenterProfile.setBag_lot_number(centerProfile.getBag_lot_number());
             return new ResponseEntity<>(centerProfileRepository.save(_CenterProfile), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

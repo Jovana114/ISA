@@ -16,6 +16,13 @@ interface Center {
   address: string
   description: string
   averageRating: number
+  bloodA: number
+  bloodB: number
+  bloodAB: number
+  bloodO: number
+  syringes_number: number
+  gloves_number: number
+  bag_lot_number: number
 }
 
 // export default function EditProfile({ open, onClose, data }: EditProfileProps) {
@@ -42,6 +49,13 @@ export default function Center({ open, onClose }: CenterProps) {
   const [address, setAddress] = useState("");
   const [description, setDescription] = useState("");
   const [averageRating, setAverageRating] = useState(0);
+  const [bloodA, setBloodA] = useState(0);
+  const [bloodB, setBloodB] = useState(0);
+  const [bloodAB, setBloodAB] = useState(0);
+  const [bloodO, setBloodO] = useState(0);
+  const [syringes_number, setSyringes_number] = useState(0);
+  const [gloves_number, setGloves_number] = useState(0);
+  const [bag_lot_number, setBag_lot_number] = useState(0);
 
   let centreDataFiltrated: any
 
@@ -71,6 +85,13 @@ export default function Center({ open, onClose }: CenterProps) {
       setAddress(data.address)
       setDescription(data.description)
       setAverageRating(data.averageRating)
+      setBloodA(data.bloodA)
+      setBloodB(data.bloodB)
+      setBloodAB(data.bloodAB)
+      setBloodO(data.bloodO)
+      setSyringes_number(data.syringes_number)
+      setGloves_number(data.gloves_number)
+      setBag_lot_number(data.bag_lot_number)
       setCentreId(data.id)
       
       sessionStorage.setItem("centerId", JSON.stringify(data.id));
@@ -97,7 +118,15 @@ export default function Center({ open, onClose }: CenterProps) {
           name,
           address,
           description,
-          averageRating
+          averageRating,
+          bloodA,
+          bloodB,
+          bloodAB,
+          bloodO,
+          syringes_number,
+          gloves_number,
+          bag_lot_number
+          
         },
         config
       );
@@ -163,6 +192,84 @@ export default function Center({ open, onClose }: CenterProps) {
                         placeholder={"Enter averageRating"}
                         value={averageRating}
                         onChange={(e) => setAverageRating(Number(e.target.value))}
+                      />
+                    </div>
+                    <label style={{ textTransform: "capitalize" }}>Set amount of blood</label>
+                    <div className="form-group mt-3">
+                      <label style={{ textTransform: "capitalize" }}>Blood type A</label>
+                      <input
+                        required
+                        type="text"
+                        className="form-control mt-1"
+                        placeholder={"Enter amount"}
+                        value={bloodA}
+                        onChange={(e) => setBloodA(Number(e.target.value))}
+                      />
+                    </div>
+                    <div className="form-group mt-3">
+                      <label style={{ textTransform: "capitalize" }}>Blood type B</label>
+                      <input
+                        required
+                        type="text"
+                        className="form-control mt-1"
+                        placeholder={"Enter amount"}
+                        value={bloodB}
+                        onChange={(e) => setBloodB(Number(e.target.value))}
+                      />
+                    </div>
+                    <div className="form-group mt-3">
+                      <label style={{ textTransform: "capitalize" }}>Blood type AB</label>
+                      <input
+                        required
+                        type="text"
+                        className="form-control mt-1"
+                        placeholder={"Enter amount"}
+                        value={bloodAB}
+                        onChange={(e) => setBloodAB(Number(e.target.value))}
+                      />
+                    </div>
+                    <div className="form-group mt-3">
+                      <label style={{ textTransform: "capitalize" }}>Blood type O</label>
+                      <input
+                        required
+                        type="text"
+                        className="form-control mt-1"
+                        placeholder={"Enter amount"}
+                        value={bloodO}
+                        onChange={(e) => setBloodO(Number(e.target.value))}
+                      />
+                    </div>
+                    <div className="form-group mt-3">
+                      <label style={{ textTransform: "capitalize" }}>Syringes  number</label>
+                      <input
+                        required
+                        type="text"
+                        className="form-control mt-1"
+                        placeholder={"Enter averageRating"}
+                        value={averageRating}
+                        onChange={(e) => setSyringes_number(Number(e.target.value))}
+                      />
+                    </div>
+                    <div className="form-group mt-3">
+                      <label style={{ textTransform: "capitalize" }}>Gloves number</label>
+                      <input
+                        required
+                        type="text"
+                        className="form-control mt-1"
+                        placeholder={"Enter averageRating"}
+                        value={averageRating}
+                        onChange={(e) => setGloves_number(Number(e.target.value))}
+                      />
+                    </div>
+                    <div className="form-group mt-3">
+                      <label style={{ textTransform: "capitalize" }}>Bag lot number</label>
+                      <input
+                        required
+                        type="text"
+                        className="form-control mt-1"
+                        placeholder={"Enter averageRating"}
+                        value={averageRating}
+                        onChange={(e) => setBag_lot_number(Number(e.target.value))}
                       />
                     </div>
                   <div className="d-grid gap-2 mt-3">

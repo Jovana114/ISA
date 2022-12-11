@@ -3,7 +3,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Dialog from "@mui/material/Dialog";
 import "./BloodReport.css";
 import axios from "axios";
-import { Navigate } from "react-router-dom";
+import { Checkbox } from '@mui/material';
 
 interface BloodReportProps {
   open: boolean;
@@ -21,7 +21,10 @@ let dataBloodReport = JSON.parse(sessionStorage.getItem("blood_report")!);
     },
   };
 
-  const [blood_type, setBlood_type] = useState(dataBloodReport === null ? "": dataBloodReport.blood_type);
+  const [bloodA, setBloodA] = useState(false);
+  const [bloodB, setBloodB] = useState(false);
+  const [bloodAB, setBloodAB] = useState(false);
+  const [bloodO, setBloodO] = useState(false);
   const [note_to_md, setNote_to_md] = useState(dataBloodReport === null ? "": dataBloodReport.note_to_md);
   const [copper_sulfate, setCopper_sulfate] = useState(dataBloodReport === null ? "": dataBloodReport.copper_sulfate);
   const [normal_level, setNormal_level] = useState(dataBloodReport === null ? "": dataBloodReport.normal_level);
@@ -44,38 +47,23 @@ let dataBloodReport = JSON.parse(sessionStorage.getItem("blood_report")!);
   const [amount_of_blood_taken, setAmount_of_blood_taken] = useState(dataBloodReport === null ? "": dataBloodReport.amount_of_blood_taken);
   const [reason_for_suspension, setReason_for_suspension] = useState(dataBloodReport === null ? "": dataBloodReport.reason_for_suspension);
 
-  useEffect(() => {
-    try {
-      if(blood_type === ""){
-        setBlood_type(dataBloodReport.blood_type);
-        setNote_to_md(dataBloodReport.note_to_md);
-        setCopper_sulfate(dataBloodReport.copper_sulfate);
-        setNormal_level(dataBloodReport.normal_level);
-        setLow_level(dataBloodReport.low_level);
-        setHemoglobinometer(dataBloodReport.hemoglobinometer);
-        setRead_value(dataBloodReport.read_value);
-        setLungs(dataBloodReport.lungs);
-        setHeart(dataBloodReport.heart);
-        setTA(dataBloodReport.TA);
-        setTT(dataBloodReport.TT);
-        setTB(dataBloodReport.TB);
-        setBag_type(dataBloodReport.bag_type);
-        setNote(dataBloodReport.note);
-        setAccepted(dataBloodReport.accepted);
-        setReason_for_rejection(dataBloodReport.reason_for_rejection);
-        setBag_lot_number(dataBloodReport.bag_lot_number);
-        setPuncture_site(dataBloodReport.puncture_site);
-        setBegining_of_donation(dataBloodReport.begining_of_donation);
-        setEnd_of_donation(dataBloodReport.end_of_donation);
-        setAmount_of_blood_taken(dataBloodReport.amount_of_blood_taken);
-        setReason_for_suspension(dataBloodReport.reason_for_suspension);
-     
-      }    
-    } catch (e) {
-      // return <Navigate to="/login" />;
-    }
-  }, [blood_type]);
+  const handleChangeA = () => {
+    setBloodA(!bloodA);
+  }
 
+  const handleChangeB = () => {
+    setBloodB(!bloodB);
+  }
+
+  const handleChangeAB = () => {
+    setBloodAB(!bloodAB);
+  }
+
+  const handleChangeO = () => {
+    setBloodO(!bloodO);
+  }
+
+  
   const handleClose = () => {
     onClose();
   };
@@ -88,7 +76,10 @@ let dataBloodReport = JSON.parse(sessionStorage.getItem("blood_report")!);
         process.env.REACT_APP_API_URL +
           `/bloodReport/updateBloodReport/${JSON.parse(sessionStorage.getItem("blood_report")!).id}`,
         {
-          blood_type,
+          bloodA,
+          bloodB,
+          bloodAB,
+          bloodO,
           note_to_md,
           copper_sulfate,
           normal_level,
@@ -134,13 +125,33 @@ let dataBloodReport = JSON.parse(sessionStorage.getItem("blood_report")!);
                 <div className="Auth-form-container dialog">
                 <form className="Auth-form" onSubmit={handleEditProfile}>
                   <div className="Auth-form-content">
+                  <label style={{ textTransform: "capitalize" }}>Select blood type</label>
                     <div className="form-group mt-3">
-                      <label style={{  }}>Blood type</label>
-                      <input
-                        required
-                        type="text"
-                        className="form-control mt-1"
-                        onChange={(e) => setBlood_type(e.target.value)}
+                      <label style={{ textTransform: "capitalize" }}>Blood type A</label>
+                      <Checkbox
+                        checked={bloodA}
+                        onChange={handleChangeA}
+                      />
+                    </div>
+                    <div className="form-group mt-3">
+                      <label style={{ textTransform: "capitalize" }}>Blood type B</label>
+                      <Checkbox
+                        checked={bloodB}
+                        onChange={handleChangeB}
+                      />
+                    </div>
+                      <div className="form-group mt-3">
+                      <label style={{ textTransform: "capitalize" }}>Blood type AB</label>
+                      <Checkbox
+                        checked={bloodAB}
+                        onChange={handleChangeAB}
+                      />
+                    </div>
+                      <div className="form-group mt-3">
+                      <label style={{ textTransform: "capitalize" }}>Blood type O</label>
+                      <Checkbox
+                        checked={bloodO}
+                        onChange={handleChangeO}
                       />
                     </div>
                     <div className="form-group mt-3">

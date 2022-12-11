@@ -16,6 +16,10 @@ public class BloodReport {
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
     private CenterProfile center_profile;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
+    private User users;
     
 // Popunjava davalac
 
@@ -41,7 +45,12 @@ public class BloodReport {
 
     // Popunjava sluzbeno lice
 
-    private String blood_type;
+    //blood_type
+    private Boolean bloodA;
+    private Boolean bloodB;
+    private Boolean bloodAB;
+    private Boolean bloodO;
+
     private String note_to_md;
 
     private String copper_sulfate;
@@ -60,6 +69,9 @@ public class BloodReport {
     private Boolean accepted;
     private String reason_for_rejection;
 
+    // equipment
+    private int syringes_number;
+    private int gloves_number;
     private int bag_lot_number;
 
     private String puncture_site;
@@ -126,6 +138,14 @@ public class BloodReport {
 
     public void setCenter_profile(CenterProfile center_profile) {
         this.center_profile = center_profile;
+    }
+
+    public User getUsers() {
+        return users;
+    }
+
+    public void setUsers(User users) {
+        this.users = users;
     }
 
     public int getNum() {
@@ -248,12 +268,60 @@ public class BloodReport {
         this.number_of_previous_blood_donations = number_of_previous_blood_donations;
     }
 
-    public String getBlood_type() {
-        return blood_type;
+    public int getWeigh() {
+        return weigh;
     }
 
-    public void setBlood_type(String blood_type) {
-        this.blood_type = blood_type;
+    public void setWeigh(int weigh) {
+        this.weigh = weigh;
+    }
+
+    public Boolean getLow_pressure() {
+        return low_pressure;
+    }
+
+    public void setLow_pressure(Boolean low_pressure) {
+        this.low_pressure = low_pressure;
+    }
+
+    public Boolean getHigh_pressure() {
+        return high_pressure;
+    }
+
+    public void setHigh_pressure(Boolean high_pressure) {
+        this.high_pressure = high_pressure;
+    }
+
+    public Boolean getBloodA() {
+        return bloodA;
+    }
+
+    public void setBloodA(Boolean bloodA) {
+        this.bloodA = bloodA;
+    }
+
+    public Boolean getBloodB() {
+        return bloodB;
+    }
+
+    public void setBloodB(Boolean bloodB) {
+        this.bloodB = bloodB;
+    }
+
+    public Boolean getBloodAB() {
+        return bloodAB;
+    }
+
+    public void setBloodAB(Boolean bloodAB) {
+        this.bloodAB = bloodAB;
+    }
+
+    public Boolean getBloodO() {
+        return bloodO;
+    }
+
+    public void setBloodO(Boolean bloodO) {
+        this.bloodO = bloodO;
     }
 
     public String getNote_to_md() {
@@ -374,6 +442,22 @@ public class BloodReport {
 
     public void setReason_for_rejection(String reason_for_rejection) {
         this.reason_for_rejection = reason_for_rejection;
+    }
+
+    public int getSyringes_number() {
+        return syringes_number;
+    }
+
+    public void setSyringes_number(int syringes_number) {
+        this.syringes_number = syringes_number;
+    }
+
+    public int getGloves_number() {
+        return gloves_number;
+    }
+
+    public void setGloves_number(int gloves_number) {
+        this.gloves_number = gloves_number;
     }
 
     public int getBag_lot_number() {
@@ -736,32 +820,9 @@ public class BloodReport {
         this.q26 = q26;
     }
 
-    public int getWeigh() {
-        return weigh;
-    }
-
-    public void setWeigh(int weigh) {
-        this.weigh = weigh;
-    }
-
-    public Boolean getLow_pressure() {
-        return low_pressure;
-    }
-
-    public void setLow_pressure(Boolean low_pressure) {
-        this.low_pressure = low_pressure;
-    }
-
-    public Boolean getHigh_pressure() {
-        return high_pressure;
-    }
-
-    public void setHigh_pressure(Boolean high_pressure) {
-        this.high_pressure = high_pressure;
-    }
-
-    public BloodReport(CenterProfile center_profile, int num, String date, String name, String jmbg, String birth, String gender, String address, String township, String location, String phone_home, String phone_job, String phone_mobile, String company_or_school, String profession, int number_of_previous_blood_donations, int weigh, Boolean low_pressure, Boolean high_pressure, String blood_type, String note_to_md, String copper_sulfate, int normal_level, int low_level, String hemoglobinometer, String read_value, String lungs, String heart, String TA, String TT, String TB, String bag_type, String note, Boolean accepted, String reason_for_rejection, int bag_lot_number, String puncture_site, String begining_of_donation, String end_of_donation, int amount_of_blood_taken, String reason_for_suspension, Boolean q1, Boolean q2, Boolean q3, Boolean q4, Boolean q5, Boolean q6, Boolean q7, Boolean q8, Boolean q9, Boolean q10, Boolean q11, Boolean q12, Boolean q13, Boolean q14, Boolean q15, Boolean q16, Boolean q17, Boolean q18, Boolean q19, Boolean q20a, Boolean q20b, Boolean q20c, Boolean q21, Boolean q22a, Boolean q22b, Boolean q22c, Boolean q22d, Boolean q22e, Boolean q22f, Boolean q22g, Boolean q23a, Boolean q23b, Boolean q23c, Boolean q23d, Boolean q23e, Boolean q23f, Boolean q24, Boolean q25, Boolean q26) {
+    public BloodReport(CenterProfile center_profile, User users, int num, String date, String name, String jmbg, String birth, String gender, String address, String township, String location, String phone_home, String phone_job, String phone_mobile, String company_or_school, String profession, int number_of_previous_blood_donations, int weigh, Boolean low_pressure, Boolean high_pressure, Boolean bloodA, Boolean bloodB, Boolean bloodAB, Boolean bloodO, String note_to_md, String copper_sulfate, int normal_level, int low_level, String hemoglobinometer, String read_value, String lungs, String heart, String TA, String TT, String TB, String bag_type, String note, Boolean accepted, String reason_for_rejection, int syringes_number, int gloves_number, int bag_lot_number, String puncture_site, String begining_of_donation, String end_of_donation, int amount_of_blood_taken, String reason_for_suspension, Boolean q1, Boolean q2, Boolean q3, Boolean q4, Boolean q5, Boolean q6, Boolean q7, Boolean q8, Boolean q9, Boolean q10, Boolean q11, Boolean q12, Boolean q13, Boolean q14, Boolean q15, Boolean q16, Boolean q17, Boolean q18, Boolean q19, Boolean q20a, Boolean q20b, Boolean q20c, Boolean q21, Boolean q22a, Boolean q22b, Boolean q22c, Boolean q22d, Boolean q22e, Boolean q22f, Boolean q22g, Boolean q23a, Boolean q23b, Boolean q23c, Boolean q23d, Boolean q23e, Boolean q23f, Boolean q24, Boolean q25, Boolean q26) {
         this.center_profile = center_profile;
+        this.users = users;
         this.num = num;
         this.date = date;
         this.name = name;
@@ -780,7 +841,10 @@ public class BloodReport {
         this.weigh = weigh;
         this.low_pressure = low_pressure;
         this.high_pressure = high_pressure;
-        this.blood_type = blood_type;
+        this.bloodA = bloodA;
+        this.bloodB = bloodB;
+        this.bloodAB = bloodAB;
+        this.bloodO = bloodO;
         this.note_to_md = note_to_md;
         this.copper_sulfate = copper_sulfate;
         this.normal_level = normal_level;
@@ -796,6 +860,8 @@ public class BloodReport {
         this.note = note;
         this.accepted = accepted;
         this.reason_for_rejection = reason_for_rejection;
+        this.syringes_number = syringes_number;
+        this.gloves_number = gloves_number;
         this.bag_lot_number = bag_lot_number;
         this.puncture_site = puncture_site;
         this.begining_of_donation = begining_of_donation;

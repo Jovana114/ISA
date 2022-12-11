@@ -44,10 +44,16 @@ public class CenterProfile {
     @JsonIgnore
     private List<BloodReport> bloodReports;
 
+    //blood type
     private int bloodA;
     private int bloodB;
     private int bloodAB;
     private int bloodO;
+
+    //equipment
+    private int syringes_number;
+    private int gloves_number;
+    private int bag_lot_number;
 
     public List<BloodReport> getBloodReports() {
         return bloodReports;
@@ -57,19 +63,18 @@ public class CenterProfile {
         this.bloodReports = bloodReports;
     }
 
-    public CenterProfile(Long id, String name, String address, String description, Double averageRating, List<User> users, List<BloodDonationAppointment> bloodDonationAppointments, List<BloodReport> bloodReports, int bloodA, int bloodB, int bloodAB, int bloodO) {
-        this.id = id;
+    public CenterProfile(String name, String address, String description, Double averageRating, int bloodA, int bloodB, int bloodAB, int bloodO, int syringes_number, int gloves_number, int bag_lot_number) {
         this.name = name;
         this.address = address;
         this.description = description;
         this.averageRating = averageRating;
-        this.users = users;
-        this.bloodDonationAppointments = bloodDonationAppointments;
-        this.bloodReports = bloodReports;
         this.bloodA = bloodA;
         this.bloodB = bloodB;
         this.bloodAB = bloodAB;
         this.bloodO = bloodO;
+        this.syringes_number = syringes_number;
+        this.gloves_number = gloves_number;
+        this.bag_lot_number = bag_lot_number;
     }
 
     public CenterProfile() {
@@ -199,5 +204,29 @@ public class CenterProfile {
 
     public void setAverageRating(Double averageRating) {
         this.averageRating = averageRating;
+    }
+
+    public int getSyringes_number() {
+        return syringes_number;
+    }
+
+    public void setSyringes_number(int syringes_number) {
+        this.syringes_number = syringes_number;
+    }
+
+    public int getGloves_number() {
+        return gloves_number;
+    }
+
+    public void setGloves_number(int gloves_number) {
+        this.gloves_number = gloves_number;
+    }
+
+    public int getBag_lot_number() {
+        return bag_lot_number;
+    }
+
+    public void setBag_lot_number(int bag_lot_number) {
+        this.bag_lot_number = bag_lot_number;
     }
 }
