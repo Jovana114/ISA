@@ -2,11 +2,13 @@ package com.example.demo.controllers;
 
 import com.example.demo.models.BloodReport;
 import com.example.demo.models.CenterProfile;
+import com.example.demo.models.User;
 import com.example.demo.payload.request.UpdateReportAdminCenterRequest;
 import com.example.demo.payload.request.UpdateReportUserRequest;
 import com.example.demo.payload.response.MessageResponse;
 import com.example.demo.repository.BloodReportRepository;
 import com.example.demo.repository.CenterProfileRepository;
+import com.example.demo.repository.UserRepository;
 import com.example.demo.service.BloodReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,6 +32,9 @@ public class BloodReportController {
 
     @Autowired
     BloodReportService bloodReportService;
+
+    @Autowired
+    UserRepository userRepository;
 
     @GetMapping("/getUserPartOfReport/{id}")
     @PreAuthorize("hasAuthority('ROLE_STAFF')")
@@ -63,9 +68,9 @@ public class BloodReportController {
 
     }
 
-    @PostMapping("/createBloodReport/{id}")
+    @PostMapping("/createBloodReport/{id}/{userId}")
     @PreAuthorize("hasAuthority('ROLE_USER')")
-    public ResponseEntity<?> createBloodReport(@RequestBody BloodReport bloodReport, @PathVariable("id") Long centreId)
+    public ResponseEntity<?> createBloodReport(@RequestBody BloodReport bloodReport, @PathVariable("id") Long centreId, @PathVariable("userId") Long userId)
     {
         Optional<CenterProfile> centerProfile = centerProfileRepository.findById(centreId);
 
@@ -92,6 +97,11 @@ public class BloodReportController {
                 bloodReport.getQ23b(), bloodReport.getQ23c(),
                 bloodReport.getQ23d(), bloodReport.getQ23e(),bloodReport.getQ23f(),
                 bloodReport.getQ24(), bloodReport.getQ25(), bloodReport.getQ26());
+
+        Optional<User> user = userRepository.findById(userId);
+        if(user.isPresent()){
+            bloodReport1.setUsers(user.get());
+        }
 
         bloodReportRepository.save(bloodReport1);
 
