@@ -82,7 +82,38 @@ public class BloodDonationController {
             }
             return new ResponseEntity<>(bloodAppointmentResponses, HttpStatus.OK);
         }
-//            return new ResponseEntity<>(bloodDonationAppointments, HttpStatus.OK);
+        else
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+    @GetMapping("/all/center/{id}/{date}/{search}")
+    @PreAuthorize("hasAuthority('ROLE_STAFF') or hasAuthority('ROLE_ADMIN')")
+    public ResponseEntity<?> searchBloodAppointmentsByDateAndCenter(@PathVariable("id") Long id,@PathVariable("date") String date, @PathVariable("search") String search) {
+        List<BloodDonationAppointment> bloodDonationAppointments = service.findAllByDateAndCenter(id, date);
+        List<BloodAppointmentResponse> bloodAppointmentResponses = new ArrayList<>();
+        if(!bloodDonationAppointments.isEmpty()){
+            for (BloodDonationAppointment b: bloodDonationAppointments) {
+                Optional<User> user = userRepository.findById(b.getUsers().getId());
+                BloodAppointmentResponse _response = new BloodAppointmentResponse();
+                if (user.isPresent()) {
+                    User _user = user.get();
+                    if(_user.getFirstname().contains(search) || _user.getSurname().contains(search)){
+                        _response.setId(b.getId());
+                        _response.setDate(b.getDate());
+                        _response.setTime(b.getTime());
+                        _response.setDuration(b.getDuration());
+                        _response.setReserved(b.getReserved());
+                        _response.setActive(b.getActive());
+                        _response.setUserId(_user.getId());
+                        _response.setFirst_name(_user.getFirstname());
+                        _response.setLast_name(_user.getSurname());
+                        _response.setEmail(_user.getEmail());
+                        bloodAppointmentResponses.add(_response);
+                    }
+                }
+            }
+            return new ResponseEntity<>(bloodAppointmentResponses, HttpStatus.OK);
+        }
         else
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }

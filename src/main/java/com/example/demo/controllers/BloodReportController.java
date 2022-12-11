@@ -68,6 +68,16 @@ public class BloodReportController {
 
     }
 
+    @GetMapping("/findByUserId/{id}")
+    @PreAuthorize("hasAuthority('ROLE_STAFF')")
+    public ResponseEntity<?> findByUser(@PathVariable Long id)
+    {
+        Optional<BloodReport> bloodReport = bloodReportRepository.findOneByUsers_id(id);
+        if (bloodReport.isPresent())
+            return new ResponseEntity<>(bloodReport.get(),HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
     @PostMapping("/createBloodReport/{id}/{userId}")
     @PreAuthorize("hasAuthority('ROLE_USER')")
     public ResponseEntity<?> createBloodReport(@RequestBody BloodReport bloodReport, @PathVariable("id") Long centreId, @PathVariable("userId") Long userId)
