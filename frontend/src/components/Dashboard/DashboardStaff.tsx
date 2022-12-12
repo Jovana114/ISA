@@ -17,6 +17,7 @@ import AdbIcon from "@mui/icons-material/Adb";
 import EditProfileStaff from "../ProfileStaff/EditProfileStaff";
 import EditProfileStaffPassword from "../ProfileStaff/EditProfileStaffPassword";
 import Center from "../CenterProfile/Center";
+import History from "../History/History";
 import CustomCalendar from "../CalendarWithEvents/CustomCalendar";
 import CircularLoader from "../Loader/CircularLoader";
 import axios from "axios";
@@ -36,10 +37,10 @@ export const DashboardStaff = () => {
   const [open, setOpen] = React.useState(false);
   const [open1, setOpen1] = React.useState(false);
   const [open2, setOpen2] = React.useState(false);
-  const [open3, setOpen3] = React.useState(true);
+  const [open3, setOpen3] = React.useState(false);
 
   const pages = ["Pricing", "Blog"];
-  const settings = ["Update center", "Profile", "Logout", "Change password"];
+  const settings = ["Update center", "Profile", "Logout", "Change password", "History"];
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -68,6 +69,10 @@ export const DashboardStaff = () => {
     setOpen2(true);
   };
 
+  const handleClickOpen3 = () => {
+    setOpen3(true);
+  };
+
   const handleClose = () => {
     setOpen(false);
   };
@@ -77,6 +82,10 @@ export const DashboardStaff = () => {
   };
 
   const handleClose2 = () => {
+    setOpen2(false);
+  };
+
+  const handleClose3 = () => {
     setOpen2(false);
   };
 
@@ -91,6 +100,9 @@ export const DashboardStaff = () => {
       handleClickOpen1();
     } else if (selectedSetting === "Update center") {
       handleClickOpen2();
+    }
+    else if (selectedSetting === "History") {
+      handleClickOpen3();
     }
   };
 
@@ -288,6 +300,7 @@ export const DashboardStaff = () => {
       <EditProfileStaff open={open} onClose={handleClose} />
       <EditProfileStaffPassword open={open1} onClose={handleClose1} />
       <Center open={open2} onClose={handleClose2} />
+      <History open={open3} onClose={handleClose3} />
 
       <CustomCalendar />
     </>

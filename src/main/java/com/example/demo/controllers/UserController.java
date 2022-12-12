@@ -4,10 +4,8 @@ import com.example.demo.models.*;
 import com.example.demo.payload.request.AdminRequest;
 
 import com.example.demo.payload.response.MessageResponse;
-import com.example.demo.repository.BloodDurationAppointmentRepository;
-import com.example.demo.repository.CenterProfileRepository;
-import com.example.demo.repository.RoleRepository;
-import com.example.demo.repository.UserRepository;
+import com.example.demo.payload.response.UserResponse;
+import com.example.demo.repository.*;
 import com.example.demo.service.BloodDonationAppoinmentService;
 import com.example.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,8 +39,9 @@ public class UserController {
 
     @Autowired
     BloodDurationAppointmentRepository bloodDurationAppointmentRepository;
+
     @Autowired
-    BloodDonationAppoinmentService bloodDonationAppoinmentService;
+    BloodReportRepository bloodReportRepository;
 
     @GetMapping("/{id}")
     @PreAuthorize("hasAuthority('ROLE_USER') or hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_STAFF')")
@@ -186,4 +185,21 @@ public class UserController {
                 .badRequest()
                 .body(new MessageResponse("Error: no appointment found"));
     }
+
+    @GetMapping("/getalluserresponses/{centerId}_{userId}")
+    @PreAuthorize("hasAuthority('ROLE_STAFF')")
+    public ResponseEntity<?> getAllUserResponeses(@PathVariable("centerId") Long centerId, @PathVariable("userId") Long userId){
+        List<BloodReport> bloodReports = bloodReportRepository.findAll();
+        List<BloodReport> bloodReportList = new ArrayList<>();
+
+        for (BloodReport bl: bloodReports
+             ) {
+                if (bl.getCenter_profile().getId() == centerId && bl.getUsers().getId() == userId){
+                    bloodReportList.add(bl);
+                }
+        }
+
+        return ResponseEntity.ok(bloodReportList);
+    }
+
 }

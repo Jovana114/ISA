@@ -112,6 +112,22 @@ public class User {
     this.center_profile = center_profile;
   }
 
+  public List<BloodReport> getBlood_report() {
+    return blood_report;
+  }
+
+  public void setBlood_report(List<BloodReport> blood_report) {
+    this.blood_report = blood_report;
+  }
+
+  public List<BloodDonationAppointment> getBlood_appointments() {
+    return blood_appointments;
+  }
+
+  public void setBlood_appointments(List<BloodDonationAppointment> blood_appointments) {
+    this.blood_appointments = blood_appointments;
+  }
+
   public User() {
   }
 
