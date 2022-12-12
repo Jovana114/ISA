@@ -14,6 +14,9 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import { Range, getTrackBackground } from "react-range";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import IconButton from "@mui/material/IconButton";
 
 import { Dayjs } from "dayjs";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -24,6 +27,7 @@ import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import axios from "axios";
 import {
   Checkbox,
+  Collapse,
   FormControlLabel,
   FormGroup,
   Typography,
@@ -168,6 +172,18 @@ export default function UpgradedTable() {
   const [rows, setRows] = useState([]);
   const [searchText, setSearchText] = useState("");
 
+  // FOR APPOINTMENT
+  const [date, setDate] = React.useState<Dayjs | null>(null);
+  const [time, setTime] = React.useState<Dayjs | null>(null);
+  const [filteredDate, setFilteredDate] = useState("");
+  const [filteredTime, setFilteredTime] = useState("");
+
+  const [showReport, setShowReport] = useState(false);
+  const [userId, setUserId] = useState(0);
+
+  const [open, setOpen] = React.useState(false);
+  const [showFilters, setShowFilters] = useState(false);
+
   const config = {
     headers: {
       "Content-type": "application/json",
@@ -181,7 +197,10 @@ export default function UpgradedTable() {
         .get(process.env.REACT_APP_API_URL + "/centerProfile/all", config)
         .then((res) => setRows(res.data));
     })();
-  }, []);
+
+    if (JSON.parse(sessionStorage.getItem("id")!) !== null || undefined)
+      setShowFilters(true);
+  }, [showFilters]);
 
   const search = (searchText: string) => {
     if (searchText !== "") {
@@ -264,15 +283,6 @@ export default function UpgradedTable() {
     setChecked(event.target.checked);
   };
 
-  // FOR APPOINTMENT
-  const [date, setDate] = React.useState<Dayjs | null>(null);
-  const [time, setTime] = React.useState<Dayjs | null>(null);
-  const [filteredDate, setFilteredDate] = useState("");
-  const [filteredTime, setFilteredTime] = useState("");
-
-  const [showReport, setShowReport] = useState(false);
-  const [userId, setUserId] = useState(0);
-
   const findAppointment = () => {
     if (filteredDate && filteredTime) {
       // Time
@@ -330,50 +340,20 @@ export default function UpgradedTable() {
             <Table sx={{ width: "640px" }} aria-labelledby="tableTitle">
               <TableHead>
                 <TableRow>
-                  <TableCell colSpan={1} style={{ paddingLeft: "0" }}>
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                      <DatePicker
-                        label="Appointment Date"
-                        value={date}
-                        onChange={(newValue: any) => {
-                          setDate(newValue);
-                          setFilteredDate(
-                            JSON.stringify(newValue).split("T")[0]
-                          );
-
-                          // setFilteredDate(newValue.replace("/", "-"));
-                        }}
-                        renderInput={(params) => <TextField {...params} />}
-                      />
-                    </LocalizationProvider>
+                  <TableCell>
+                    <IconButton
+                      aria-label="expand row"
+                      size="small"
+                      onClick={() => setOpen(!open)}
+                      disabled={!showFilters}
+                    >
+                      {open ? (
+                        <KeyboardArrowUpIcon />
+                      ) : (
+                        <KeyboardArrowDownIcon />
+                      )}
+                    </IconButton>
                   </TableCell>
-                  <TableCell colSpan={1} style={{ paddingLeft: "0" }}>
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                      <TimePicker
-                        label="Appointment Time"
-                        value={time}
-                        onChange={(newValue: any) => {
-                          setTime(newValue);
-                          setFilteredTime(
-                            JSON.stringify(newValue)
-                              .split("T")[1]
-                              .slice(0, 5)
-                          );
-                        }}
-                        renderInput={(params) => <TextField {...params} />}
-                        views={["hours"]}
-                        inputFormat={"HH:mm"}
-                      />
-                    </LocalizationProvider>
-                  </TableCell>
-                  <TableCell colSpan={2} style={{ padding: "0" }}>
-                    <Button onClick={findAppointment}>Find</Button>
-                    <Button onClick={() => reset()}>
-                      <RestartAltIcon />
-                    </Button>
-                  </TableCell>
-                </TableRow>
-                <TableRow>
                   <TableCell colSpan={2} style={{ padding: "0" }}>
                     <TextField
                       id="standard-basic"
@@ -389,88 +369,160 @@ export default function UpgradedTable() {
                     <Button onClick={() => reset()}>
                       <RestartAltIcon />
                     </Button>
-                    <span>{state}</span>
                   </TableCell>
                 </TableRow>
+
                 <TableRow>
-                  <TableCell>
-                    <FormGroup>
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            checked={checked}
-                            onChange={handleChange}
-                            inputProps={{ "aria-label": "controlled" }}
-                          />
-                        }
-                        label="Enable Filter"
-                      />
-                    </FormGroup>
-                  </TableCell>
-                  <TableCell colSpan={3}>
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        flexWrap: "wrap",
-                        margin: "5px auto",
-                      }}
-                    >
-                      <Range
-                        step={STEP}
-                        min={MIN}
-                        max={MAX}
-                        values={state}
-                        onChange={(values) => setState(values)}
-                        disabled={checked ? false : true}
-                        renderTrack={({ props, children, disabled }) => (
-                          <div
-                            {...props}
-                            style={{
-                              ...props.style,
-                              height: "6px",
-                              width: "100%",
-                              borderRadius: "4px",
-                              background: getTrackBackground({
-                                values: state,
-                                colors: ["#548BF4", "#ccc"],
-                                min: MIN,
-                                max: MAX,
-                              }),
-                              alignSelf: "center",
-                            }}
+                  {showFilters ? (
+                    <TableCell colSpan={4}>
+                      <Collapse in={open} timeout="auto" unmountOnExit>
+                        <TableRow>
+                          <TableCell
+                            colSpan={1}
+                            style={{ paddingLeft: "0", width: "200px" }}
                           >
-                            {children}
-                          </div>
-                        )}
-                        renderThumb={({ props, isDragged }) => (
-                          <div
-                            {...props}
-                            style={{
-                              ...props.style,
-                              height: "42px",
-                              width: "42px",
-                              borderRadius: "4px",
-                              backgroundColor: "#FFF",
-                              display: "flex",
-                              justifyContent: "center",
-                              alignItems: "center",
-                              boxShadow: "0px 2px 6xp #AAA",
-                            }}
+                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                              <DatePicker
+                                label="Appointment Date"
+                                value={date}
+                                onChange={(newValue: any) => {
+                                  setDate(newValue);
+                                  setFilteredDate(
+                                    JSON.stringify(newValue).split("T")[0]
+                                  );
+
+                                  // setFilteredDate(newValue.replace("/", "-"));
+                                }}
+                                renderInput={(params) => (
+                                  <TextField {...params} />
+                                )}
+                              />
+                            </LocalizationProvider>
+                          </TableCell>
+                          <TableCell
+                            colSpan={1}
+                            style={{ paddingLeft: "0", width: "200px" }}
                           >
+                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                              <TimePicker
+                                label="Appointment Time"
+                                value={time}
+                                onChange={(newValue: any) => {
+                                  setTime(newValue);
+                                  setFilteredTime(
+                                    JSON.stringify(newValue)
+                                      .split("T")[1]
+                                      .slice(0, 5)
+                                  );
+                                }}
+                                renderInput={(params) => (
+                                  <TextField {...params} />
+                                )}
+                                views={["hours"]}
+                                inputFormat={"HH:mm"}
+                              />
+                            </LocalizationProvider>
+                          </TableCell>
+                          <TableCell colSpan={2} style={{ padding: "0 10px" }}>
+                            <Button onClick={findAppointment}>Find</Button>
+                            <Button onClick={() => reset()}>
+                              <RestartAltIcon />
+                            </Button>
+                          </TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell>
+                            <FormGroup>
+                              <FormControlLabel
+                                control={
+                                  <Checkbox
+                                    checked={checked}
+                                    onChange={handleChange}
+                                    inputProps={{ "aria-label": "controlled" }}
+                                  />
+                                }
+                                label="Enable Filter"
+                              />
+                            </FormGroup>
+                          </TableCell>
+                          <TableCell colSpan={2}>
                             <div
                               style={{
-                                height: "16px",
-                                width: "5px",
-                                backgroundColor: isDragged ? "#548BF4" : "#CCC",
+                                display: "flex",
+                                justifyContent: "center",
+                                flexWrap: "wrap",
+                                margin: "5px auto",
                               }}
-                            ></div>
-                          </div>
-                        )}
-                      />
-                    </div>
-                  </TableCell>
+                            >
+                              <Range
+                                step={STEP}
+                                min={MIN}
+                                max={MAX}
+                                values={state}
+                                onChange={(values) => setState(values)}
+                                disabled={checked ? false : true}
+                                renderTrack={({
+                                  props,
+                                  children,
+                                  disabled,
+                                }) => (
+                                  <div
+                                    {...props}
+                                    style={{
+                                      ...props.style,
+                                      height: "6px",
+                                      width: "100%",
+                                      borderRadius: "4px",
+                                      background: getTrackBackground({
+                                        values: state,
+                                        colors: ["#548BF4", "#ccc"],
+                                        min: MIN,
+                                        max: MAX,
+                                      }),
+                                      alignSelf: "center",
+                                    }}
+                                  >
+                                    {children}
+                                  </div>
+                                )}
+                                renderThumb={({ props, isDragged }) => (
+                                  <div
+                                    {...props}
+                                    style={{
+                                      ...props.style,
+                                      height: "42px",
+                                      width: "42px",
+                                      borderRadius: "4px",
+                                      backgroundColor: "#FFF",
+                                      display: "flex",
+                                      justifyContent: "center",
+                                      alignItems: "center",
+                                      boxShadow: "0px 2px 6xp #AAA",
+                                    }}
+                                  >
+                                    <div
+                                      style={{
+                                        height: "16px",
+                                        width: "5px",
+                                        backgroundColor: isDragged
+                                          ? "#548BF4"
+                                          : "#CCC",
+                                      }}
+                                    ></div>
+                                  </div>
+                                )}
+                              />
+                            </div>
+                          </TableCell>
+                          <TableCell>{state}</TableCell>
+                        </TableRow>
+                      </Collapse>
+                    </TableCell>
+                  ) : (
+                    <></>
+                  )}
                 </TableRow>
+
                 <EnhancedTableHead
                   order={order}
                   orderBy={orderBy}

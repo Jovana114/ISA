@@ -13,7 +13,7 @@ interface BloodReportProps {
 }
 
 export default function BloodReport({ open, id, onClose }: BloodReportProps) {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState({});
 
   const [bloodA, setBloodA] = useState(false);
   const [bloodB, setBloodB] = useState(false);
@@ -72,7 +72,7 @@ export default function BloodReport({ open, id, onClose }: BloodReportProps) {
     onClose();
   };
 
-  const handleEditProfile = async (e: any) => {
+  const handleEditReport = async (e: any) => {
     e.preventDefault();
 
     try {
@@ -119,9 +119,9 @@ export default function BloodReport({ open, id, onClose }: BloodReportProps) {
       alert("Update successful!");
       onClose();
     } catch (error: any) {
-      if (error.response.status === 401) {
+      // if (error.response.status === 401) {
         alert("Error: Failed to update blood report");
-      }
+      // }
     }
   };
 
@@ -140,7 +140,35 @@ export default function BloodReport({ open, id, onClose }: BloodReportProps) {
     const json = await data.json();
     console.log(json);
 
-    if (json) setData(json);
+    if (json) {setData(json);
+      setBloodA(json.bloodA)
+      setBloodB(json.bloodB)
+      setBloodAB(json.bloodAB)
+      setBloodO(json.bloodO)
+      setNote_to_md(json.note_to_md)
+      setCopper_sulfate(json.copper_sulfate)
+      setNormal_level(json.normal_level)
+      setLow_level(json.low_level)
+      setHemoglobinometer(json.hemoglobinometer)
+      setRead_value(json.read_value)
+      setLungs(json.lungs)
+      setHeart(json.heart)
+      setTA(json.TA)
+      setTT(json.TT)
+      setTB(json.TB)
+      setBag_type(json.bag_type)
+      setNote(json.note)
+      setAccepted(json.accepted)
+      setReason_for_rejection(json.reason_for_rejection)
+      setSyringes_number(json.syringes_number)
+      setGloves_number(json.gloves_number)
+      setBag_lot_number(json.bag_lot_number)
+      setPuncture_site(json.puncture_site)
+      setBegining_of_donation(json.begining_of_donation)
+      setEnd_of_donation(json.end_of_donation)
+      setAmount_of_blood_taken(json.amount_of_blood_taken)
+      setReason_for_suspension(json.reason_for_suspension)
+    }
   };
 
   useEffect(() => {
@@ -151,11 +179,9 @@ export default function BloodReport({ open, id, onClose }: BloodReportProps) {
     <>
       <Dialog onClose={handleClose} open={open}>
         <DialogTitle>Update blood report</DialogTitle>
-        {Object.keys(data).map((item: any, key) => (
-        <div className="Auth-form-container dialog">
-          <form className="Auth-form" onSubmit={handleEditProfile}>
-            
-              <div className="Auth-form-content" key={key}>
+          <div className="Auth-form-container dialog">
+            <form className="Auth-form" onSubmit={handleEditReport}>
+              <div className="Auth-form-content">
                 <label style={{ textTransform: "capitalize" }}>
                   Select blood type
                 </label>
@@ -163,32 +189,32 @@ export default function BloodReport({ open, id, onClose }: BloodReportProps) {
                   <label style={{ textTransform: "capitalize" }}>
                     Blood type A
                   </label>
-                  <Checkbox checked={item.bloodA} onChange={handleChangeA} />
+                  <Checkbox checked={bloodA} onChange={handleChangeA} />
                 </div>
                 <div className="form-group mt-3">
                   <label style={{ textTransform: "capitalize" }}>
                     Blood type B
                   </label>
-                  <Checkbox checked={item.bloodB} onChange={handleChangeB} />
+                  <Checkbox checked={bloodB} onChange={handleChangeB} />
                 </div>
                 <div className="form-group mt-3">
                   <label style={{ textTransform: "capitalize" }}>
                     Blood type AB
                   </label>
-                  <Checkbox checked={item.bloodAB} onChange={handleChangeAB} />
+                  <Checkbox checked={bloodAB} onChange={handleChangeAB} />
                 </div>
                 <div className="form-group mt-3">
                   <label style={{ textTransform: "capitalize" }}>
                     Blood type O
                   </label>
-                  <Checkbox checked={item.bloodO} onChange={handleChangeO} />
+                  <Checkbox checked={bloodO} onChange={handleChangeO} />
                 </div>
                 <div className="form-group mt-3">
                   <label style={{}}>Note to md</label>
                   <input
                     required
                     type="text"
-                    value={item.note_to_md}
+                    value={note_to_md}
                     className="form-control mt-1"
                     onChange={(e) => setNote_to_md(e.target.value)}
                   />
@@ -198,7 +224,7 @@ export default function BloodReport({ open, id, onClose }: BloodReportProps) {
                   <input
                     required
                     type="text"
-                    value={item.copper_sulfate}
+                    value={copper_sulfate}
                     className="form-control mt-1"
                     onChange={(e) => setCopper_sulfate(e.target.value)}
                   />
@@ -208,7 +234,7 @@ export default function BloodReport({ open, id, onClose }: BloodReportProps) {
                   <input
                     required
                     type="text"
-                    value={item.normal_level}
+                    value={normal_level}
                     className="form-control mt-1"
                     onChange={(e) => setNormal_level(Number(e.target.value))}
                   />
@@ -218,7 +244,7 @@ export default function BloodReport({ open, id, onClose }: BloodReportProps) {
                   <input
                     required
                     type="text"
-                    value={item.low_level}
+                    value={low_level}
                     className="form-control mt-1"
                     onChange={(e) => setLow_level(Number(e.target.value))}
                   />
@@ -230,7 +256,7 @@ export default function BloodReport({ open, id, onClose }: BloodReportProps) {
                   <input
                     required
                     type="text"
-                    value={item.hemoglobinometer}
+                    value={hemoglobinometer}
                     className="form-control mt-1"
                     onChange={(e) => setHemoglobinometer(e.target.value)}
                   />
@@ -240,7 +266,7 @@ export default function BloodReport({ open, id, onClose }: BloodReportProps) {
                   <input
                     required
                     type="text"
-                    value={item.read_value}
+                    value={read_value}
                     className="form-control mt-1"
                     onChange={(e) => setRead_value(e.target.value)}
                   />
@@ -250,7 +276,7 @@ export default function BloodReport({ open, id, onClose }: BloodReportProps) {
                   <input
                     required
                     type="text"
-                    value={item.lungs}
+                    value={lungs}
                     className="form-control mt-1"
                     onChange={(e) => setLungs(e.target.value)}
                   />
@@ -260,7 +286,7 @@ export default function BloodReport({ open, id, onClose }: BloodReportProps) {
                   <input
                     required
                     type="text"
-                    value={item.heart}
+                    value={heart}
                     className="form-control mt-1"
                     onChange={(e) => setHeart(e.target.value)}
                   />
@@ -270,7 +296,7 @@ export default function BloodReport({ open, id, onClose }: BloodReportProps) {
                   <input
                     required
                     type="text"
-                    value={item.ta}
+                    value={TA}
                     className="form-control mt-1"
                     onChange={(e) => setTA(e.target.value)}
                   />
@@ -280,7 +306,7 @@ export default function BloodReport({ open, id, onClose }: BloodReportProps) {
                   <input
                     required
                     type="text"
-                    value={item.tt}
+                    value={TT}
                     className="form-control mt-1"
                     onChange={(e) => setTT(e.target.value)}
                   />
@@ -290,7 +316,7 @@ export default function BloodReport({ open, id, onClose }: BloodReportProps) {
                   <input
                     required
                     type="text"
-                    value={item.tb}
+                    value={TB}
                     className="form-control mt-1"
                     onChange={(e) => setTB(e.target.value)}
                   />
@@ -300,7 +326,7 @@ export default function BloodReport({ open, id, onClose }: BloodReportProps) {
                   <input
                     required
                     type="text"
-                    value={item.bag_type}
+                    value={bag_type}
                     className="form-control mt-1"
                     onChange={(e) => setBag_type(e.target.value)}
                   />
@@ -310,27 +336,33 @@ export default function BloodReport({ open, id, onClose }: BloodReportProps) {
                   <input
                     required
                     type="text"
-                    value={item.note}
+                    value={note}
                     className="form-control mt-1"
                     onChange={(e) => setNote(e.target.value)}
                   />
                 </div>
                 <div className="form-group mt-3">
+                  <label style={{ textTransform: "capitalize" }}>
+                  Accepted
+                  </label>
+                  <Checkbox checked={accepted} onChange={() => setAccepted(!accepted)} />
+                </div>
+                {/* <div className="form-group mt-3">
                   <label style={{}}>Accepted</label>
                   <input
                     required
                     type="text"
-                    value={item.accepted}
+                    value={accepted}
                     className="form-control mt-1"
                     onChange={(e) => setAccepted(Boolean(e.target.value))}
                   />
-                </div>
+                </div> */}
                 <div className="form-group mt-3">
                   <label style={{}}>Reason for rejection</label>
                   <input
                     required
                     type="text"
-                    value={item.reason_for_rejection}
+                    value={reason_for_rejection}
                     className="form-control mt-1"
                     onChange={(e) => setReason_for_rejection(e.target.value)}
                   />
@@ -340,7 +372,7 @@ export default function BloodReport({ open, id, onClose }: BloodReportProps) {
                   <input
                     required
                     type="text"
-                    value={item.syringes_number}
+                    value={syringes_number}
                     className="form-control mt-1"
                     onChange={(e) => setSyringes_number(Number(e.target.value))}
                   />
@@ -350,7 +382,7 @@ export default function BloodReport({ open, id, onClose }: BloodReportProps) {
                   <input
                     required
                     type="text"
-                    value={item.gloves_number}
+                    value={gloves_number}
                     className="form-control mt-1"
                     onChange={(e) => setGloves_number(Number(e.target.value))}
                   />
@@ -360,7 +392,7 @@ export default function BloodReport({ open, id, onClose }: BloodReportProps) {
                   <input
                     required
                     type="text"
-                    value={item.bag_lot_number}
+                    value={bag_lot_number}
                     className="form-control mt-1"
                     onChange={(e) => setBag_lot_number(Number(e.target.value))}
                   />
@@ -370,7 +402,7 @@ export default function BloodReport({ open, id, onClose }: BloodReportProps) {
                   <input
                     required
                     type="text"
-                    value={item.reason_for_suspension}
+                    value={reason_for_suspension}
                     className="form-control mt-1"
                     onChange={(e) => setReason_for_suspension(e.target.value)}
                   />
@@ -380,7 +412,7 @@ export default function BloodReport({ open, id, onClose }: BloodReportProps) {
                   <input
                     required
                     type="text"
-                    value={item.puncture_site}
+                    value={puncture_site}
                     className="form-control mt-1"
                     onChange={(e) => setPuncture_site(e.target.value)}
                   />
@@ -390,7 +422,7 @@ export default function BloodReport({ open, id, onClose }: BloodReportProps) {
                   <input
                     required
                     type="text"
-                    value={item.begining_of_donation}
+                    value={begining_of_donation}
                     className="form-control mt-1"
                     onChange={(e) => setBegining_of_donation(e.target.value)}
                   />
@@ -400,7 +432,7 @@ export default function BloodReport({ open, id, onClose }: BloodReportProps) {
                   <input
                     required
                     type="text"
-                    value={item.end_of_donation}
+                    value={end_of_donation}
                     className="form-control mt-1"
                     onChange={(e) => setEnd_of_donation(e.target.value)}
                   />
@@ -410,7 +442,7 @@ export default function BloodReport({ open, id, onClose }: BloodReportProps) {
                   <input
                     required
                     type="text"
-                    value={item.amount_of_blood_taken}
+                    value={amount_of_blood_taken}
                     className="form-control mt-1"
                     onChange={(e) =>
                       setAmount_of_blood_taken(Number(e.target.value))
@@ -423,9 +455,8 @@ export default function BloodReport({ open, id, onClose }: BloodReportProps) {
                   </button>
                 </div>
               </div>
-          </form>
-        </div>
-            ))}
+            </form>
+          </div>
       </Dialog>
     </>
   ) : (
