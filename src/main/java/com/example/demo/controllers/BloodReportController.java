@@ -78,9 +78,9 @@ public class BloodReportController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @PostMapping("/createBloodReport/{id}/{userId}")
+    @PostMapping("/createBloodReport/{id}")
     @PreAuthorize("hasAuthority('ROLE_USER')")
-    public ResponseEntity<?> createBloodReport(@RequestBody BloodReport bloodReport, @PathVariable("id") Long centreId, @PathVariable("userId") Long userId)
+    public ResponseEntity<?> createBloodReport(@RequestBody BloodReport bloodReport, @PathVariable("id") Long centreId)
     {
         Optional<CenterProfile> centerProfile = centerProfileRepository.findById(centreId);
 
@@ -108,10 +108,10 @@ public class BloodReportController {
                 bloodReport.getQ23d(), bloodReport.getQ23e(),bloodReport.getQ23f(),
                 bloodReport.getQ24(), bloodReport.getQ25(), bloodReport.getQ26());
 
-        Optional<User> user = userRepository.findById(userId);
-        if(user.isPresent()){
-            bloodReport1.setUsers(user.get());
-        }
+        //Optional<User> user = userRepository.findById(userId);
+//        if(user.isPresent()){
+//            bloodReport1.setUsers(user.get());
+//        }
 
         bloodReportRepository.save(bloodReport1);
 

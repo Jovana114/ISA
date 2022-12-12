@@ -112,6 +112,10 @@ public class User {
     this.center_profile = center_profile;
   }
 
+  public User(String username) {
+    this.username = username;
+  }
+
   public List<BloodReport> getBlood_report() {
     return blood_report;
   }

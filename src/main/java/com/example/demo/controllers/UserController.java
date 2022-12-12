@@ -202,4 +202,11 @@ public class UserController {
         return ResponseEntity.ok(bloodReportList);
     }
 
+    @GetMapping("/getByUsername/{searchData}")
+    @PreAuthorize("hasAuthority('ROLE_STAFF')")
+    public ResponseEntity<?> getByUsername(@PathVariable("searchData") String searchData) {
+        User listOfUsers = userRepository.findByUsernameContaining(searchData);
+        return new ResponseEntity<>(listOfUsers, HttpStatus.OK);
+    }
+
 }
