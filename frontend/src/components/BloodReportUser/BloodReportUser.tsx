@@ -134,13 +134,6 @@ export default function BloodReportUser({ showReport, id, close }: props) {
     q26: q26,
   };
 
-  // const config = {
-  //   headers: {
-  //     "Content-type": "application/json",
-  //     Authorization: `Bearer ${JSON.parse(sessionStorage.getItem("token")!)}`,
-  //   },
-  // };
-
   let userId = JSON.parse(sessionStorage.getItem("id")!);
 
   const handleUserReport = async (e: any) => {

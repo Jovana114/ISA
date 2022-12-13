@@ -1,14 +1,16 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, JSXElementConstructor, Key, ReactElement, ReactFragment, ReactPortal } from "react";
 import DialogTitle from "@mui/material/DialogTitle";
 import Dialog from "@mui/material/Dialog";
 import "./CreateAppointment.css";
 import axios from "axios";
 import { Navigate } from "react-router-dom";
-import { List } from "material-ui";
+import { v4 as uuidv4 } from "uuid";
+import { json } from "stream/consumers";
 
 interface CreateAppointmentProps {
   open: boolean;
   onClose: () => void;
+  
 }
 
 export default function CreateAppointment({ open, onClose }: CreateAppointmentProps) {
@@ -27,13 +29,16 @@ const config = {
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
   const [duration, serDuration] = useState(0);
-  const [userStaff, setUserStaff] = useState([]);
+
+  const [elements, setElements] = useState<string[]>([])
+
+  const [add, setAdd] = useState("")
 
   var jsonData = {
     date: date,
     time: time,
     duration: duration,
-    userStaff: userStaff
+    users: elements
   };
 
   const handleCreateAppointment = async (e: any) => {
@@ -50,11 +55,14 @@ const config = {
       };
       fetch(
         process.env.REACT_APP_API_URL +
-          `/blood/createBloodAppointment/`,
+          `/blood/createBloodAppointment`,
         requestOptions
       ).then((response) => {
         if (response.ok) handleClose();
       });
+
+      console.log(jsonData);
+      
     };
 
     return (    
@@ -97,12 +105,28 @@ const config = {
                       placeholder={""}
                     />
                   </div>
-  
+                  <div className="form-group mt-3 divSize50L">
+                    <label style={{ textTransform: "capitalize" }}>Enter username's of the staff required</label>
+                    <input
+                      onChange={(e) => setAdd(e.target.value)}
+                      required
+                      type="text"
+                      className="form-control mt-1"
+                      placeholder={""}
+                    />
+                   <button onClick={(e) => {
+                    e.preventDefault()
+                    setElements (elements => [...elements,add])
+                   }}  
+                    className="btn btn-primary">
+                      Add
+                    </button>
                   <div className="d-grid gap-2 mt-3">
                     <button type="submit" className="btn btn-primary">
                       Submit
                     </button>
                   </div>
+                </div>
                 </div>
               </form>
             </div>
@@ -110,4 +134,5 @@ const config = {
         </Dialog>
         </>
       );
+
 }

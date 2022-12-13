@@ -3,7 +3,6 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Dialog from "@mui/material/Dialog";
 import "./EditProfile.css";
 import axios from "axios";
-import { Navigate } from "react-router-dom";
 
 interface EditProfileProps {
   open: boolean;
@@ -52,8 +51,6 @@ export default function EditProfile({ open, onClose }: EditProfileProps) {
 
   useEffect(() => {
     try {
-      if (address === "") {
-        // setDataUser(userData)
         setAddress(dataUser.address);
         setCity(dataUser.city);
         setState(dataUser.state);
@@ -65,11 +62,10 @@ export default function EditProfile({ open, onClose }: EditProfileProps) {
         setJmbg(dataUser.jmbg);
         setOccupation(dataUser.occupation);
         setPhone(dataUser.phone);
-      }
     } catch (e) {
       // return <Navigate to="/login" />;
     }
-  }, [address]);
+  });
 
   const handleClose = () => {
     onClose();
@@ -116,7 +112,6 @@ export default function EditProfile({ open, onClose }: EditProfileProps) {
         <DialogTitle>Edit Profile</DialogTitle>
         {dataUser ? (
           <>
-            <DialogTitle>{role.replace('ROLE_','')}</DialogTitle>
             <div className="Auth-form-container dialog">
               <form className="Auth-form" onSubmit={handleEditProfile}>
                 <div className="Auth-form-content">
@@ -267,11 +262,6 @@ export default function EditProfile({ open, onClose }: EditProfileProps) {
         ) : (
           <></>
         )}
-        {/* {data.roles.map((role: any) => (
-          <DialogTitle style={{ fontSize: "1rem" }}>
-            {role}
-          </DialogTitle>
-        ))} */}
       </Dialog>
     </>
   );

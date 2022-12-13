@@ -41,7 +41,6 @@ let dataUser = JSON.parse(sessionStorage.getItem("user")!);
 
   useEffect(() => {
     try {
-      if(address === ""){
         // setDataUser(userData)
         setAddress(dataUser.address);
         setCity(dataUser.city);
@@ -55,17 +54,17 @@ let dataUser = JSON.parse(sessionStorage.getItem("user")!);
         setOccupation(dataUser.occupation);
         setPhone(dataUser.phone);
         setEmail(dataUser.email);
-      }    
+      
     } catch (e) {
       // return <Navigate to="/login" />;
     }
-  }, [address]);
+  });
 
   const handleClose = () => {
     onClose();
   };
 
-  const handleEditProfile = async (e: any) => {
+  const handleEditProfileStaff = async (e: any) => {
     e.preventDefault();
 
     try {
@@ -107,7 +106,7 @@ let dataUser = JSON.parse(sessionStorage.getItem("user")!);
         <DialogTitle>Edit Profile</DialogTitle>
         {dataUser ? 
                 <div className="Auth-form-container dialog">
-                <form className="Auth-form" onSubmit={handleEditProfile}>
+                <form className="Auth-form" onSubmit={handleEditProfileStaff}>
                   <div className="Auth-form-content">
                     <div className="form-group mt-3">
                       <label style={{ textTransform: "capitalize" }}>Address</label>

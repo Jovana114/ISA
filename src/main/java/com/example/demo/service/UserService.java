@@ -28,11 +28,11 @@ public class UserService {
         return userRepository.getOne(id);
     }
 
-    public Set<User> getStaff(List<Long> ids){
+    public Set<User> getStaff(List<String> usernames){
         Set<User> usersToReturn = new HashSet<>();
-        for (Long id: ids
+        for (String username: usernames
              ) {
-            usersToReturn.add(userRepository.getOne(id));
+            usersToReturn.add(userRepository.findByUsernameContaining(username));
         }
         return usersToReturn;
     }

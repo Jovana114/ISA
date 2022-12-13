@@ -8,11 +8,11 @@ public class CreateBloodAppointment {
     private String date;
     private String time;
     private int duration;
-    private List<Long> users;
+    private List<String> users;
 
     public  CreateBloodAppointment(){}
 
-    public CreateBloodAppointment(String date, String time, int duration, List<Long> users) {
+    public CreateBloodAppointment(String date, String time, int duration, List<String> users) {
         this.date = date;
         this.time = time;
         this.duration = duration;
@@ -43,11 +43,11 @@ public class CreateBloodAppointment {
         this.duration = duration;
     }
 
-    public List<Long> getUsers() {
+    public List<String> getUsers() {
         return users;
     }
 
-    public void setUsers(List<Long> users) {
+    public void setUsers(List<String> users) {
         this.users = users;
     }
 }
