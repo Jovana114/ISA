@@ -16,14 +16,14 @@ import java.util.List;
 public class BloodReportService {
 
     @Autowired
-    BloodReportRepository rloodReportRepository;
+    BloodReportRepository bloodReportRepository;
 
-    public BloodReport findByUser(Long id){
-        List<BloodReport> bloodReportList = rloodReportRepository.findAll();
+    public BloodReport findByUserAndAppointment(Long userId, Long bloodAppointmentId){
+        List<BloodReport> bloodReportList = bloodReportRepository.findAll();
         BloodReport bloodReportFound = new BloodReport();
         if(!bloodReportList.isEmpty()) {
             for (BloodReport b : bloodReportList) {
-                if (b.getUsers().getId() == id) {
+                if (b.getUsers().getId() == userId && b.getBlood_appointments().getId() == bloodAppointmentId) {
                     bloodReportFound = b;
                 }
             }

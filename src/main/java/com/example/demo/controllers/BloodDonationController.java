@@ -3,19 +3,21 @@ package com.example.demo.controllers;
 import com.example.demo.models.BloodDonationAppointment;
 import com.example.demo.models.CenterProfile;
 import com.example.demo.models.User;
+import com.example.demo.payload.request.CenterRequest;
+import com.example.demo.payload.request.CreateBloodAppointment;
 import com.example.demo.payload.response.BloodAppointmentResponse;
+import com.example.demo.payload.response.MessageResponse;
 import com.example.demo.repository.BloodDurationAppointmentRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.BloodDonationAppoinmentService;
+import com.example.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -28,6 +30,8 @@ public class BloodDonationController {
     BloodDonationAppoinmentService service;
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    UserService userService;
 
     // ============================================== //
     // get all for staff and admin assigned to center //
@@ -116,5 +120,33 @@ public class BloodDonationController {
         }
         else
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+    @PostMapping("/createBloodAppointment")
+    @PreAuthorize("hasAuthority('ROLE_STAFF')")
+    public ResponseEntity<?> createBloodAppointment(@RequestBody CreateBloodAppointment createBloodAppointment)
+    {
+        if(repository.existsByDate(createBloodAppointment.getDate()) && repository.existsByTime(createBloodAppointment.getTime())){
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: Appointement is already taken!"));
+        }
+
+
+        BloodDonationAppointment bda = new BloodDonationAppointment(createBloodAppointment.getDate(),
+                createBloodAppointment.getTime(), createBloodAppointment.getDuration(), false, false, null,
+                null);
+
+          Set<User> newList = new HashSet<>();
+          Set<User> uu = userService.getStaff(createBloodAppointment.getUsers());
+          for (User user: uu
+             ) {
+            newList.add(user);
+          }
+          bda.setUserStaff(newList);
+
+          repository.save(bda);
+
+        return ResponseEntity.ok(new MessageResponse("Appointment created!"));
     }
 }

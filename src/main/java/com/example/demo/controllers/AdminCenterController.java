@@ -60,41 +60,6 @@ public class AdminCenterController {
         }
     }
 
-    /*
-    @PutMapping("/update/{id}_{centre_id}")
-    @PreAuthorize("hasAuthority('ROLE_STAFF')")
-    public ResponseEntity<?> updateAdminCenter(@PathVariable("id") Long id, @RequestBody User user, @PathVariable("centre_id") Long center_profile_id) {
-        Optional<User> UserData = userRepository.findById(id);
-
-        if (UserData.isPresent()) {
-            Optional<CenterProfile> centerProfile = centerProfileRepository.findById(center_profile_id);
-            User _User = UserData.get();
-
-            try{
-                _User.setUsername(user.getUsername());
-                _User.setEmail(user.getEmail());
-                _User.setFirstname(user.getFirstname());
-                _User.setAddress(user.getAddress());
-                _User.setSurname(user.getSurname());
-                _User.setCity(user.getCity());
-                _User.setEmpscho(user.getEmpscho());
-                _User.setGender(user.getGender());
-                _User.setJmbg(user.getJmbg());
-                _User.setOccupation(user.getOccupation());
-                _User.setPhone(user.getPhone());
-                //if(centerProfile.isPresent())
-                 //   _User.setCenter_profile(centerProfile.get());
-            } catch (Exception e){
-                return ResponseEntity
-                        .badRequest()
-                        .body(new MessageResponse("Error exception: " + e));
-            }
-            return new ResponseEntity<>(userRepository.save(_User), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    } */
-
     BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
     @PutMapping("/updatePassword/{id}")
@@ -107,6 +72,7 @@ public class AdminCenterController {
             if(encoder.matches(userDto.getPasswordOld(), _User.getPassword())){
                 _User.setPassword(encoder.encode(userDto.getPasswordNew()));
             }
+            _User.setIs_first_login(false);
             return new ResponseEntity<>(userRepository.save(_User), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
