@@ -14,6 +14,7 @@ import {
     TableCell,
     Paper,
   } from "@mui/material";
+import { Http2ServerRequest } from "http2";
 
 interface HistoryProps {
   open: boolean;
@@ -36,13 +37,11 @@ export default function History({ open, onClose }: HistoryProps) {
     },
   };
 
-  let centerId = JSON.parse(sessionStorage.getItem("centerId")!)
-
   const [userId, setUserId] = useState(0);
   const [username, setUsername] = useState("");
 
   const search = (username: string) => {
-    if (username !== "") {
+    if (username !== "" && sessionStorage.getItem("centerId") !== null && Number(sessionStorage.getItem("centerId")) !== 0) {
       axios
         .get(
           process.env.REACT_APP_API_URL + "/user/getByUsername/" + username,
@@ -52,17 +51,20 @@ export default function History({ open, onClose }: HistoryProps) {
         .catch((e) => alert("No Center Found!"));
 
         axios
-        .get(process.env.REACT_APP_API_URL + `/user/getalluserresponses/${centerId}_${userId}`, config)
+        .get(process.env.REACT_APP_API_URL + `/user/getalluserresponses/${Number(sessionStorage.getItem("centerId"))}_${userId}`, config)
         .then((res) => setData(res.data));
     }
   };
   
-  useEffect(() => {
-    (async () => {
+  const getData = async () => {
+    if(sessionStorage.getItem("centerId") !== null && Number(sessionStorage.getItem("centerId")) !== 0)
       axios
-        .get(process.env.REACT_APP_API_URL + `/user/getalluserresponses/${centerId}_${userId}`, config)
-        .then((res) => setData(res.data));
-    })();
+        .get(process.env.REACT_APP_API_URL + `/user/getalluserresponses/${sessionStorage.getItem("centerId")}_${userId}`, config)
+        .then((res) => setData(res.data)).catch((error) => console.log(error));
+  }
+
+  useEffect(() => {
+    getData()
   }, []);
 
   return (

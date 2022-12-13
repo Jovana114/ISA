@@ -4,44 +4,33 @@ import Dialog from "@mui/material/Dialog";
 import "./EditProfile.css";
 import axios from "axios";
 import { Navigate } from "react-router-dom";
+import CircularLoader from "../Loader/CircularLoader";
 
 interface EditProfileProps {
   open: boolean;
   onClose: () => void;
-  // data: any;
 }
 
 // export default function EditProfile({ open, onClose, data }: EditProfileProps) {
 export default function EditProfile({ open, onClose }: EditProfileProps) {
-  // const [dataUser, setDataUser] = useState()
-  let dataUser = JSON.parse(sessionStorage.getItem("user")!);
-  let role = JSON.parse(sessionStorage.getItem("role")!);
+  // value value set = useState()
 
-  const [address, setAddress] = useState(
-    dataUser === null ? "" : dataUser.address
-  );
-  const [city, setCity] = useState(dataUser === null ? "" : dataUser.city);
-  const [state, setState] = useState(dataUser === null ? "" : dataUser.state);
-  const [empscho, setEmpscho] = useState(
-    dataUser === null ? "" : dataUser.empscho
-  );
-  const [firstname, setFirstname] = useState(
-    dataUser === null ? "" : dataUser.firstname
-  );
-  const [surname, setSurname] = useState(
-    dataUser === null ? "" : dataUser.surname
-  );
-  const [username, setUsername] = useState(
-    dataUser === null ? "" : dataUser.username
-  );
-  const [gender, setGender] = useState(
-    dataUser === null ? "" : dataUser.gender
-  );
-  const [jmbg, setJmbg] = useState(dataUser === null ? "" : dataUser.jmbg);
-  const [occupation, setOccupation] = useState(
-    dataUser === null ? "" : dataUser.occupation
-  );
-  const [phone, setPhone] = useState(dataUser === null ? "" : dataUser.phone);
+  const token = JSON.parse(sessionStorage.getItem("token")!);
+  let role = JSON.parse(sessionStorage.getItem("role")!);
+  let id = Number(sessionStorage.getItem('id'))
+
+  const [data, setData] = useState([])
+  const [address, setAddress] = useState('');
+  const [city, setCity] = useState('');
+  const [state, setState] = useState('');
+  const [empscho, setEmpscho] = useState('');
+  const [firstname, setFirstname] = useState('');
+  const [surname, setSurname] = useState('');
+  const [username, setUsername] = useState('');
+  const [gender, setGender] = useState('');
+  const [jmbg, setJmbg] = useState('');
+  const [occupation, setOccupation] = useState('');
+  const [phone, setPhone] = useState('');
 
   const config = {
     headers: {
@@ -50,25 +39,38 @@ export default function EditProfile({ open, onClose }: EditProfileProps) {
     },
   };
 
-  useEffect(() => {
-    try {
-      if (address === "") {
-        // setDataUser(userData)
-        setAddress(dataUser.address);
-        setCity(dataUser.city);
-        setState(dataUser.state);
-        setEmpscho(dataUser.empscho);
-        setFirstname(dataUser.firstname);
-        setSurname(dataUser.surname);
-        setUsername(dataUser.username);
-        setGender(dataUser.gender);
-        setJmbg(dataUser.jmbg);
-        setOccupation(dataUser.occupation);
-        setPhone(dataUser.phone);
+
+  const getUserData = (id: number) => {
+    fetch(
+        process.env.REACT_APP_API_URL + `/user/${id}`,
+        {
+          method: "GET",
+          headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${token}`
+        }}
+      ).then(response => {
+        return response.json()
+      }).then(data => {
+        setData(data)
+        setAddress(data.address);
+        setCity(data.city);
+        setState(data.state);
+        setEmpscho(data.empscho);
+        setFirstname(data.firstname);
+        setSurname(data.surname);
+        setUsername(data.username);
+        setGender(data.gender);
+        setJmbg(data.jmbg);
+        setOccupation(data.occupation);
+        setPhone(data.phone);
       }
-    } catch (e) {
-      // return <Navigate to="/login" />;
-    }
+    )
+  }
+
+  useEffect(() => {
+    
+    getUserData(id)
   }, [address]);
 
   const handleClose = () => {
@@ -110,12 +112,10 @@ export default function EditProfile({ open, onClose }: EditProfileProps) {
     }
   };
 
-  return (
+  return data ? (
     <>
       <Dialog onClose={handleClose} open={open}>
         <DialogTitle>Edit Profile</DialogTitle>
-        {dataUser ? (
-          <>
             <DialogTitle>{role.replace('ROLE_','')}</DialogTitle>
             <div className="Auth-form-container dialog">
               <form className="Auth-form" onSubmit={handleEditProfile}>
@@ -129,7 +129,7 @@ export default function EditProfile({ open, onClose }: EditProfileProps) {
                       type="text"
                       className="form-control mt-1"
                       placeholder={"Enter address"}
-                      defaultValue={dataUser.address}
+                      value={address}
                       onChange={(e) => setAddress(e.target.value)}
                     />
                   </div>
@@ -140,7 +140,7 @@ export default function EditProfile({ open, onClose }: EditProfileProps) {
                       type="text"
                       className="form-control mt-1"
                       placeholder={"Enter city"}
-                      defaultValue={dataUser.city}
+                      value={city}
                       onChange={(e) => setCity(e.target.value)}
                     />
                   </div>
@@ -151,7 +151,7 @@ export default function EditProfile({ open, onClose }: EditProfileProps) {
                       type="text"
                       className="form-control mt-1"
                       placeholder={"Enter state"}
-                      defaultValue={dataUser.state}
+                      value={state}
                       onChange={(e) => setState(e.target.value)}
                     />
                   </div>
@@ -164,7 +164,7 @@ export default function EditProfile({ open, onClose }: EditProfileProps) {
                       type="text"
                       className="form-control mt-1"
                       placeholder={"Enter empscho"}
-                      defaultValue={dataUser.empscho}
+                      value={empscho}
                       onChange={(e) => setEmpscho(e.target.value)}
                     />
                   </div>
@@ -177,7 +177,7 @@ export default function EditProfile({ open, onClose }: EditProfileProps) {
                       type="text"
                       className="form-control mt-1"
                       placeholder={"Enter first name"}
-                      defaultValue={dataUser.firstname}
+                      value={firstname}
                       onChange={(e) => setFirstname(e.target.value)}
                     />
                   </div>
@@ -190,7 +190,7 @@ export default function EditProfile({ open, onClose }: EditProfileProps) {
                       type="text"
                       className="form-control mt-1"
                       placeholder={"Enter surname"}
-                      defaultValue={dataUser.surname}
+                      value={surname}
                       onChange={(e) => setSurname(e.target.value)}
                     />
                   </div>
@@ -203,7 +203,7 @@ export default function EditProfile({ open, onClose }: EditProfileProps) {
                       type="text"
                       className="form-control mt-1"
                       placeholder={"Enter username"}
-                      defaultValue={dataUser.username}
+                      value={username}
                       onChange={(e) => setUsername(e.target.value)}
                     />
                   </div>
@@ -216,7 +216,7 @@ export default function EditProfile({ open, onClose }: EditProfileProps) {
                       type="text"
                       className="form-control mt-1"
                       placeholder={"Enter gender"}
-                      defaultValue={dataUser.gender}
+                      value={gender}
                       onChange={(e) => setGender(e.target.value)}
                     />
                   </div>
@@ -227,7 +227,7 @@ export default function EditProfile({ open, onClose }: EditProfileProps) {
                       type="text"
                       className="form-control mt-1"
                       placeholder={"Enter JMBG"}
-                      defaultValue={dataUser.jmbg}
+                      value={jmbg}
                       onChange={(e) => setJmbg(e.target.value)}
                     />
                   </div>
@@ -240,7 +240,7 @@ export default function EditProfile({ open, onClose }: EditProfileProps) {
                       type="text"
                       className="form-control mt-1"
                       placeholder={"Enter occupation"}
-                      defaultValue={dataUser.occupation}
+                      value={occupation}
                       onChange={(e) => setOccupation(e.target.value)}
                     />
                   </div>
@@ -251,7 +251,7 @@ export default function EditProfile({ open, onClose }: EditProfileProps) {
                       type="text"
                       className="form-control mt-1"
                       placeholder={"Enter phone"}
-                      defaultValue={dataUser.phone}
+                      value={phone}
                       onChange={(e) => setPhone(e.target.value)}
                     />
                   </div>
@@ -263,16 +263,11 @@ export default function EditProfile({ open, onClose }: EditProfileProps) {
                 </div>
               </form>
             </div>
-          </>
-        ) : (
-          <></>
-        )}
-        {/* {data.roles.map((role: any) => (
-          <DialogTitle style={{ fontSize: "1rem" }}>
-            {role}
-          </DialogTitle>
-        ))} */}
       </Dialog>
     </>
-  );
+  ):<>
+  <Dialog onClose={handleClose} open={open}>
+    <CircularLoader />
+  </Dialog>
+  </>;
 }

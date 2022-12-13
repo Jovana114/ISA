@@ -120,7 +120,7 @@ public class BloodReportController {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
-    @PutMapping("/updateBloodReport/{userId}_{bloodAppointmentId}")
+    @PutMapping("/updateBloodReport/{userId}/{bloodAppointmentId}")
     @PreAuthorize("hasAuthority('ROLE_STAFF')")
     public ResponseEntity<?> updateBloodReportByStaff(@PathVariable("userId") Long userId, @PathVariable("bloodAppointmentId") Long bloodAppointmentId, @RequestBody UpdateReportAdminCenterRequest updateReportAdminCenterRequest) {
         Optional<BloodReport> BloodReport = Optional.ofNullable(bloodReportService.findByUserAndAppointment(userId, bloodAppointmentId));
