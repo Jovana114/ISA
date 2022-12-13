@@ -18,6 +18,7 @@ import EditProfileStaff from "../ProfileStaff/EditProfileStaff";
 import EditProfileStaffPassword from "../ProfileStaff/EditProfileStaffPassword";
 import Center from "../CenterProfile/Center";
 import History from "../History/History";
+import CreateAppointment from "../CreateAppointment/CreateAppointment";
 import CustomCalendar from "../CalendarWithEvents/CustomCalendar";
 import CircularLoader from "../Loader/CircularLoader";
 import axios from "axios";
@@ -38,9 +39,10 @@ export const DashboardStaff = () => {
   const [open1, setOpen1] = React.useState(false);
   const [open2, setOpen2] = React.useState(false);
   const [open3, setOpen3] = React.useState(false);
+  const [open4, setOpen4] = React.useState(false);
 
   const pages = ["Pricing", "Blog"];
-  const settings = ["Update center", "Profile", "Logout", "Change password", "History"];
+  const settings = ["Update center", "Profile", "Logout", "Change password", "History", 'Create appointment'];
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -73,6 +75,10 @@ export const DashboardStaff = () => {
     setOpen3(true);
   };
 
+  const handleClickOpen4 = () => {
+    setOpen4(true);
+  };
+
   const handleClose = () => {
     setOpen(false);
   };
@@ -86,9 +92,12 @@ export const DashboardStaff = () => {
   };
 
   const handleClose3 = () => {
-    setOpen2(false);
+    setOpen3(false);
   };
 
+  const handleClose4 = () => {
+    setOpen4(false);
+  };
 
   const handleSettings = (selectedSetting: string) => {
     handleCloseUserMenu();
@@ -103,6 +112,9 @@ export const DashboardStaff = () => {
     }
     else if (selectedSetting === "History") {
       handleClickOpen3();
+    }
+    else if (selectedSetting === "Create appointment") {
+      handleClickOpen4();
     }
   };
 
@@ -301,6 +313,7 @@ export const DashboardStaff = () => {
       <EditProfileStaffPassword open={open1} onClose={handleClose1} />
       <Center open={open2} onClose={handleClose2} />
       <History open={open3} onClose={handleClose3} />
+      <CreateAppointment open={open4} onClose={handleClose4} />
 
       <CustomCalendar />
     </>

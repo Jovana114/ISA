@@ -72,8 +72,6 @@ public class CenterProfileController {
         newList.add(uu);
         cp.setUsers(newList);
 
-
-
         centerProfileRepository.save(cp);
         userService.changeUserCenterId(cr.getCentreAdmin(), cp.getId());
 

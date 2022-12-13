@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalTime;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Entity
@@ -19,6 +21,12 @@ public class BloodDonationAppointment implements Comparable<BloodDonationAppoint
     private Boolean reserved;
     private Boolean active;
 
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "staff_appointment",
+            joinColumns = @JoinColumn(name = "blood_appointments_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private Set<User> userStaff = new HashSet<>();
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore
     private User users;
@@ -31,6 +39,22 @@ public class BloodDonationAppointment implements Comparable<BloodDonationAppoint
     private BloodReport blood_report;
 
     public BloodDonationAppointment() {
+    }
+
+    public Set<User> getUserStaff() {
+        return userStaff;
+    }
+
+    public void setUserStaff(Set<User> userStaff) {
+        this.userStaff = userStaff;
+    }
+
+    public BloodReport getBlood_report() {
+        return blood_report;
+    }
+
+    public void setBlood_report(BloodReport blood_report) {
+        this.blood_report = blood_report;
     }
 
     public CenterProfile getCenter_profile() {
@@ -105,6 +129,17 @@ public class BloodDonationAppointment implements Comparable<BloodDonationAppoint
         this.active = active;
         this.users = users;
         this.center_profile = center_profile;
+    }
+
+    public BloodDonationAppointment(String date, String time, int duration, Boolean reserved, Boolean active, User users, CenterProfile center_profile, Set<User> userStaff) {
+        this.date = date;
+        this.time = time;
+        this.duration = duration;
+        this.reserved = reserved;
+        this.active = active;
+        this.users = users;
+        this.center_profile = center_profile;
+        this.userStaff = userStaff;
     }
 
     @Override

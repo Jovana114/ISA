@@ -55,7 +55,6 @@ public class User {
   private String phone;
 
   @NotBlank
-//  @Size(min = 12, max = 12)
   private String jmbg;
 
   @NotBlank
@@ -88,6 +87,63 @@ public class User {
   @ManyToOne(fetch = FetchType.LAZY)
   @JsonIgnore
   private CenterProfile center_profile;
+
+  private Boolean is_first_login;
+
+  public User(String username, String email, String password, String firstname, String surname, String address, String city, String state, String phone, String jmbg, String gender, String occupation, String empscho, int points, int penals, List<BloodReport> blood_report, Set<Role> roles, List<BloodDonationAppointment> blood_appointments, CenterProfile center_profile, Boolean isFirstLogin) {
+    this.username = username;
+    this.email = email;
+    this.password = password;
+    this.firstname = firstname;
+    this.surname = surname;
+    this.address = address;
+    this.city = city;
+    this.state = state;
+    this.phone = phone;
+    this.jmbg = jmbg;
+    this.gender = gender;
+    this.occupation = occupation;
+    this.empscho = empscho;
+    this.points = points;
+    this.penals = penals;
+    this.blood_report = blood_report;
+    this.roles = roles;
+    this.blood_appointments = blood_appointments;
+    this.center_profile = center_profile;
+    this.is_first_login = isFirstLogin;
+  }
+
+  public Boolean getIs_first_login() {
+    return is_first_login;
+  }
+
+  public void setIs_first_login(Boolean is_first_login) {
+    this.is_first_login = is_first_login;
+  }
+
+  public User(Long id, String username, String email, String password, String firstname, String surname, String address, String city, String state, String phone, String jmbg, String gender, String occupation, String empscho, int points, int penals, List<BloodReport> blood_report, Set<Role> roles, List<BloodDonationAppointment> blood_appointments, CenterProfile center_profile, Boolean isFirstLogin) {
+    this.id = id;
+    this.username = username;
+    this.email = email;
+    this.password = password;
+    this.firstname = firstname;
+    this.surname = surname;
+    this.address = address;
+    this.city = city;
+    this.state = state;
+    this.phone = phone;
+    this.jmbg = jmbg;
+    this.gender = gender;
+    this.occupation = occupation;
+    this.empscho = empscho;
+    this.points = points;
+    this.penals = penals;
+    this.blood_report = blood_report;
+    this.roles = roles;
+    this.blood_appointments = blood_appointments;
+    this.center_profile = center_profile;
+    this.is_first_login = isFirstLogin;
+  }
 
   public User(Long id, String username, String email, String password, String firstname, String surname, String address, String city, String state, String phone, String jmbg, String gender, String occupation, String empscho, int points, int penals, List<BloodReport> blood_report, Set<Role> roles, List<BloodDonationAppointment> appointments, CenterProfile center_profile) {
     this.id = id;
@@ -152,6 +208,8 @@ public class User {
     this.points = points;
     this.penals = penals;
   }
+
+
 
   public User(Long id, String username, String email, String password, String firstname, String surname, String address, String city, String state, String phone, String jmbg, String gender, String occupation, String empscho, int points, int penals, Set<Role> roles, CenterProfile center_profile) {
     this.id = id;

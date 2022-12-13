@@ -9,8 +9,7 @@ export default function Redirect() {
   const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (sessionStorage.getItem("role")) {
-      // console.log(JSON.parse(sessionStorage.getItem("role")!));
+    if (sessionStorage.getItem("role") && sessionStorage.getItem("user")!) {
 
       if (JSON.parse(sessionStorage.getItem("role")!) === "ROLE_USER")
         setNavigateUser(true);

@@ -10,9 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class UserService {
@@ -30,10 +28,19 @@ public class UserService {
         return userRepository.getOne(id);
     }
 
+    public Set<User> getStaff(List<Long> ids){
+        Set<User> usersToReturn = new HashSet<>();
+        for (Long id: ids
+             ) {
+            usersToReturn.add(userRepository.getOne(id));
+        }
+        return usersToReturn;
+    }
+
     public boolean changeUserCenterId(Long id, Long idc){
 
         Optional<User> uu = userRepository.findById(id);
-        Optional<CenterProfile> cpp =centerProfileRepository.findById(idc);
+        Optional<CenterProfile> cpp = centerProfileRepository.findById(idc);
         System.out.println("AAAAAAAA");
         if(uu.isPresent() && cpp.isPresent()){
             User u = uu.get();
@@ -44,9 +51,9 @@ public class UserService {
             }
 
         return true;
-        }
 
     }
+}
 
     //public List<User> findByNameOrSurnameContaining(String name){ return userRepository.findByFirstnameOrSurnameContaining(name, name);}
 
