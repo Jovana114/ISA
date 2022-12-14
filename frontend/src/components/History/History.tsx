@@ -36,6 +36,7 @@ export default function History({ open, onClose }: HistoryProps) {
     },
   };
 
+
   let centerId = JSON.parse(sessionStorage.getItem("centerId")!)
 
   const [userId, setUserId] = useState(0);
@@ -64,6 +65,7 @@ export default function History({ open, onClose }: HistoryProps) {
         .then((res) => setData(res.data));
     })();
   }, []);
+
 
   return (
     <>

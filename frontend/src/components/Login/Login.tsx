@@ -107,20 +107,6 @@ export const Login = () => {
               console.log(e.message);
               setSubmited(false);
             });
-
-          // if (JSON.stringify(res.roles[0].name) === "ROLE_USER") {
-          //   nav(`/user-home`);
-          //   // setNavigateText("user");
-          //   console.log("user");
-          // } else if (JSON.stringify(res.roles[0].name) === "ROLE_STAFF") {
-          //   nav(`/staff-home`);
-          //   // setNavigateText("staff");
-          //   console.log("staff");
-          // } else if (JSON.stringify(res.roles[0].name) === "ROLE_ADMIN") {
-          //   nav(`/admin-home`);
-          //   // setNavigateText("admin");
-          //   console.log("admin");
-          // }
         })
         .catch((e) => {
           console.log(e.message);
@@ -128,7 +114,6 @@ export const Login = () => {
         });
   }, [submited]);
 
-  // if()
   const submit = async (e: any) => {
     e.preventDefault();
     setSubmited(true);

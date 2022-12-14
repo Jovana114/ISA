@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import DialogTitle from "@mui/material/DialogTitle";
 import Dialog from "@mui/material/Dialog";
 import "./EditProfileStaffPassword.css";
@@ -26,6 +26,8 @@ export default function EditProfileStaffPassword({ open, onClose }: EditProfileS
   const [password, setPassword] = useState(dataUser === null ? "" : dataUser.password);
   const [passwordOld, setPasswordOld] = useState("");
   const [passwordNew, setPasswordNew] = useState("");
+  const [loading, setLoading] = useState(false);
+  const checkBtn = useRef();
 
   useEffect(() => {
     try {
@@ -48,6 +50,7 @@ export default function EditProfileStaffPassword({ open, onClose }: EditProfileS
 
   const handleEditProfile = async (e: any) => {
     e.preventDefault();
+    setLoading(false)
 
     axios.put(
       process.env.REACT_APP_API_URL +
@@ -61,14 +64,14 @@ export default function EditProfileStaffPassword({ open, onClose }: EditProfileS
       .then((data: any) => {
         sessionStorage.setItem("user", JSON.stringify(data))
         alert("Update successful!");
-        onClose();
+        setLoading(true);
       })
       .catch((error: any) => {
         if (error.response.status === 401) {
           alert("Error: Failed to update user");
         }
       });
-
+     
   };
 
   return (
@@ -100,7 +103,10 @@ export default function EditProfileStaffPassword({ open, onClose }: EditProfileS
                   />
                 </div>
                 <div className="d-grid gap-2 mt-3">
-                  <button type="submit" className="btn btn-primary">
+                  <button type="submit" disabled={loading} className="btn btn-secondary">
+                  {loading && (
+                                            <i className="fa fa-spinner fa-spin" aria-hidden="true"/>
+                                        )}
                     Submit
                   </button>
                 </div>

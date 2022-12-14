@@ -127,19 +127,11 @@ export const DashboardStaff = () => {
 
   const getData = () => {
     const userData = JSON.parse(sessionStorage.getItem("user")!);
+    if(userData !== null){
+      if (userData.is_first_login === true) setOpen1(true);
+    }
     setData(userData);
     setLoading(false);
-    // if (userData.roles[0].name === "ROLE_USER") {
-    //   setNavigateIsUser(true);
-    // }
-    // if (userData)
-    //         setData(userData);
-    // const userData = JSON.parse(sessionStorage.getItem("user")!).then(
-    //   (response: any) => {
-    //     setData(response.data);
-    // setLoading(false);
-    //   }
-    // );
   };
 
   if (isLoading) {
@@ -149,20 +141,6 @@ export const DashboardStaff = () => {
       </div>
     );
   }
-  // useEffect(() => {
-  //   (async () => {
-  //     try {
-  //       if (data === undefined || null) {
-  //         const userData = JSON.parse(sessionStorage.getItem("user")!);
-  //         // console.log(userData);
-  //         if (userData.roles[0].name === "ROLE_USER") setNavigateIsUser(true);
-  //         setData(userData);
-  //       }
-  //     } catch (e) {
-  //       setNavigate(true);
-  //     }
-  //   })();
-  // }, [data]);
 
   const logout = async () => {
     sessionStorage.removeItem("token");

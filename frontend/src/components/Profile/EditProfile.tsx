@@ -112,6 +112,7 @@ export default function EditProfile({ open, onClose }: EditProfileProps) {
         <DialogTitle>Edit Profile</DialogTitle>
         {dataUser ? (
           <>
+            <DialogTitle>{role.replace('ROLE_','')}</DialogTitle>
             <div className="Auth-form-container dialog">
               <form className="Auth-form" onSubmit={handleEditProfile}>
                 <div className="Auth-form-content">
