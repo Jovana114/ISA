@@ -72,6 +72,66 @@ export default function BloodReport({ open, id, onClose }: BloodReportProps) {
     onClose();
   };
 
+  const handleEdit = () => {
+    // PUT request using fetch with error handling
+    const requestOptions = {
+      method: "PUT",
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${JSON.parse(
+          sessionStorage.getItem("token")!
+        )}`,
+      },
+      body: {
+        bloodA,
+        bloodB,
+        bloodAB,
+        bloodO,
+        note_to_md,
+        copper_sulfate,
+        normal_level,
+        low_level,
+        hemoglobinometer,
+        read_value,
+        lungs,
+        heart,
+        TA,
+        TT,
+        TB,
+        bag_type,
+        note,
+        accepted,
+        reason_for_rejection,
+        syringes_number,
+        gloves_number,
+        bag_lot_number,
+        puncture_site,
+        begining_of_donation,
+        end_of_donation,
+        amount_of_blood_taken,
+        reason_for_suspension
+    }
+    };
+    fetch(process.env.REACT_APP_API_URL +
+      `/bloodReport/updateBloodReport/${
+        JSON.parse(sessionStorage.getItem("blood_report")!).id
+      }`)
+        .then(async response => {
+            const data = await response.json();
+
+            // check for error response
+            if (!response.ok) {
+                // get error message from body or default to response status
+                const error = (data && data.message) || response.status;
+                return Promise.reject(error);
+            }
+        })
+        .catch(error => {
+            // setErrorMessage(error);
+            console.error('There was an error!', error);
+        });
+  }
+
   const handleEditReport = async (e: any) => {
     e.preventDefault();
 
@@ -137,6 +197,12 @@ export default function BloodReport({ open, id, onClose }: BloodReportProps) {
         },
       }
     );
+
+    if(data.status > 200){
+      console.log('error')
+      return;
+    }
+
     const json = await data.json();
     console.log(json);
 
