@@ -2,10 +2,6 @@ import { useState, useEffect, JSXElementConstructor, Key, ReactElement, ReactFra
 import DialogTitle from "@mui/material/DialogTitle";
 import Dialog from "@mui/material/Dialog";
 import "./CreateAppointment.css";
-import axios from "axios";
-import { Navigate } from "react-router-dom";
-import { v4 as uuidv4 } from "uuid";
-import { json } from "stream/consumers";
 
 interface CreateAppointmentProps {
   open: boolean;
@@ -55,7 +51,7 @@ const config = {
       };
       fetch(
         process.env.REACT_APP_API_URL +
-          `/blood/createBloodAppointment`,
+          `/blood/createBloodAppointment/${JSON.parse(sessionStorage.getItem("centerId")!)}`,
         requestOptions
       ).then((response) => {
         if (response.ok) handleClose();
@@ -78,7 +74,7 @@ const config = {
                       value={date}
                       onChange={(e) => setDate(e.target.value)}
                       required
-                      type="text"
+                      type="date"
                       className="form-control mt-1"
                       placeholder={""}
                     />

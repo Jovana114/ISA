@@ -109,10 +109,10 @@ export default function Times({ id, date }: props) {
             <p>
               Duration: <b>{appointment.duration}</b> mins
             </p>
-            <p>
+            {(appointment.first_name !== null && appointment.last_name !== null) && <p>
               User:{" "}
               <b>{appointment.first_name + " " + appointment.last_name}</b>
-            </p>
+            </p>}
           </div>
         </div>
       ))}

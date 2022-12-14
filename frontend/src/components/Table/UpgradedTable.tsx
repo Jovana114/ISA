@@ -170,6 +170,7 @@ export default function UpgradedTable() {
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
   const [rows, setRows] = useState([]);
+  const [appointments, setAppointments] = useState([])
   const [searchText, setSearchText] = useState("");
 
   // FOR APPOINTMENT

@@ -1,11 +1,13 @@
 package com.example.demo.controllers;
 
+import com.example.demo.models.BloodDonationAppointment;
 import com.example.demo.models.BloodReport;
 import com.example.demo.models.CenterProfile;
 import com.example.demo.models.User;
 import com.example.demo.payload.request.UpdateReportAdminCenterRequest;
 import com.example.demo.payload.request.UpdateReportUserRequest;
 import com.example.demo.payload.response.MessageResponse;
+import com.example.demo.repository.BloodDurationAppointmentRepository;
 import com.example.demo.repository.BloodReportRepository;
 import com.example.demo.repository.CenterProfileRepository;
 import com.example.demo.repository.UserRepository;
@@ -35,6 +37,9 @@ public class BloodReportController {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    BloodDurationAppointmentRepository bloodDurationAppointmentRepository;
 
     @GetMapping("/getUserPartOfReport/{id}")
     @PreAuthorize("hasAuthority('ROLE_STAFF')")
@@ -78,15 +83,17 @@ public class BloodReportController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @PostMapping("/createBloodReport/{id}")
+    @PostMapping("/createBloodReport/{appointmentId}/{userId}")
     @PreAuthorize("hasAuthority('ROLE_USER')")
-    public ResponseEntity<?> createBloodReport(@RequestBody BloodReport bloodReport, @PathVariable("id") Long centreId)
+    public ResponseEntity<?> createBloodReport(@RequestBody BloodReport bloodReport, @PathVariable("appointmentId") Long appointmentId, @PathVariable("userId") Long userId)
     {
-        Optional<CenterProfile> centerProfile = centerProfileRepository.findById(centreId);
+        Optional<BloodDonationAppointment> bloodDurationAppointment = bloodDurationAppointmentRepository.findById(appointmentId);
+        Optional<User> user = userRepository.findById(userId);
 
-        if(centerProfile.isPresent()){
-            CenterProfile _ceCenterProfile =  centerProfile.get();
-        BloodReport bloodReport1 = new BloodReport(_ceCenterProfile, null,  bloodReport.getNum(), bloodReport.getDate(), bloodReport.getName(),
+        if(bloodDurationAppointment.isPresent() && user.isPresent()){
+            BloodDonationAppointment _bloodDurationAppointment =  bloodDurationAppointment.get();
+            User _user = user.get();
+        BloodReport bloodReport1 = new BloodReport(_bloodDurationAppointment.getCenter_profile(), _user, _bloodDurationAppointment,  bloodReport.getNum(), bloodReport.getDate(), bloodReport.getName(),
                 bloodReport.getJmbg(), bloodReport.getBirth(), bloodReport.getGender(), bloodReport.getAddress(),
                 bloodReport.getTownship(), bloodReport.getLocation(), bloodReport.getPhone_home(), bloodReport.getPhone_job(),
                 bloodReport.getPhone_mobile(), bloodReport.getCompany_or_school(), bloodReport.getProfession(),
@@ -108,10 +115,9 @@ public class BloodReportController {
                 bloodReport.getQ23d(), bloodReport.getQ23e(),bloodReport.getQ23f(),
                 bloodReport.getQ24(), bloodReport.getQ25(), bloodReport.getQ26());
 
-        //Optional<User> user = userRepository.findById(userId);
-//        if(user.isPresent()){
-//            bloodReport1.setUsers(user.get());
-//        }
+            _bloodDurationAppointment.setReserved(true);
+            _bloodDurationAppointment.setUsers(_user);
+            bloodDurationAppointmentRepository.save(_bloodDurationAppointment);
 
         bloodReportRepository.save(bloodReport1);
 
@@ -124,6 +130,7 @@ public class BloodReportController {
     @PreAuthorize("hasAuthority('ROLE_STAFF')")
     public ResponseEntity<?> updateBloodReportByStaff(@PathVariable("userId") Long userId, @PathVariable("bloodAppointmentId") Long bloodAppointmentId, @RequestBody UpdateReportAdminCenterRequest updateReportAdminCenterRequest) {
         Optional<BloodReport> BloodReport = Optional.ofNullable(bloodReportService.findByUserAndAppointment(userId, bloodAppointmentId));
+        Optional<BloodDonationAppointment> bloodDurationAppointment = bloodDurationAppointmentRepository.findById(bloodAppointmentId);
 
         if (BloodReport.isPresent()) {
             BloodReport _BloodReport = BloodReport.get();
@@ -176,6 +183,11 @@ public class BloodReportController {
                     centerProfile.setGloves_number(centerProfile.getGloves_number() - _BloodReport.getGloves_number());
                     centerProfile.setBag_lot_number(centerProfile.getBag_lot_number() - _BloodReport.getGloves_number());
                     centerProfileRepository.save(centerProfile);
+
+                    BloodDonationAppointment _bloodDurationAppointment =  bloodDurationAppointment.get();
+                    _bloodDurationAppointment.setActive(true);
+                    bloodDurationAppointmentRepository.save(_bloodDurationAppointment);
+
                 }
 
                 return new ResponseEntity<>(HttpStatus.OK);

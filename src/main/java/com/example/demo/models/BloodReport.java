@@ -832,6 +832,8 @@ public class BloodReport {
         this.blood_appointments = blood_appointments;
     }
 
+
+
     public BloodReport(CenterProfile center_profile, User users, int num, String date, String name, String jmbg, String birth, String gender, String address, String township, String location, String phone_home, String phone_job, String phone_mobile, String company_or_school, String profession, int number_of_previous_blood_donations, int weigh, Boolean low_pressure, Boolean high_pressure, Boolean bloodA, Boolean bloodB, Boolean bloodAB, Boolean bloodO, String note_to_md, String copper_sulfate, int normal_level, int low_level, String hemoglobinometer, String read_value, String lungs, String heart, String TA, String TT, String TB, String bag_type, String note, Boolean accepted, String reason_for_rejection, int syringes_number, int gloves_number, int bag_lot_number, String puncture_site, String begining_of_donation, String end_of_donation, int amount_of_blood_taken, String reason_for_suspension, Boolean q1, Boolean q2, Boolean q3, Boolean q4, Boolean q5, Boolean q6, Boolean q7, Boolean q8, Boolean q9, Boolean q10, Boolean q11, Boolean q12, Boolean q13, Boolean q14, Boolean q15, Boolean q16, Boolean q17, Boolean q18, Boolean q19, Boolean q20a, Boolean q20b, Boolean q20c, Boolean q21, Boolean q22a, Boolean q22b, Boolean q22c, Boolean q22d, Boolean q22e, Boolean q22f, Boolean q22g, Boolean q23a, Boolean q23b, Boolean q23c, Boolean q23d, Boolean q23e, Boolean q23f, Boolean q24, Boolean q25, Boolean q26) {
         this.center_profile = center_profile;
         this.users = users;

@@ -20,6 +20,7 @@ import TableCenter from "../Table/TableCenter";
 import UpgradedTable from "../Table/UpgradedTable";
 import CircularLoader from "../Loader/CircularLoader";
 import Appointments from "../Appointments/Appointments";
+import DoubleTableCenterAppointment from "../Table/DoubleTableCenterAppointment";
 
 export const Dashboard = () => {
   const [navigate, setNavigate] = useState(false);
@@ -257,7 +258,9 @@ export const Dashboard = () => {
       </AppBar>
 
       {/* <TableCenter /> */}
-      <UpgradedTable />
+      {/* <UpgradedTable /> */}
+
+      <DoubleTableCenterAppointment />
 
       <EditProfile open={open} onClose={handleClose} />
 

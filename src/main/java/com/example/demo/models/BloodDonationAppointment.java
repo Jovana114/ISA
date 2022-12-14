@@ -131,6 +131,15 @@ public class BloodDonationAppointment implements Comparable<BloodDonationAppoint
         this.center_profile = center_profile;
     }
 
+    public BloodDonationAppointment(String date, String time, int duration, Boolean reserved, Boolean active, CenterProfile center_profile) {
+        this.date = date;
+        this.time = time;
+        this.duration = duration;
+        this.reserved = reserved;
+        this.active = active;
+        this.center_profile = center_profile;
+    }
+
     public BloodDonationAppointment(String date, String time, int duration, Boolean reserved, Boolean active, User users, CenterProfile center_profile, Set<User> userStaff) {
         this.date = date;
         this.time = time;
