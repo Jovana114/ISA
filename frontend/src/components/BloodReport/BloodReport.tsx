@@ -413,16 +413,6 @@ export default function BloodReport({ open, id, onClose }: BloodReportProps) {
                   </label>
                   <Checkbox checked={accepted} onChange={() => setAccepted(!accepted)} />
                 </div>
-                {/* <div className="form-group mt-3">
-                  <label style={{}}>Accepted</label>
-                  <input
-                    required
-                    type="text"
-                    value={accepted}
-                    className="form-control mt-1"
-                    onChange={(e) => setAccepted(Boolean(e.target.value))}
-                  />
-                </div> */}
                 <div className="form-group mt-3">
                   <label style={{}}>Reason for rejection</label>
                   <input

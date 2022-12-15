@@ -93,7 +93,7 @@ public class BloodReportController {
         if(bloodDurationAppointment.isPresent() && user.isPresent()){
             BloodDonationAppointment _bloodDurationAppointment =  bloodDurationAppointment.get();
             User _user = user.get();
-        BloodReport bloodReport1 = new BloodReport(_bloodDurationAppointment.getCenter_profile(), _user, _bloodDurationAppointment,  bloodReport.getNum(), bloodReport.getDate(), bloodReport.getName(),
+            BloodReport bloodReport1 = new BloodReport(_bloodDurationAppointment.getCenter_profile(), _user, _bloodDurationAppointment,  bloodReport.getNum(), bloodReport.getDate(), bloodReport.getName(),
                 bloodReport.getJmbg(), bloodReport.getBirth(), bloodReport.getGender(), bloodReport.getAddress(),
                 bloodReport.getTownship(), bloodReport.getLocation(), bloodReport.getPhone_home(), bloodReport.getPhone_job(),
                 bloodReport.getPhone_mobile(), bloodReport.getCompany_or_school(), bloodReport.getProfession(),
@@ -126,10 +126,10 @@ public class BloodReportController {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
-    @PutMapping("/updateBloodReport/{userId}/{bloodAppointmentId}")
+    @PutMapping("/updateBloodReport/{centerId}_{bloodAppointmentId}")
     @PreAuthorize("hasAuthority('ROLE_STAFF')")
-    public ResponseEntity<?> updateBloodReportByStaff(@PathVariable("userId") Long userId, @PathVariable("bloodAppointmentId") Long bloodAppointmentId, @RequestBody UpdateReportAdminCenterRequest updateReportAdminCenterRequest) {
-        Optional<BloodReport> BloodReport = Optional.ofNullable(bloodReportService.findByUserAndAppointment(userId, bloodAppointmentId));
+    public ResponseEntity<?> updateBloodReportByStaff(@PathVariable("centerId") Long centerId, @PathVariable("bloodAppointmentId") Long bloodAppointmentId, @RequestBody UpdateReportAdminCenterRequest updateReportAdminCenterRequest) {
+        Optional<BloodReport> BloodReport = Optional.ofNullable(bloodReportService.findByCenterAndAppointment(centerId, bloodAppointmentId));
         Optional<BloodDonationAppointment> bloodDurationAppointment = bloodDurationAppointmentRepository.findById(bloodAppointmentId);
 
         if (BloodReport.isPresent()) {
