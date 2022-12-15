@@ -126,10 +126,10 @@ public class BloodReportController {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
-    @PutMapping("/updateBloodReport/{userId}/{bloodAppointmentId}")
+    @PutMapping("/updateBloodReport/{centerId}_{bloodAppointmentId}")
     @PreAuthorize("hasAuthority('ROLE_STAFF')")
-    public ResponseEntity<?> updateBloodReportByStaff(@PathVariable("userId") Long userId, @PathVariable("bloodAppointmentId") Long bloodAppointmentId, @RequestBody UpdateReportAdminCenterRequest updateReportAdminCenterRequest) {
-        Optional<BloodReport> BloodReport = Optional.ofNullable(bloodReportService.findByUserAndAppointment(userId, bloodAppointmentId));
+    public ResponseEntity<?> updateBloodReportByStaff(@PathVariable("centerId") Long centerId, @PathVariable("bloodAppointmentId") Long bloodAppointmentId, @RequestBody UpdateReportAdminCenterRequest updateReportAdminCenterRequest) {
+        Optional<BloodReport> BloodReport = Optional.ofNullable(bloodReportService.findByCenterAndAppointment(centerId, bloodAppointmentId));
         Optional<BloodDonationAppointment> bloodDurationAppointment = bloodDurationAppointmentRepository.findById(bloodAppointmentId);
 
         if (BloodReport.isPresent()) {
@@ -200,7 +200,6 @@ public class BloodReportController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-
 
     @PutMapping("/updateBloodReportByUser/{id}")
     @PreAuthorize("hasAuthority('ROLE_USER')")

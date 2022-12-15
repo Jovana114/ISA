@@ -13,6 +13,8 @@ import Paper from "@mui/material/Paper";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import axios from "axios";
+import { Button } from '@mui/material';
+import BloodReportUser from "../BloodReportUser/BloodReportUser";
 
 function CenterAppointment(
   id: number,
@@ -46,53 +48,79 @@ function appointmentData(
 function Row(props: { row: ReturnType<typeof CenterAppointment> }) {
   const { row } = props;
   const [open, setOpen] = React.useState(false);
+  const [showReport, setShowReport] = useState(false);
+
+  const userId = JSON.parse(sessionStorage.getItem('id')!)
+
+  const reserve = (id: any) => {
+    setShowReport(true);
+  };
+
+  const closeReport = () => {
+    setShowReport(false);
+  };
 
   return (
-    <React.Fragment>
-      <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
-        <TableCell>
-          <IconButton
-            aria-label="expand row"
-            size="small"
-            onClick={() => setOpen(!open)}
-          >
-            {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-          </IconButton>
-        </TableCell>
-        <TableCell align="right">{row.name}</TableCell>
-        <TableCell align="right">{row.address}</TableCell>
-        <TableCell align="right">{row.averageRating}</TableCell>
-      </TableRow>
-      <TableRow>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-          <Collapse in={open} timeout="auto" unmountOnExit>
-            <Box sx={{ margin: 1 }}>
-              <Typography variant="h6" gutterBottom component="div">
-                Appointments
-              </Typography>
-              <Table size="small" aria-label="purchases">
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Date</TableCell>
-                    <TableCell>Time</TableCell>
-                    <TableCell>Duration</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {row.appointments.map((appointment: any) => (
-                    <TableRow key={appointment.id}>
-                      <TableCell>{appointment.date}</TableCell>
-                      <TableCell>{appointment.time}</TableCell>
-                      <TableCell>{appointment.duration}</TableCell>
+    <Box sx={{ width: "680px", margin: "20px auto" }}>
+      <BloodReportUser
+        showReport={showReport}
+        id={userId}
+        close={closeReport}
+      />
+      <React.Fragment>
+        <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
+          <TableCell>
+            <IconButton
+              aria-label="expand row"
+              size="small"
+              onClick={() => setOpen(!open)}
+            >
+              {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+            </IconButton>
+          </TableCell>
+          <TableCell>{row.name}</TableCell>
+          <TableCell>{row.address}</TableCell>
+          <TableCell>{row.averageRating}</TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+            <Collapse in={open} timeout="auto" unmountOnExit>
+              <Box sx={{ margin: 1 }}>
+                <Typography variant="h6" gutterBottom component="div">
+                  Appointments
+                </Typography>
+                <Table size="small" aria-label="purchases">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Date</TableCell>
+                      <TableCell>Time</TableCell>
+                      <TableCell>Duration</TableCell>
                     </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </Box>
-          </Collapse>
-        </TableCell>
-      </TableRow>
-    </React.Fragment>
+                  </TableHead>
+                  <TableBody>
+                    {row.appointments.map((appointment: any) => (
+                      <TableRow key={appointment.id}>
+                        <TableCell>{appointment.date}</TableCell>
+                        <TableCell>{appointment.time}</TableCell>
+                        <TableCell>{appointment.duration}</TableCell>
+                        <TableCell>
+                          <Button
+                            onClick={() => reserve(appointment.id)}
+                            style={{ background: "#0d6efd", color: "white" }}
+                          >
+                            Reserve
+                          </Button>
+                          </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </Box>
+            </Collapse>
+          </TableCell>
+        </TableRow>
+      </React.Fragment>
+    </Box>
   );
 }
 
@@ -116,48 +144,40 @@ export default function DoubleTableCenterAppointment() {
   const [centerRows, setCenterRows] = useState([]);
   const [appointmentRows, setAppointmentRows] = useState([]);
 
-  useEffect(() => {
-    (async () => {
-      axios
-        .get(process.env.REACT_APP_API_URL + "/centerProfile/all", config)
-        .then((res: any) => {
-            setCenterRows(res.data)
+  const getData = async() => {
+    axios
+    .get(process.env.REACT_APP_API_URL + "/centerProfile/all", config)
+    .then((res: any) => {
+        setCenterRows(res.data)
 
-            res.data.forEach((element: any) => {
+        res.data.forEach((element: any) => {
+            const tempArray: { id: number; date: string; time: string; duration: number; }[] = []
 
-
-                const tempArray: { id: number; date: string; time: string; duration: number; }[] = []
-
-                axios
-                    .get(process.env.REACT_APP_API_URL + `/blood/all/center/${element.id}`, config)
-                    .then((res: any) => {
-                        setAppointmentRows(res.data)
-                        
-                        
-                        res.data.forEach((appointment: any) => {
-                            tempArray.push(appointmentData(appointment.id,appointment.date,appointment.time,appointment.duration))
-                            })
-                    });
-
-                // console.log(tempArray);
-            
-                // appointmentRows.
+            axios
+                .get(process.env.REACT_APP_API_URL + `/blood/all/center/${element.id}`, config)
+                .then((res: any) => {
+                    setAppointmentRows(res.data)
                     
-            
+                    
+                    res.data.forEach((appointment: any) => {
+                        tempArray.push(appointmentData(appointment.id,appointment.date,appointment.time,appointment.duration))
+                        })
+                });            
+
                 rows.push(CenterAppointment(
-                    element.id,
-                    element.name,
-                    element.address,
-                    element.averageRating,
-                    tempArray
-                    )) 
-                    
-                    
-                // console.log(rows);
-              });
+                element.id,
+                element.name,
+                element.address,
+                element.averageRating,
+                tempArray
+                )) 
+          });
 
-        });
-    })();
+    });
+  }
+
+  useEffect(() => {
+    getData()
   }, []);
 
   
@@ -165,14 +185,6 @@ export default function DoubleTableCenterAppointment() {
   return (
     <TableContainer component={Paper}>
       <Table aria-label="collapsible table">
-        <TableHead>
-          <TableRow>
-            <TableCell>Date</TableCell>
-            <TableCell>Time</TableCell>
-            <TableCell>Duration</TableCell>
-            <TableCell />
-          </TableRow>
-        </TableHead>
         <TableBody>
           {rows.map((row: any) => (
             <Row key={row.name} row={row} />
