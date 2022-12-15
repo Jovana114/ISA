@@ -7,10 +7,8 @@ import axios from "axios";
 interface EditProfileStaffPasswordProps {
   open: boolean;
   onClose: () => void;
-  // data: any;
 }
 
-// export default function EditProfile({ open, onClose, data }: EditProfileProps) {
 export default function EditProfileStaffPassword({ open, onClose }: EditProfileStaffPasswordProps) {
 
   // const [dataUser, setDataUser] = useState()
@@ -26,8 +24,6 @@ export default function EditProfileStaffPassword({ open, onClose }: EditProfileS
   const [password, setPassword] = useState(dataUser === null ? "" : dataUser.password);
   const [passwordOld, setPasswordOld] = useState("");
   const [passwordNew, setPasswordNew] = useState("");
-  const [loading, setLoading] = useState(false);
-  const checkBtn = useRef();
 
   useEffect(() => {
     try {
@@ -50,7 +46,6 @@ export default function EditProfileStaffPassword({ open, onClose }: EditProfileS
 
   const handleEditProfile = async (e: any) => {
     e.preventDefault();
-    setLoading(false)
 
     axios.put(
       process.env.REACT_APP_API_URL +
@@ -64,7 +59,7 @@ export default function EditProfileStaffPassword({ open, onClose }: EditProfileS
       .then((data: any) => {
         sessionStorage.setItem("user", JSON.stringify(data))
         alert("Update successful!");
-        setLoading(true);
+        onClose();
       })
       .catch((error: any) => {
         if (error.response.status === 401) {
@@ -103,10 +98,7 @@ export default function EditProfileStaffPassword({ open, onClose }: EditProfileS
                   />
                 </div>
                 <div className="d-grid gap-2 mt-3">
-                  <button type="submit" disabled={loading} className="btn btn-secondary">
-                  {loading && (
-                                            <i className="fa fa-spinner fa-spin" aria-hidden="true"/>
-                                        )}
+                  <button type="submit" className="btn btn-secondary">
                     Submit
                   </button>
                 </div>
@@ -114,12 +106,6 @@ export default function EditProfileStaffPassword({ open, onClose }: EditProfileS
             </form>
           </div>
           : <></>}
-        {/* {data.roles.map((role: any) => (
-          <DialogTitle style={{ fontSize: "1rem" }}>
-            {role}
-          </DialogTitle>
-        ))} */}
-
       </Dialog>
     </>
   );
