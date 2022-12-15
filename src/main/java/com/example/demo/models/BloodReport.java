@@ -22,6 +22,7 @@ public class BloodReport {
     private User users;
 
     @OneToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
     private BloodDonationAppointment blood_appointments;
 
     // Popunjava davalac

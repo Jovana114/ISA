@@ -14,7 +14,7 @@ export default function Times({ id, date }: props) {
   const [searchText, setSearchText] = useState("");
   const [open, setOpen] = useState(false);
   const [startAppointment, setStartAppointment] = useState(false);
-  const [userId, setUserId] = useState(0);
+  const [userId, setAppointmentId] = useState(0);
 
   const config = {
     headers: {
@@ -62,7 +62,7 @@ export default function Times({ id, date }: props) {
   const handleOpenReport = (appointment: any) => {
     if (appointment.userId !== null) {
       setOpen(true);
-      setUserId(appointment.userId);
+      setAppointmentId(appointment.id);
     }
   };
 

@@ -36,6 +36,7 @@ public class BloodDonationAppointment implements Comparable<BloodDonationAppoint
     private CenterProfile center_profile;
 
     @OneToOne(mappedBy = "blood_appointments", fetch = FetchType.LAZY)
+    @JsonIgnore
     private BloodReport blood_report;
 
     public BloodDonationAppointment() {

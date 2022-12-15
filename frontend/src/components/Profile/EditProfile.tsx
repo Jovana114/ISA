@@ -31,6 +31,8 @@ export default function EditProfile({ open, onClose }: EditProfileProps) {
   const [jmbg, setJmbg] = useState('');
   const [occupation, setOccupation] = useState('');
   const [phone, setPhone] = useState('');
+  const [points, setPoints] = useState(0);
+  const [penals, setPenals] = useState(0);
 
   const config = {
     headers: {
@@ -52,6 +54,8 @@ export default function EditProfile({ open, onClose }: EditProfileProps) {
       ).then(response => {
         return response.json()
       }).then(data => {
+        console.log(data);
+        
         setData(data)
         setAddress(data.address);
         setCity(data.city);
@@ -64,6 +68,8 @@ export default function EditProfile({ open, onClose }: EditProfileProps) {
         setJmbg(data.jmbg);
         setOccupation(data.occupation);
         setPhone(data.phone);
+        setPoints(data.points);
+        setPenals(data.penals);
       }
     )
   }
@@ -83,7 +89,7 @@ export default function EditProfile({ open, onClose }: EditProfileProps) {
     try {
       const { data } = await axios.put(
         process.env.REACT_APP_API_URL +
-          `/user/update/${JSON.parse(sessionStorage.getItem("user")!).id}`,
+          `/user/update/${id}`,
         {
           address,
           city,
@@ -100,9 +106,6 @@ export default function EditProfile({ open, onClose }: EditProfileProps) {
         config
       );
       // console.log(data);
-
-      sessionStorage.setItem("user", JSON.stringify(data));
-
       alert("Update successful!");
       onClose();
     } catch (error: any) {
@@ -116,7 +119,13 @@ export default function EditProfile({ open, onClose }: EditProfileProps) {
     <>
       <Dialog onClose={handleClose} open={open}>
         <DialogTitle>Edit Profile</DialogTitle>
-            <DialogTitle>{role.replace('ROLE_','')}</DialogTitle>
+            <DialogTitle>
+              {role.replace('ROLE_','')}
+              <br />
+              <h5>Points: {points}</h5>
+              <br />
+              <h5>Penals: {penals}</h5>
+            </DialogTitle>
             <div className="Auth-form-container dialog">
               <form className="Auth-form" onSubmit={handleEditProfile}>
                 <div className="Auth-form-content">

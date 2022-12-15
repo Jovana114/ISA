@@ -139,8 +139,8 @@ export default function BloodReport({ open, id, onClose }: BloodReportProps) {
       const { data } = await axios.put(
         process.env.REACT_APP_API_URL +
           `/bloodReport/updateBloodReport/${
-            JSON.parse(sessionStorage.getItem("blood_report")!).id
-          }`,
+            JSON.parse(sessionStorage.getItem("centerId")!)
+          }_${id}`,
         {
           bloodA,
           bloodB,
@@ -174,7 +174,7 @@ export default function BloodReport({ open, id, onClose }: BloodReportProps) {
       );
       // console.log(data);
 
-      sessionStorage.setItem("blood_report", JSON.stringify(data));
+      // sessionStorage.setItem("blood_report", JSON.stringify(data));
 
       alert("Update successful!");
       onClose();

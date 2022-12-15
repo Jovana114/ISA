@@ -73,6 +73,7 @@ public class User {
   private int penals;
 
   @OneToMany(mappedBy = "users", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  @JsonIgnore
   private List<BloodReport> blood_report;
 
   @ManyToMany(fetch = FetchType.LAZY)
@@ -82,6 +83,7 @@ public class User {
   private Set<Role> roles = new HashSet<>();
 
   @OneToMany(mappedBy = "users", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  @JsonIgnore
   private List<BloodDonationAppointment> blood_appointments;
 
   @ManyToOne(fetch = FetchType.LAZY)

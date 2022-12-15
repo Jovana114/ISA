@@ -16,12 +16,12 @@ public class BloodReportService {
     @Autowired
     BloodReportRepository bloodReportRepository;
 
-    public BloodReport findByCenterAndAppointment(Long centerId, Long bloodAppointmentId){
+    public BloodReport findByCenterAndAppointment(Long userId, Long bloodAppointmentId){
         List<BloodReport> bloodReportList = bloodReportRepository.findAll();
         BloodReport bloodReportFound = new BloodReport();
         if(!bloodReportList.isEmpty()) {
             for (BloodReport b : bloodReportList) {
-                if (b.getCenter_profile().getId() == centerId && b.getBlood_appointments().getId() == bloodAppointmentId) {
+                if (b.getCenter_profile().getId() == userId && b.getBlood_appointments().getId() == bloodAppointmentId) {
                     bloodReportFound = b;
                 }
             }

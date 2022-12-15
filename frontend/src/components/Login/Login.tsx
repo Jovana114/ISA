@@ -101,7 +101,7 @@ export const Login = () => {
 
           fetchData(res.id, res.token)
             .then((res) => {
-              sessionStorage.setItem("user", JSON.stringify(res));
+              // sessionStorage.setItem("user", JSON.stringify(res));
             })
             .catch((e) => {
               console.log(e.message);

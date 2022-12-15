@@ -201,7 +201,6 @@ public class BloodReportController {
         }
     }
 
-
     @PutMapping("/updateBloodReportByUser/{id}")
     @PreAuthorize("hasAuthority('ROLE_USER')")
     public ResponseEntity<?> updateBloodReportByUser(@PathVariable("id") Long id, @RequestBody UpdateReportUserRequest updateReportUserRequest) {
