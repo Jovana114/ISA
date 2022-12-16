@@ -5,6 +5,7 @@ import com.example.demo.payload.request.AdminRequest;
 
 import com.example.demo.payload.response.MessageResponse;
 import com.example.demo.payload.response.UserResponse;
+import com.example.demo.payload.response.UserResponseWithBloodAppointement;
 import com.example.demo.repository.*;
 import com.example.demo.service.BloodDonationAppoinmentService;
 import com.example.demo.service.UserService;
@@ -207,6 +208,28 @@ public class UserController {
     public ResponseEntity<?> getByUsername(@PathVariable("searchData") String searchData) {
         User listOfUsers = userRepository.findByUsernameContaining(searchData);
         return new ResponseEntity<>(listOfUsers, HttpStatus.OK);
+    }
+
+    @GetMapping("/getAllRegistertedUsersByCenter/{centerId}")
+    @PreAuthorize("hasAuthority('ROLE_STAFF')")
+    public ResponseEntity<?> getAllRegistertedUsersByCenter(@PathVariable("centerId") Long centerId) {
+        List<UserResponseWithBloodAppointement> listOfUsersWithBloodAppointment = new ArrayList<>();
+        List<BloodDonationAppointment> allBloodDonationAppointments = bloodDurationAppointmentRepository.findAll();
+
+        for (BloodDonationAppointment bla: allBloodDonationAppointments) {
+            if(bla.getUsers() != null) {
+                for (User user : userRepository.findAll()) {
+                    if (user.getId() == bla.getUsers().getId() && bla.getCenter_profile().getId() == centerId) {
+                        UserResponseWithBloodAppointement userResponseWithBloodAppointement = new UserResponseWithBloodAppointement(
+                                user.getUsername(), user.getEmail(), user.getFirstname(), user.getSurname(), user.getAddress(),
+                                user.getPhone(), user.getJmbg(), user.getGender(), bla.getDate());
+                        listOfUsersWithBloodAppointment.add(userResponseWithBloodAppointement);
+                    }
+                }
+            }
+        }
+
+        return new ResponseEntity<>(listOfUsersWithBloodAppointment, HttpStatus.OK);
     }
 
 }

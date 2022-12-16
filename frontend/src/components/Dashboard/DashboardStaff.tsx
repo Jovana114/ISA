@@ -15,14 +15,13 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import EditProfileStaff from "../ProfileStaff/EditProfileStaff";
+import RegistertedUsers from "../RegistertedUsers/RegistertedUsers";
 import EditProfileStaffPassword from "../ProfileStaff/EditProfileStaffPassword";
 import Center from "../CenterProfile/Center";
 import History from "../History/History";
 import CreateAppointment from "../CreateAppointment/CreateAppointment";
 import CustomCalendar from "../CalendarWithEvents/CustomCalendar";
 import CircularLoader from "../Loader/CircularLoader";
-import axios from "axios";
-import BloodReport from "../BloodReport/BloodReport";
 
 export const DashboardStaff = () => {
   // const [data, setData] = useState({});
@@ -40,9 +39,10 @@ export const DashboardStaff = () => {
   const [open2, setOpen2] = React.useState(false);
   const [open3, setOpen3] = React.useState(false);
   const [open4, setOpen4] = React.useState(false);
+  const [open5, setOpen5] = React.useState(false);
 
   const pages = ["Pricing", "Blog"];
-  const settings = ["Update center", "Profile", "Logout", "Change password", "History", 'Create appointment'];
+  const settings = ["Update center", "Profile", "Logout", "Change password", "History", 'Create appointment', 'Registerted users'];
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -79,6 +79,10 @@ export const DashboardStaff = () => {
     setOpen4(true);
   };
 
+  const handleClickOpen5 = () => {
+    setOpen5(true);
+  };
+
   const handleClose = () => {
     setOpen(false);
   };
@@ -99,6 +103,10 @@ export const DashboardStaff = () => {
     setOpen4(false);
   };
 
+  const handleClose5 = () => {
+    setOpen5(false);
+  };
+
   const handleSettings = (selectedSetting: string) => {
     handleCloseUserMenu();
     if (selectedSetting === "Profile") {
@@ -115,6 +123,9 @@ export const DashboardStaff = () => {
     }
     else if (selectedSetting === "Create appointment") {
       handleClickOpen4();
+    }
+    else if (selectedSetting === "Registerted users") {
+      handleClickOpen5();
     }
   };
 
@@ -292,6 +303,7 @@ export const DashboardStaff = () => {
       <Center open={open2} onClose={handleClose2} />
       <History open={open3} onClose={handleClose3} />
       <CreateAppointment open={open4} onClose={handleClose4} />
+      <RegistertedUsers open={open5} onClose={handleClose5} />
 
       <CustomCalendar />
     </>
