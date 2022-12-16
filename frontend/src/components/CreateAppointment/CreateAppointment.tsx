@@ -3,6 +3,13 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Dialog from "@mui/material/Dialog";
 import "./CreateAppointment.css";
 
+import { Dayjs } from "dayjs";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { TimePicker } from "@mui/x-date-pickers/TimePicker";
+import TextField from "@mui/material/TextField";
+
 interface CreateAppointmentProps {
   open: boolean;
   onClose: () => void;
@@ -22,17 +29,21 @@ const config = {
     onClose();
   };
 
-  const [date, setDate] = useState("");
-  const [time, setTime] = useState("");
-  const [duration, serDuration] = useState(0);
+  const [date, setDate] = useState<Dayjs | null>(null);
+  const [time, setTime] = useState<Dayjs | null>(null);
+
+
+  const [filteredDate, setFilteredDate] = useState("");
+  const [filteredTime, setFilteredTime] = useState("");
+  const [duration, serDuration] = useState(10);
 
   const [elements, setElements] = useState<string[]>([])
 
   const [add, setAdd] = useState("")
 
   var jsonData = {
-    date: date,
-    time: time,
+    date: filteredDate,
+    time: filteredTime,
     duration: duration,
     users: elements
   };
@@ -69,60 +80,79 @@ const config = {
               <form className="Auth-form" onSubmit={handleCreateAppointment}>
                 <div className="Auth-form-content">
                   <div className="form-group mt-3 divSize50L">
-                    <label style={{ textTransform: "capitalize" }}>Date</label>
-                    <input
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DatePicker
+                      label="Appointment Date"
                       value={date}
-                      onChange={(e) => setDate(e.target.value)}
-                      required
-                      type="date"
-                      className="form-control mt-1"
-                      placeholder={""}
+                      onChange={(newValue: any) => {
+                        setDate(newValue)
+                        setFilteredDate(
+                          JSON.stringify(newValue).split("T")[0]
+                        );
+                      }}
+                      renderInput={(params) => <TextField {...params} />}
                     />
+                  </LocalizationProvider>
                   </div>
                   <div className="form-group mt-3 divSize50L">
-                    <label style={{ textTransform: "capitalize" }}>Time</label>
-                    <input
-                      value={time}
-                      onChange={(e) => setTime(e.target.value)}
-                      required
-                      type="text"
-                      className="form-control mt-1"
-                      placeholder={""}
-                    />
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <TimePicker
+                        label="Appointment Time"
+                        value={time}
+                        onChange={(newValue: any) => {
+                          setTime(newValue);
+                          setFilteredTime(
+                            JSON.stringify(newValue)
+                              .split("T")[1]
+                              .slice(0, 5)
+                          );
+                        }}
+                        renderInput={(params) => <TextField {...params} />}
+                        views={["hours"]}
+                        inputFormat={"HH:mm"}
+                      />
+                    </LocalizationProvider>
                   </div>
+                  <div>
                   <div className="form-group mt-3 divSize50L">
-                    <label style={{ textTransform: "capitalize" }}>Duration</label>
+                    {/* <label style={{ textTransform: "capitalize" }}>Duration</label> */}
                     <input
+                    style={{height: '55px'}}
                       value={duration}
                       onChange={(e) => serDuration(Number(e.target.value))}
                       required
                       type="number"
                       className="form-control mt-1"
-                      placeholder={""}
+                      placeholder={"Duration"}
+                      min={10}
                     />
                   </div>
-                  <div className="form-group mt-3 divSize50L">
-                    <label style={{ textTransform: "capitalize" }}>Enter username's of the staff required</label>
+                  <div className="form-group mt-3 divSize50L" style={{display: 'inline-flex'}}>
+                    {/* <label style={{ textTransform: "capitalize" }}>Enter username's of the staff required</label> */}
                     <input
+                    style={{height: '55px', marginRight: '10px'}}
                       onChange={(e) => setAdd(e.target.value)}
                       required
                       type="text"
                       className="form-control mt-1"
-                      placeholder={""}
+                      placeholder={"Staff's Username"}
                     />
-                   <button onClick={(e) => {
+                    <button style={{marginTop: '3.5px'}} onClick={(e) => {
                     e.preventDefault()
                     setElements (elements => [...elements,add])
                    }}  
                     className="btn btn-primary">
                       Add
                     </button>
-                  <div className="d-grid gap-2 mt-3">
+                </div>
+                  
+                  </div>
+                  
+                  <div className="d-grid mt-3" style={{width: '300px', margin: '0 auto', alignItems: 'center'}}>
                     <button type="submit" className="btn btn-primary">
                       Submit
                     </button>
                   </div>
-                </div>
                 </div>
               </form>
             </div>

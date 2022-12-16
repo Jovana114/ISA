@@ -526,8 +526,6 @@ export default function DoubleTableCenterAppointment() {
                                 setFilteredDate(
                                   JSON.stringify(newValue).split("T")[0]
                                 );
-
-                                // setFilteredDate(newValue.replace("/", "-"));
                               }}
                               renderInput={(params) => <TextField {...params} />}
                             />
