@@ -54,7 +54,7 @@ export default function EditProfile({ open, onClose }: EditProfileProps) {
       ).then(response => {
         return response.json()
       }).then(data => {
-        console.log(data);
+        // console.log(data);
         
         setData(data)
         setAddress(data.address);
@@ -122,9 +122,9 @@ export default function EditProfile({ open, onClose }: EditProfileProps) {
             <DialogTitle>
               {role.replace('ROLE_','')}
               <br />
-              <h5>Points: {points}</h5>
+              <span>Points: {points}</span>
               <br />
-              <h5>Penals: {penals}</h5>
+              <span>Penals: {penals}</span>
             </DialogTitle>
             <div className="Auth-form-container dialog">
               <form className="Auth-form" onSubmit={handleEditProfile}>

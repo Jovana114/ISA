@@ -109,12 +109,12 @@ const headCells: readonly HeadCell[] = [
     disablePadding: false,
     label: "Rating",
   },
-  {
-    id: "id",
-    numeric: false,
-    disablePadding: false,
-    label: "Reserve",
-  },
+  // {
+  //   id: "id",
+  //   numeric: false,
+  //   disablePadding: false,
+  //   label: "Reserve",
+  // },
 ];
 
 interface EnhancedTableProps {
@@ -183,7 +183,17 @@ export default function UpgradedTable() {
   const [userId, setUserId] = useState(0);
 
   const [open, setOpen] = React.useState(false);
-  const [showFilters, setShowFilters] = useState(false);
+  const [showFilters, setShowFilters] = useState(true);
+
+  const emptyRows =
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+
+  const STEP = 1;
+  const MIN = 0;
+  const MAX = 10;
+
+  const [checked, setChecked] = useState(false);
+  const [state, setState] = useState([5]);
 
   const config = {
     headers: {
@@ -269,17 +279,6 @@ export default function UpgradedTable() {
     setPage(0);
   };
 
-  // Avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
-
-  const STEP = 1;
-  const MIN = 0;
-  const MAX = 10;
-
-  const [checked, setChecked] = useState(false);
-  const [state, setState] = useState([5]);
-
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setChecked(event.target.checked);
   };
@@ -355,7 +354,7 @@ export default function UpgradedTable() {
                       )}
                     </IconButton>
                   </TableCell>
-                  <TableCell colSpan={2} style={{ padding: "0" }}>
+                  <TableCell style={{ padding: "0" }}>
                     <TextField
                       id="standard-basic"
                       label="Search"
@@ -365,19 +364,19 @@ export default function UpgradedTable() {
                       value={searchText}
                     />
                   </TableCell>
-                  <TableCell colSpan={2} style={{ padding: "0 10px" }}>
+                  <TableCell style={{ padding: "0 10px" }}>
                     <Button onClick={() => search(searchText)}>Search</Button>
                     <Button onClick={() => reset()}>
                       <RestartAltIcon />
                     </Button>
                   </TableCell>
                 </TableRow>
-
-                {showFilters ? (
-                  <TableRow>
-                      <TableCell colSpan={4} padding="none">
-                        <Collapse in={open} timeout="auto" unmountOnExit>
-                          <TableRow>
+                <TableRow>
+                  <TableCell colSpan={3} padding="none">
+                    <Collapse in={open} timeout="auto" unmountOnExit>
+                      <Table>
+                        <TableBody>
+                          {/* <TableRow>
                             <TableCell
                               colSpan={1}
                               style={{ paddingLeft: "0", width: "200px" }}
@@ -430,10 +429,10 @@ export default function UpgradedTable() {
                                 <RestartAltIcon />
                               </Button>
                             </TableCell>
-                          </TableRow>
+                          </TableRow> */}
                           <TableRow>
                             <TableCell>
-                              <FormGroup>
+                              <FormGroup style={{maxWidth: '200px', marginBottom: '20px'}}>
                                 <FormControlLabel
                                   control={
                                     <Checkbox
@@ -442,11 +441,11 @@ export default function UpgradedTable() {
                                       inputProps={{ "aria-label": "controlled" }}
                                     />
                                   }
-                                  label="Enable Filter"
+                                  label={`Enable Filter \nCurrent Rating filter: ${state}`}
                                 />
                               </FormGroup>
-                            </TableCell>
-                            <TableCell colSpan={2}>
+                            {/* </TableCell>
+                            <TableCell colSpan={3}> */}
                               <div
                                 style={{
                                   display: "flex",
@@ -515,15 +514,13 @@ export default function UpgradedTable() {
                                 />
                               </div>
                             </TableCell>
-                            <TableCell>{state}</TableCell>
+                            {/* <TableCell>{state}</TableCell> */}
                           </TableRow>
-                        </Collapse>
-                      </TableCell>
-                    </TableRow>
-                  ) : (
-                    <></>
-                )}
-
+                        </TableBody>
+                      </Table>
+                    </Collapse>
+                  </TableCell>
+                </TableRow>
                 <EnhancedTableHead
                   order={order}
                   orderBy={orderBy}
@@ -551,7 +548,7 @@ export default function UpgradedTable() {
                         </TableCell>
                         <TableCell align="left">{row.address}</TableCell>
                         <TableCell align="right">{row.averageRating}</TableCell>
-                        <TableCell align="right">
+                        {/* <TableCell align="right">
                           <Button
                             onClick={() => reserve(row.id)}
                             style={{ background: `${!showFilters ? 'gray' : '#0d6efd'}`, color: "white" }}
@@ -559,13 +556,13 @@ export default function UpgradedTable() {
                           >
                             Reserve
                           </Button>
-                        </TableCell>
+                        </TableCell> */}
                       </TableRow>
                     );
                   })}
                 {emptyRows > 0 && (
                   <TableRow style={{}}>
-                    <TableCell colSpan={6} />
+                    <TableCell colSpan={3} />
                   </TableRow>
                 )}
               </TableBody>

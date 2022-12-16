@@ -73,9 +73,7 @@ export const Dashboard = () => {
       handleClickOpen();
     } else if (selectedSetting === "Logout") {
       logout();
-    } else if (selectedSetting === "Appointments") {
-      handleClickOpenAppointments();
-    }
+    } 
   };
   const logout = async () => {
     sessionStorage.removeItem("token");
