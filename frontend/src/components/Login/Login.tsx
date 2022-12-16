@@ -9,33 +9,9 @@ export const Login = () => {
 
   const nav = useNavigate();
 
-  // const config = {
-  //   headers: {
-  //     "Content-type": "application/json",
-  //     Authorization: `Bearer ${JSON.parse(sessionStorage.getItem("token")!)}`,
-  //   },
-  // };
-
-  // useEffect(() => {
-  //   if (sessionStorage.getItem("user")) {
-  //     if (
-  //       JSON.parse(sessionStorage.getItem("user")!).roles[0].name ===
-  //       "ROLE_USER"
-  //     ) {
-  //       nav("user-home");
-  //     } else if (
-  //       JSON.parse(sessionStorage.getItem("user")!).roles[0].name ===
-  //       "ROLE_STAFF"
-  //     ) {
-  //       nav("/staff-home");
-  //     }
-  //     nav("/admin-home");
-  //   }
-  // });
-
   const [submited, setSubmited] = useState(false);
   const [data, setData] = useState([]);
-  // const [errorMessage, setErrorMessage] = useState("");
+
   const fetchDataPost = async () => {
     const settings = {
       method: "POST",
@@ -101,7 +77,6 @@ export const Login = () => {
 
           fetchData(res.id, res.token)
             .then((res) => {
-              // sessionStorage.setItem("user", JSON.stringify(res));
             })
             .catch((e) => {
               console.log(e.message);
@@ -117,56 +92,7 @@ export const Login = () => {
   const submit = async (e: any) => {
     e.preventDefault();
     setSubmited(true);
-
-    // try {
-    //   await fetchDataPost();
-    //   nav(`/${navigateText}-home`);
-    // } catch (e: any) {
-    //   alert(e.message);
-    // }
-
-    // if (navigate && navigateText !== "") {
-    //   nav(`/${navigateText}-home`);
-    // }
-
-    // try {
-    //   const { data } = await axios.post(
-    //     process.env.REACT_APP_API_URL + "/auth/signin",
-    //     {
-    //       username,
-    //       password,
-    //     },
-    //     { withCredentials: false }
-    //   );
-
-    //   sessionStorage.setItem("token", JSON.stringify(data.token));
-    //   sessionStorage.setItem("id", JSON.stringify(data.id));
-    //   axios.defaults.headers.common[
-    //     "Authorization"
-    //   ] = `Bearer ${data["token"]}`;
-
-    //   axios
-    //     .get(
-    //       process.env.REACT_APP_API_URL +
-    //         `/user/${sessionStorage.getItem("id")}`
-    //     )
-    //     .then((res: any) => {
-    //       sessionStorage.setItem("user", JSON.stringify(res.data));
-    //       sessionStorage.setItem(
-    //         "role",
-    //         JSON.stringify(res.data.roles[0].name)
-    //       );
-    //     });
-    // } catch (error: any) {
-    //   if (error.response.status === 401) {
-    //     alert("Bad credentials");
-    //   }
-    // }
   };
-
-  // if (navigate) {
-  //   return <Navigate to={`/${navigateText}-home`} />;
-  // }
 
   return (
     <>

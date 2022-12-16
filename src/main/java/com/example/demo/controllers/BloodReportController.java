@@ -41,11 +41,11 @@ public class BloodReportController {
     @Autowired
     BloodDurationAppointmentRepository bloodDurationAppointmentRepository;
 
-    @GetMapping("/getUserPartOfReport/{id}")
+    @GetMapping("/getUserPartOfReport/{centerId}_{bloodAppointmentId}")
     @PreAuthorize("hasAuthority('ROLE_STAFF')")
-    public ResponseEntity<?> getUSerPartOfBloodReport(@PathVariable Long id)
+    public ResponseEntity<?> getUSerPartOfBloodReport(@PathVariable("centerId") Long centerId, @PathVariable("bloodAppointmentId") Long bloodAppointmentId)
     {
-        Optional<BloodReport> bloodReport1 = bloodReportRepository.findById(id);
+        Optional<BloodReport> bloodReport1 = Optional.ofNullable(bloodReportService.findByCenterAndAppointment(centerId, bloodAppointmentId));
 
         if (bloodReport1.isPresent()) {
         BloodReport _BloodReport = bloodReport1.get();

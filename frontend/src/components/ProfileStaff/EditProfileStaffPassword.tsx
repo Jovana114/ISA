@@ -7,14 +7,12 @@ import axios from "axios";
 interface EditProfileStaffPasswordProps {
   open: boolean;
   onClose: () => void;
-  // data: any;
 }
 
-// export default function EditProfile({ open, onClose, data }: EditProfileProps) {
 export default function EditProfileStaffPassword({ open, onClose }: EditProfileStaffPasswordProps) {
 
-  // const [dataUser, setDataUser] = useState()
-  let dataUser = JSON.parse(sessionStorage.getItem("user")!);
+  const token = JSON.parse(sessionStorage.getItem("token")!);
+  let id = Number(sessionStorage.getItem('id'))
 
   const config = {
     headers: {
@@ -23,26 +21,34 @@ export default function EditProfileStaffPassword({ open, onClose }: EditProfileS
     },
   };
 
-  const [password, setPassword] = useState(dataUser === null ? "" : dataUser.password);
+  const [data, setData] = useState([])
+  const [password, setPassword] = useState("");
   const [passwordOld, setPasswordOld] = useState("");
   const [passwordNew, setPasswordNew] = useState("");
   const [loading, setLoading] = useState(false);
   const checkBtn = useRef();
 
-  useEffect(() => {
-    try {
-      if (password === "") {
-        // setDataUser(userData)
+  const getUserData = (id: number) => {
+    fetch(
+        process.env.REACT_APP_API_URL + `/user/${id}`,
+        {
+          method: "GET",
+          headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${token}`
+        }}
+      ).then(response => {
+        return response.json()
+      }).then(data => {
+        console.log(data);
+
+        setData(data)
         setPasswordOld(passwordOld)
         setPasswordNew(passwordNew)
         setPassword(passwordNew);
       }
-
-    } catch (e) {
-      // return <Navigate to="/login" />;
-    }
-
-  }, [password]);
+    )
+  }
 
   const handleClose = () => {
     onClose();
@@ -74,11 +80,15 @@ export default function EditProfileStaffPassword({ open, onClose }: EditProfileS
      
   };
 
+  useEffect(() => {
+    getUserData(id)
+  }, []);
+
   return (
     <>
       <Dialog onClose={handleClose} open={open}>
         <DialogTitle>Edit Profile</DialogTitle>
-        {dataUser ?
+        {data ?
           <div className="Auth-form-container dialog">
             <form className="Auth-form" onSubmit={handleEditProfile}>
               <div className="Auth-form-content">

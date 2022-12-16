@@ -8,9 +8,6 @@ import {
   TableCell,
   Paper,
 } from "@mui/material";
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import axios from "axios";
 import Dialog from "@mui/material/Dialog";
 
@@ -69,9 +66,9 @@ export default function RegistertedUsers({ open, onClose }: RegistertedUsersProp
              </TableHead>
               <TableBody>
                 {
-                data.map((row: any) => (
+                data.map((row: any, _key) => (
                   <TableRow
-                    key={row.id}
+                    key={_key}
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
                     <TableCell>{row.username}</TableCell>

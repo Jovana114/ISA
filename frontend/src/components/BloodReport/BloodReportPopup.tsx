@@ -40,6 +40,28 @@ export default function BloodReportPopup({
     );
   };
 
+  
+  const handleCheck = async () => {
+    const data = await fetch(
+      process.env.REACT_APP_API_URL + `/bloodReport/getUserPartOfReport/${(JSON.parse(sessionStorage.getItem("centerId")!))}_{id}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${JSON.parse(
+            sessionStorage.getItem("token")!
+          )}`,
+        },
+      }
+    ).then((response: any) => {
+      if(response.status === 200){
+        alert("User meets the requirements");
+      } else {
+        alert("User does not meet the requirements");
+      }
+    })
+  };
+
   return startAppointment ? (
     <>
       <BloodReport open={open} id={id} onClose={onClose} />
@@ -50,6 +72,7 @@ export default function BloodReportPopup({
         <DialogTitle>Edit Profile</DialogTitle>
         <Button onClick={checkAppointment}>Start Appointment</Button>
         <Button onClick={handleCancel}>Canceled</Button>
+        <Button onClick={handleCheck}>Check requirements</Button>
       </Dialog>
     </>
   );

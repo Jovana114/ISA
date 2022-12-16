@@ -24,7 +24,6 @@ import CustomCalendar from "../CalendarWithEvents/CustomCalendar";
 import CircularLoader from "../Loader/CircularLoader";
 
 export const DashboardStaff = () => {
-  // const [data, setData] = useState({});
   const [navigate, setNavigate] = useState(false);
   const [navigateIsUser, setNavigateIsUser] = useState(false);
 
@@ -41,7 +40,6 @@ export const DashboardStaff = () => {
   const [open4, setOpen4] = React.useState(false);
   const [open5, setOpen5] = React.useState(false);
 
-  const pages = ["Pricing", "Blog"];
   const settings = ["Update center", "Profile", "Logout", "Change password", "History", 'Create appointment', 'Registerted users'];
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -131,17 +129,43 @@ export const DashboardStaff = () => {
 
   const [data, setData] = useState({});
   const [isLoading, setLoading] = useState(true);
+  const [firstLogin, setFirstLogin] = useState(true)
+
+  let token = JSON.parse(sessionStorage.getItem("token")!)
+  let id = JSON.parse(sessionStorage.getItem("id")!)
 
   useEffect(() => {
-    getData();
+    //getData();
+    getUserData(id);
   }, []);
 
+  
+  const getUserData = (id: number) => {
+    fetch(
+        process.env.REACT_APP_API_URL + `/user/${id}`,
+        {
+          method: "GET",
+          headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${token}`
+        }}
+      ).then(response => {
+        return response.json()
+      }).then(data => {
+        setData(data);
+        setFirstLogin(data.is_first_login)        
+        setLoading(false);
+      }
+    )
+  }
+      
   const getData = () => {
+
     const userData = JSON.parse(sessionStorage.getItem("user")!);
+    setData(userData);
     if(userData !== null){
       if (userData.is_first_login === true) setOpen1(true);
     }
-    setData(userData);
     setLoading(false);
   };
 
@@ -170,142 +194,126 @@ export const DashboardStaff = () => {
     return <Navigate to="/user-home" />;
   }
 
-  // return <div className="form-signin mt-5 text-center">
-  return (
+  if(data && firstLogin){
+    return <EditProfileStaffPassword open={true} onClose={() => {
+      fetch(
+        process.env.REACT_APP_API_URL + `/user/${id}`,
+        {
+          method: "GET",
+          headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${token}`
+        }}
+      ).then(response => {
+        return response.json()
+      }).then(data => {
+        setData(data);
+        setFirstLogin(data.is_first_login)        
+        setLoading(false);
+      }
+    )
+    }} />
+  }
+
+  return data && (
     <>
-      <AppBar position="static">
-        <Container maxWidth="xl">
-          <Toolbar disableGutters>
-            <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
-            <Typography
-              variant="h6"
-              noWrap
-              component="a"
-              href="/"
-              sx={{
-                mr: 2,
-                display: { xs: "none", md: "flex" },
-                fontFamily: "monospace",
-                fontWeight: 700,
-                letterSpacing: ".3rem",
-                color: "inherit",
-                textDecoration: "none",
-              }}
-            >
-              LOGO
-            </Typography>
-
-            <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-              <IconButton
-                size="large"
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                onClick={handleOpenNavMenu}
-                color="inherit"
-              >
-                <MenuIcon />
-              </IconButton>
-              <Menu
-                id="menu-appbar"
-                anchorEl={anchorElNav}
-                anchorOrigin={{
-                  vertical: "bottom",
-                  horizontal: "left",
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "left",
-                }}
-                open={Boolean(anchorElNav)}
-                onClose={handleCloseNavMenu}
+        <AppBar position="static">
+          <Container maxWidth="xl">
+            <Toolbar disableGutters>
+              <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
+              <Typography
+                variant="h6"
+                noWrap
+                component="a"
+                href="/"
                 sx={{
-                  display: { xs: "block", md: "none" },
+                  mr: 2,
+                  display: { xs: "none", md: "flex" },
+                  fontFamily: "monospace",
+                  fontWeight: 700,
+                  letterSpacing: ".3rem",
+                  color: "inherit",
+                  textDecoration: "none",
                 }}
               >
-                {pages.map((page) => (
-                  <MenuItem key={page} onClick={handleCloseNavMenu}>
-                    <Typography textAlign="center">{page}</Typography>
-                  </MenuItem>
-                ))}
-              </Menu>
-            </Box>
-            {/* <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} /> */}
-            {/* <Typography
-              variant="h5"
-              noWrap
-              component="a"
-              href=""
-              sx={{
-                mr: 2,
-                display: { xs: "flex", md: "none" },
-                flexGrow: 1,
-                fontFamily: "monospace",
-                fontWeight: 700,
-                letterSpacing: ".3rem",
-                color: "inherit",
-                textDecoration: "none",
-              }}
-            >
-              LOGO
-            </Typography> */}
-            <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-              {pages.map((page) => (
-                <Button
-                  key={page}
-                  onClick={handleCloseNavMenu}
-                  sx={{ my: 2, color: "white", display: "block" }}
+                LOGO
+              </Typography>
+
+              <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+                <IconButton
+                  size="large"
+                  aria-label="account of current user"
+                  aria-controls="menu-appbar"
+                  aria-haspopup="true"
+                  onClick={handleOpenNavMenu}
+                  color="inherit"
                 >
-                  {page}
-                </Button>
-              ))}
-            </Box>
-
-            <Box sx={{ flexGrow: 0 }}>
-              <Tooltip title="Open settings">
-                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt="Remy Sharp" src="/img/avatar.png" />
+                  <MenuIcon />
                 </IconButton>
-              </Tooltip>
-              <Menu
-                sx={{ mt: "45px" }}
-                id="menu-appbar"
-                anchorEl={anchorElUser}
-                anchorOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                open={Boolean(anchorElUser)}
-                onClose={handleCloseUserMenu}
-              >
-                {settings.map((setting) => (
-                  <MenuItem
-                    key={setting}
-                    onClick={() => handleSettings(setting)}
-                  >
-                    <Typography textAlign="center">{setting}</Typography>
-                  </MenuItem>
-                ))}
-              </Menu>
-            </Box>
-          </Toolbar>
-        </Container>
-      </AppBar>
+                <Menu
+                  id="menu-appbar"
+                  anchorEl={anchorElNav}
+                  anchorOrigin={{
+                    vertical: "bottom",
+                    horizontal: "left",
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "left",
+                  }}
+                  open={Boolean(anchorElNav)}
+                  onClose={handleCloseNavMenu}
+                  sx={{
+                    display: { xs: "block", md: "none" },
+                  }}
+                >
+                </Menu>
+              </Box>
+              <Box sx={{ flexGrow: 0 }}>
+                <Tooltip title="Open settings">
+                  <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                    <Avatar alt="Remy Sharp" src="/img/avatar.png" />
+                  </IconButton>
+                </Tooltip>
+                <Menu
+                  sx={{ mt: "45px" }}
+                  id="menu-appbar"
+                  anchorEl={anchorElUser}
+                  anchorOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                  }}
+                  open={Boolean(anchorElUser)}
+                  onClose={handleCloseUserMenu}
+                >
+                  {settings.map((setting) => (
+                    <MenuItem
+                      key={setting}
+                      onClick={() => handleSettings(setting)}
+                    >
+                      <Typography textAlign="center">{setting}</Typography>
+                    </MenuItem>
+                  ))}
+                </Menu>
+              </Box>
+            </Toolbar>
+          </Container>
+        </AppBar>
+        <EditProfileStaff open={open} onClose={handleClose} />
+        <EditProfileStaffPassword open={open1} onClose={handleClose1} />
+        <Center open={open2} onClose={handleClose2} />
+        <History open={open3} onClose={handleClose3} />
+        <CreateAppointment open={open4} onClose={handleClose4} />
+        <RegistertedUsers open={open5} onClose={handleClose5} />
 
-      <EditProfileStaff open={open} onClose={handleClose} />
-      <EditProfileStaffPassword open={open1} onClose={handleClose1} />
-      <Center open={open2} onClose={handleClose2} />
-      <History open={open3} onClose={handleClose3} />
-      <CreateAppointment open={open4} onClose={handleClose4} />
-      <RegistertedUsers open={open5} onClose={handleClose5} />
-
-      <CustomCalendar />
+        <CustomCalendar />
     </>
-  );
+    )
+    
 };

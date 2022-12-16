@@ -4,6 +4,7 @@ import Dialog from "@mui/material/Dialog";
 import "./EditProfileStaff.css";
 import axios from "axios";
 import { Navigate } from "react-router-dom";
+import CircularLoader from "../Loader/CircularLoader";
 
 interface EditProfileStaffProps {
   open: boolean;
@@ -14,8 +15,9 @@ interface EditProfileStaffProps {
 // export default function EditProfile({ open, onClose, data }: EditProfileProps) {
   export default function EditProfileStaff({ open, onClose }: EditProfileStaffProps) {
 
-  // const [dataUser, setDataUser] = useState()
-let dataUser = JSON.parse(sessionStorage.getItem("user")!);
+  // value value set = useStatevalue
+const token = JSON.parse(sessionStorage.getItem("token")!);
+let id = Number(sessionStorage.getItem('id'))
 
   const config = {
     headers: {
@@ -24,41 +26,54 @@ let dataUser = JSON.parse(sessionStorage.getItem("user")!);
     },
   };
 
-  const [address, setAddress] = useState(dataUser === null ? "": dataUser.address);
-  const [city, setCity] = useState(dataUser === null ? "": dataUser.city);
-  const [state, setState] = useState(dataUser === null ? "": dataUser.state);
-  const [empscho, setEmpscho] = useState(dataUser === null ? "": dataUser.empscho);
-  const [firstname, setFirstname] = useState(dataUser === null ? "": dataUser.firstname);
-  const [surname, setSurname] = useState(dataUser === null ? "": dataUser.surname);
-  const [username, setUsername] = useState(dataUser === null ? "": dataUser.username);
-  const [gender, setGender] = useState(dataUser === null ? "": dataUser.gender);
-  const [jmbg, setJmbg] = useState(dataUser === null ? "": dataUser.jmbg);
-  const [occupation, setOccupation] = useState(dataUser === null ? "": dataUser.occupation);
-  const [phone, setPhone] = useState(dataUser === null ? "": dataUser.phone);
-  const [email, setEmail] = useState(dataUser === null ? "": dataUser.email);
-
+  const [data, setData] = useState([])
+  const [address, setAddress] = useState('')
+  const [city, setCity] = useState('')
+  const [state, setState] = useState('')
+  const [empscho, setEmpscho] = useState('')
+  const [firstname, setFirstname] = useState('')
+  const [surname, setSurname] = useState('')
+  const [username, setUsername] = useState('')
+  const [gender, setGender] = useState('')
+  const [jmbg, setJmbg] = useState('')
+  const [occupation, setOccupation] = useState('')
+  const [phone, setPhone] = useState('')
+  const [email, setEmail] = useState('')
   
+  const getUserData = (id: number) => {
+    fetch(
+        process.env.REACT_APP_API_URL + `/user/${id}`,
+        {
+          method: "GET",
+          headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${token}`
+        }}
+      ).then(response => {
+        return response.json()
+      }).then(data => {
+        console.log(data);
+        
+        setData(data)
+        setAddress(data.address);
+        setCity(data.city);
+        setState(data.state);
+        setEmpscho(data.empscho);
+        setFirstname(data.firstname);
+        setSurname(data.surname);
+        setUsername(data.username);
+        setGender(data.gender);
+        setJmbg(data.jmbg);
+        setOccupation(data.occupation);
+        setPhone(data.phone);
+        setEmail(data.email);
+      }
+    )
+  }
 
   useEffect(() => {
-    try {
-        // setDataUser(userData)
-        setAddress(dataUser.address);
-        setCity(dataUser.city);
-        setState(dataUser.state);
-        setEmpscho(dataUser.empscho);
-        setFirstname(dataUser.firstname);
-        setSurname(dataUser.surname);
-        setUsername(dataUser.username);
-        setGender(dataUser.gender);
-        setJmbg(dataUser.jmbg);
-        setOccupation(dataUser.occupation);
-        setPhone(dataUser.phone);
-        setEmail(dataUser.email);
-      
-    } catch (e) {
-      // return <Navigate to="/login" />;
-    }
-  });
+    getUserData(id)
+  }, []);
 
   const handleClose = () => {
     onClose();
@@ -104,7 +119,7 @@ let dataUser = JSON.parse(sessionStorage.getItem("user")!);
     <>
       <Dialog onClose={handleClose} open={open}>
         <DialogTitle>Edit Profile</DialogTitle>
-        {dataUser ? 
+        {data ? 
                 <div className="Auth-form-container dialog">
                 <form className="Auth-form" onSubmit={handleEditProfileStaff}>
                   <div className="Auth-form-content">
@@ -115,7 +130,7 @@ let dataUser = JSON.parse(sessionStorage.getItem("user")!);
                         type="text"
                         className="form-control mt-1"
                         placeholder={"Enter address"}
-                        defaultValue={dataUser.address}
+                        value={address}
                         onChange={(e) => setAddress(e.target.value)}
                       />
                     </div>
@@ -126,7 +141,7 @@ let dataUser = JSON.parse(sessionStorage.getItem("user")!);
                         type="text"
                         className="form-control mt-1"
                         placeholder={"Enter city"}
-                        defaultValue={dataUser.city}
+                        value={city}
                         onChange={(e) => setCity(e.target.value)}
                       />
                     </div>
@@ -137,7 +152,7 @@ let dataUser = JSON.parse(sessionStorage.getItem("user")!);
                         type="text"
                         className="form-control mt-1"
                         placeholder={"Enter state"}
-                        defaultValue={dataUser.state}
+                        value={state}
                         onChange={(e) => setState(e.target.value)}
                       />
                     </div>
@@ -148,7 +163,7 @@ let dataUser = JSON.parse(sessionStorage.getItem("user")!);
                         type="text"
                         className="form-control mt-1"
                         placeholder={"Enter empscho"}
-                        defaultValue={dataUser.empscho}
+                        value={empscho}
                         onChange={(e) => setEmpscho(e.target.value)}
                       />
                     </div>
@@ -161,7 +176,7 @@ let dataUser = JSON.parse(sessionStorage.getItem("user")!);
                         type="text"
                         className="form-control mt-1"
                         placeholder={"Enter first name"}
-                        defaultValue={dataUser.firstname}
+                        value={firstname}
                         onChange={(e) => setFirstname(e.target.value)}
                       />
                     </div>
@@ -172,7 +187,7 @@ let dataUser = JSON.parse(sessionStorage.getItem("user")!);
                         type="text"
                         className="form-control mt-1"
                         placeholder={"Enter surname"}
-                        defaultValue={dataUser.surname}
+                        value={surname}
                         onChange={(e) => setSurname(e.target.value)}
                       />
                     </div>
@@ -183,7 +198,7 @@ let dataUser = JSON.parse(sessionStorage.getItem("user")!);
                         type="text"
                         className="form-control mt-1"
                         placeholder={"Enter username"}
-                        defaultValue={dataUser.username}
+                        value={username}
                         onChange={(e) => setUsername(e.target.value)}
                       />
                     </div>
@@ -194,7 +209,7 @@ let dataUser = JSON.parse(sessionStorage.getItem("user")!);
                         type="text"
                         className="form-control mt-1"
                         placeholder={"Enter gender"}
-                        defaultValue={dataUser.gender}
+                        value={gender}
                         onChange={(e) => setGender(e.target.value)}
                       />
                     </div>
@@ -205,7 +220,7 @@ let dataUser = JSON.parse(sessionStorage.getItem("user")!);
                         type="text"
                         className="form-control mt-1"
                         placeholder={"Enter JMBG"}
-                        defaultValue={dataUser.jmbg}
+                        value={jmbg}
                         onChange={(e) => setJmbg(e.target.value)}
                       />
                     </div>
@@ -218,7 +233,7 @@ let dataUser = JSON.parse(sessionStorage.getItem("user")!);
                         type="text"
                         className="form-control mt-1"
                         placeholder={"Enter occupation"}
-                        defaultValue={dataUser.occupation}
+                        value={occupation}
                         onChange={(e) => setOccupation(e.target.value)}
                       />
                     </div>
@@ -229,7 +244,7 @@ let dataUser = JSON.parse(sessionStorage.getItem("user")!);
                         type="text"
                         className="form-control mt-1"
                         placeholder={"Enter phone"}
-                        defaultValue={dataUser.phone}
+                        value={phone}
                         onChange={(e) => setPhone(e.target.value)}
                       />
                     </div>
@@ -240,7 +255,7 @@ let dataUser = JSON.parse(sessionStorage.getItem("user")!);
                         type="text"
                         className="form-control mt-1"
                         placeholder={"Enter email"}
-                        defaultValue={dataUser.email}
+                        value={email}
                         onChange={(e) => setEmail(e.target.value)}
                       />
                     </div>
@@ -252,7 +267,7 @@ let dataUser = JSON.parse(sessionStorage.getItem("user")!);
                   </div>
                 </form>
               </div>
-        : <></>}
+        : <CircularLoader />}
         {/* {data.roles.map((role: any) => (
           <DialogTitle style={{ fontSize: "1rem" }}>
             {role}
