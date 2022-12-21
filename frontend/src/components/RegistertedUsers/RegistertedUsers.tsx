@@ -1,18 +1,22 @@
 import React, { useEffect, useState } from "react";
-import {
-  TableContainer,
-  Table,
-  TableHead,
-  TableBody,
-  TableRow,
-  TableCell,
-  Paper,
-} from "@mui/material";
-import axios from "axios";
-import Dialog from "@mui/material/Dialog";
-import TableSortLabel from "@mui/material/TableSortLabel";
 import Box from "@mui/material/Box";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TablePagination from "@mui/material/TablePagination";
+import TableRow from "@mui/material/TableRow";
+import TableSortLabel from "@mui/material/TableSortLabel";
+import Paper from "@mui/material/Paper";
 import { visuallyHidden } from "@mui/utils";
+import axios from "axios";
+import {
+  Collapse
+} from "@mui/material";
+import Dialog from "@mui/material/Dialog";
+import CommunicationEmail from "material-ui/svg-icons/communication/email";
+import { height } from "@mui/system";
 
 interface RegistertedUsersProps {
   open: boolean;
@@ -20,9 +24,17 @@ interface RegistertedUsersProps {
 }
 
 interface Data {
+  id: number;
   firstname: string;
-  lastname: string;
+  surname: string;
+  username: string;
+  email: string;
+  address: string;
+  phone: string;
+  jmbg: string;
+  gender: string;
   date_when_blood_was_donated: string;
+  time_when_blood_was_donated: string;
 }
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
@@ -49,8 +61,6 @@ function getComparator<Key extends keyof any>(
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
-// This method is created for cross-browser compatibility, if you don't
-// need to support IE11, you can use Array.prototype.sort() directly
 function stableSort<T>(
   array: readonly T[],
   comparator: (a: T, b: T) => number
@@ -81,16 +91,52 @@ const headCells: readonly HeadCell[] = [
     label: "Firstname",
   },
   {
-    id: "lastname",
+    id: "surname",
     numeric: false,
     disablePadding: false,
-    label: "Lastname",
+    label: "Surname",
+  },
+  {
+    id: "username",
+    numeric: false,
+    disablePadding: false,
+    label: "Username",
+  },
+  {
+    id: "email",
+    numeric: false,
+    disablePadding: false,
+    label: "Email",
+  },
+  {
+    id: "jmbg",
+    numeric: false,
+    disablePadding: false,
+    label: "Jmbg",
+  },
+  {
+    id: "gender",
+    numeric: false,
+    disablePadding: false,
+    label: "Gender",
+  },
+  {
+    id: "phone",
+    numeric: false,
+    disablePadding: false,
+    label: "Phone",
   },
   {
     id: "date_when_blood_was_donated",
     numeric: true,
     disablePadding: false,
     label: "Date when blood was donated",
+  },
+  {
+    id: "time_when_blood_was_donated",
+    numeric: true,
+    disablePadding: false,
+    label: "Time when blood was donated",
   },
 ];
 
@@ -141,93 +187,125 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 }
 
 export default function RegistertedUsers({ open, onClose }: RegistertedUsersProps) {
+  const [order, setOrder] = React.useState<Order>("asc");
+  const [orderBy, setOrderBy] = React.useState<keyof Data>("firstname");
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
-    const [data, setData] = useState([]);
-    const [order, setOrder] = React.useState<Order>("asc");
-    const [orderBy, setOrderBy] = React.useState<keyof Data>("firstname");
-    const [rows, setRows] = useState([]);
-  
-    const config = {
-      headers: {
-        "Content-type": "application/json",
-        Authorization: `Bearer ${JSON.parse(sessionStorage.getItem("token")!)}`,
-      },
-    };
+  const [rows, setRows] = useState([]);
 
-    const handleClose = () => {
-        onClose();
-    };
+  const emptyRows =
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
-    const handleRequestSort = (
-      event: React.MouseEvent<unknown>,
-      property: keyof Data
-    ) => {
-      const isAsc = orderBy === property && order === "asc";
-      setOrder(isAsc ? "desc" : "asc");
-      setOrderBy(property);
-    };
+  const config = {
+    headers: {
+      "Content-type": "application/json",
+      Authorization: `Bearer ${JSON.parse(sessionStorage.getItem("token")!)}`,
+    },
+  };
+
   
-    useEffect(() => {
-      (async () => {
-        axios
-          .get(process.env.REACT_APP_API_URL + `/user/getAllRegistertedUsersByCenter/${JSON.parse(sessionStorage.getItem("centerId")!)}`, config)
-          .then((res) => setData(res.data));
-      })();
-    }, []);
+  const handleClose = () => {
+    onClose();
+};
+
+  useEffect(() => {
+    (async () => {
+      axios
+        .get(process.env.REACT_APP_API_URL + `/user/getAllRegistertedUsersByCenter/${JSON.parse(sessionStorage.getItem("centerId")!)}`, config)
+        .then((res) => setRows(res.data));
+    })(); 
+  }, [setRows]);
   
-  
-    return (
-      <>
+  const handleRequestSort = (
+    event: React.MouseEvent<unknown>,
+    property: keyof Data
+  ) => {
+    const isAsc = orderBy === property && order === "asc";
+    setOrder(isAsc ? "desc" : "asc");
+    setOrderBy(property);
+  };
+
+  const handleChangePage = (event: unknown, newPage: number) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
+  return (
+    <>
       <Dialog onClose={handleClose} open={open}>
-        {data ? (
-          <TableContainer
-            style={{ width: "600px", margin: "20px auto" }}
-            component={Paper}
-          >
-            <Table>
+            <Table sx={{ width: "1500px", height: "200px" }} aria-labelledby="tableTitle">
               <TableHead>
                 <TableRow>
                 </TableRow>
                 <TableRow>
-                  <TableCell>Username</TableCell>
-                  <TableCell>Email</TableCell>
-                  <TableCell>Firstname</TableCell>
-                  <TableCell>Surname</TableCell>
-                  <TableCell>Address</TableCell>
-                  <TableCell>Phone</TableCell>
-                  <TableCell>Jmbg</TableCell>
-                  <TableCell>Gender</TableCell>
-                  <TableCell>Date of donation</TableCell>
+                  <TableCell colSpan={3} padding="none">
+                    <Collapse in={open} timeout="auto" unmountOnExit>
+                      <Table>
+                        <TableBody>
+                        </TableBody>
+                      </Table>
+                    </Collapse>
+                  </TableCell>
                 </TableRow>
-                </TableHead>
+                <EnhancedTableHead
+                  order={order}
+                  orderBy={orderBy}
+                  onRequestSort={handleRequestSort}
+                  rowCount={rows.length}
+                />
+              </TableHead>
               <TableBody>
-              {
-                data.map((row: any, _key) => (
-                  <TableRow
-                    key={_key}
-                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                  >
-                    <TableCell>{row.username}</TableCell>
-                    <TableCell>{row.email}</TableCell>
-                    <TableCell>{row.firstname}</TableCell>
-                    <TableCell>{row.surname}</TableCell>
-                    <TableCell>{row.address}</TableCell>
-                    <TableCell>{row.phone}</TableCell>
-                    <TableCell>{row.jmbg}</TableCell>
-                    <TableCell>{row.gender}</TableCell>
-                    <TableCell>{row.date_when_blood_was_donated}</TableCell>
+                {stableSort(rows, getComparator(order, orderBy))
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((row, index) => {
+                    const labelId = `enhanced-table-checkbox-${index}`;
+
+                    return (
+                      <TableRow hover tabIndex={-1} key={row.id}>
+                        <TableCell
+                          component="th"
+                          id={labelId}
+                          scope="row"
+                          padding="none"
+                        >
+                          {row.firstname}
+                        </TableCell>
+                        <TableCell align="left">{row.surname}</TableCell>
+                        <TableCell align="left">{row.username}</TableCell>
+                        <TableCell align="left">{row.email}</TableCell>
+                        <TableCell align="left">{row.jmbg}</TableCell>
+                        <TableCell align="left">{row.gender}</TableCell>
+                        <TableCell align="left">{row.phone}</TableCell>
+                        <TableCell align="right">{row.date_when_blood_was_donated}</TableCell>
+                        <TableCell align="right">{row.time_when_blood_was_donated}</TableCell>
+                      </TableRow>
+                    );
+                  })}
+                {emptyRows > 0 && (
+                  <TableRow style={{}}>
+                    <TableCell colSpan={3} />
                   </TableRow>
-                )
-              )};
+                )}
               </TableBody>
             </Table>
-          </TableContainer>
-        ) : (
-          <></>
-        )
-        }
-        </Dialog>
-      </>
-    );
-  }
-  
+          <TablePagination
+            style={{ width: "600px" }}
+            rowsPerPageOptions={[5, 10, 25]}
+            component="div"
+            count={rows.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
+      </Dialog>
+    </>
+  );
+}

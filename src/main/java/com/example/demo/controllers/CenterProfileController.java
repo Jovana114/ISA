@@ -1,11 +1,17 @@
 package com.example.demo.controllers;
 
 import com.example.demo.models.CenterProfile;
+import com.example.demo.models.Mark;
 import com.example.demo.models.User;
 import com.example.demo.payload.request.CenterRequest;
+import com.example.demo.payload.request.MarkRequest;
 import com.example.demo.payload.response.MessageResponse;
+import com.example.demo.payload.response.UserResponseWithBloodAppointement;
 import com.example.demo.repository.CenterProfileRepository;
+import com.example.demo.repository.MarkRepository;
+import com.example.demo.repository.UserRepository;
 import com.example.demo.service.CenterProfileService;
+import com.example.demo.service.MarkService;
 import com.example.demo.service.UserService;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,16 +31,25 @@ import java.util.Optional;
 public class CenterProfileController {
 
     @Autowired
-    CenterProfileService centerProfileService;
+    UserController userController;
 
     @Autowired
     CenterProfileRepository centerProfileRepository;
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    UserRepository userRepository;
+
+    @Autowired
+    MarkRepository markRepository;
+
+    @Autowired
+    MarkService markService;
     
     @PutMapping("/updateCenterProfile/{id}")
-    @PreAuthorize("hasAuthority('ROLE_STAFF')")
+    @PreAuthorize("hasAuthority('ROLE_STAFF') or hasAuthority('ROLE_USER')")
     public ResponseEntity<CenterProfile> updateCenterProfile(@PathVariable("id") long id, @RequestBody CenterProfile centerProfile) {
         Optional<CenterProfile> CenterProfileData = centerProfileRepository.findById(id);
 
@@ -115,5 +130,62 @@ public class CenterProfileController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    @PutMapping("/markCenter/{userId}")
+    @PreAuthorize("hasAuthority('ROLE_USER')")
+    public ResponseEntity<?> markCenterFun(@PathVariable("userId") Long userId, @RequestBody MarkRequest markRequest){
+        CenterProfile centerProfile = centerProfileRepository.findByName(markRequest.getCenter_profile_name());
+        Optional<User> regUser = userRepository.findById(userId);
 
+        if(markRequest.getMark() > 5 || markRequest.getMark() < 1){
+            return new ResponseEntity<>("You can set marks from 1 to 5.", HttpStatus.NOT_FOUND);
+        }
+
+        double temp = 0.0;
+        int t = 0;
+
+        if(regUser.isPresent() && centerProfile != null) {
+            User _regUserFound = regUser.get();
+            CenterProfile _centerProfile = centerProfile;
+
+            List<UserResponseWithBloodAppointement> registertedUsers = userController.getAllRegistertedUsersByCenter(_centerProfile.getId());
+
+            for (UserResponseWithBloodAppointement ur : registertedUsers) {
+                if (_regUserFound.getUsername().equals(ur.getUsername()) && _regUserFound.getEmail().equals(ur.getEmail())) {
+                    if(!_regUserFound.isMarked_center()) {
+                        _regUserFound.setMarked_center(true);
+
+                        Mark mark1 = new Mark(markRequest.getMark(), _centerProfile.getId(), _regUserFound.getId());
+                        markRepository.save(mark1);
+
+                        for (Mark mark : markRepository.findAll()) {
+                            if(mark.getCenterProfile().equals(_centerProfile.getId())) {
+                                temp = temp + mark.getMark();
+                                t = t + 1;
+                            }
+                        }
+                        _centerProfile.setAverageRating(temp / t);
+                        centerProfileRepository.save(_centerProfile);
+                        return new ResponseEntity<>("Center marked successfully", HttpStatus.OK);
+                    } else {
+
+                        Mark mark1 = markService.findByCenterAndUser(_centerProfile, _regUserFound);
+                        mark1.setMark(markRequest.getMark());
+                        markRepository.save(mark1);
+
+                        for (Mark mark : markRepository.findAll()) {
+                            if(mark.getCenterProfile().equals(_centerProfile.getId())) {
+                                temp = temp + mark.getMark();
+                                t = t + 1;
+                            }
+                        }
+                        _centerProfile.setAverageRating(temp / t);
+                        centerProfileRepository.save(_centerProfile);
+                        return new ResponseEntity<>("Center mark successfully updated.", HttpStatus.OK);
+
+                    }
+                }
+            }
+        }
+        return new ResponseEntity<>("Failed.", HttpStatus.NOT_FOUND);
+    }
 }

@@ -211,25 +211,25 @@ public class UserController {
     }
 
     @GetMapping("/getAllRegistertedUsersByCenter/{centerId}")
-    @PreAuthorize("hasAuthority('ROLE_STAFF')")
-    public ResponseEntity<?> getAllRegistertedUsersByCenter(@PathVariable("centerId") Long centerId) {
+    @PreAuthorize("hasAuthority('ROLE_STAFF') or hasAuthority('ROLE_USER')")
+    public List<UserResponseWithBloodAppointement> getAllRegistertedUsersByCenter(@PathVariable("centerId") Long centerId) {
         List<UserResponseWithBloodAppointement> listOfUsersWithBloodAppointment = new ArrayList<>();
         List<BloodDonationAppointment> allBloodDonationAppointments = bloodDurationAppointmentRepository.findAll();
 
         for (BloodDonationAppointment bla: allBloodDonationAppointments) {
             if(bla.getUsers() != null) {
                 for (User user : userRepository.findAll()) {
-                    if (user.getId() == bla.getUsers().getId() && bla.getCenter_profile().getId() == centerId) {
+                    if (user.getId() == bla.getUsers().getId() && bla.getCenter_profile().getId() == centerId && bla.getActive()) {
                         UserResponseWithBloodAppointement userResponseWithBloodAppointement = new UserResponseWithBloodAppointement(
                                 user.getUsername(), user.getEmail(), user.getFirstname(), user.getSurname(), user.getAddress(),
-                                user.getPhone(), user.getJmbg(), user.getGender(), bla.getDate());
+                                user.getPhone(), user.getJmbg(), user.getGender(), bla.getDate(), bla.getTime());
                         listOfUsersWithBloodAppointment.add(userResponseWithBloodAppointement);
                     }
                 }
             }
         }
 
-        return new ResponseEntity<>(listOfUsersWithBloodAppointment, HttpStatus.OK);
+        return listOfUsersWithBloodAppointment;
     }
 
 }

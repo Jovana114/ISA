@@ -268,6 +268,10 @@ const reserve = (id: any) => {
   showReport = true;
 };
 
+const mark = (id: any) => {
+  showReport = true;
+};
+
 const closeReport = () => {
   showReport = false;
 };

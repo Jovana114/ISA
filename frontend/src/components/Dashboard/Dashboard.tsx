@@ -20,6 +20,7 @@ import TableCenter from "../Table/TableCenter";
 import UpgradedTable from "../Table/UpgradedTable";
 import CircularLoader from "../Loader/CircularLoader";
 import Appointments from "../Appointments/Appointments";
+import MarkCenter from "../MarkCenter/MarkCenter";
 import DoubleTableCenterAppointment from "../Table/DoubleTableCenterAppointment";
 
 export const Dashboard = () => {
@@ -33,10 +34,11 @@ export const Dashboard = () => {
     null
   );
   const [open, setOpen] = React.useState(false);
+  const [openMarkCenter, setOpenMarkCenter] = React.useState(false);
   const [openAppointments, setOpenAppointments] = useState(false);
 
   const pages = ["Appointments"];
-  const settings = ["Profile", "Logout"];
+  const settings = ["Profile", "Mark center", "Logout"];
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -56,8 +58,13 @@ export const Dashboard = () => {
   const handleClickOpen = () => {
     setOpen(true);
   };
+
   const handleClickOpenAppointments = () => {
     setOpenAppointments(true);
+  };
+
+  const handleClickOpenMarkCenter = () => {
+    setOpenMarkCenter(true);
   };
 
   const handleClose = () => {
@@ -66,6 +73,9 @@ export const Dashboard = () => {
   const handleCloseAppointments = () => {
     setOpenAppointments(false);
   };
+  const handleCloseMarkCenter = () => {
+    setOpenMarkCenter(false);
+  };
 
   const handleSettings = (selectedSetting: string) => {
     handleCloseUserMenu();
@@ -73,6 +83,8 @@ export const Dashboard = () => {
       handleClickOpen();
     } else if (selectedSetting === "Logout") {
       logout();
+    } else if (selectedSetting === "Mark center") {
+      handleClickOpenMarkCenter();
     } 
   };
   const logout = async () => {
@@ -263,6 +275,8 @@ export const Dashboard = () => {
       <EditProfile open={open} onClose={handleClose} />
 
       <Appointments open={openAppointments} onClose={handleCloseAppointments} />
+
+      <MarkCenter open={openMarkCenter} onClose={handleCloseMarkCenter} />
 
       {/* {data ? : <></>} */}
       {/* <h3>Hi {name}</h3> */}

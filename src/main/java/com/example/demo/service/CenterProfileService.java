@@ -20,9 +20,6 @@ public class CenterProfileService {
     @Autowired
     CenterProfileRepository centerProfileRepository;
 
-    @Autowired
-    UserDetailsServiceImpl userDetailsService;
-
     public CenterProfile findByName(String name) {
         return centerProfileRepository.findByName(name);
     }

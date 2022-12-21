@@ -152,8 +152,6 @@ public class BloodDonationController {
             }
             bda.setUserStaff(newList);
 
-            System.out.println("NOVA LISTA" + newList);
-
             repository.save(bda);
         }
 

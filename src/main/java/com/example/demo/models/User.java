@@ -28,12 +28,10 @@ public class User {
   private String username;
 
   @NotBlank
-//  @Size(max = 50)
   @Email
   private String email;
 
   @NotBlank
-//  @Size(max = 120)
   private String password;
 
   @NotBlank
@@ -72,13 +70,15 @@ public class User {
   // @NotBlank
   private int penals;
 
+  private Boolean marked_center;
+
   @OneToMany(mappedBy = "users", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   @JsonIgnore
   private List<BloodReport> blood_report;
 
   @ManyToMany(fetch = FetchType.LAZY)
-  @JoinTable(  name = "user_roles", 
-        joinColumns = @JoinColumn(name = "user_id"), 
+  @JoinTable(  name = "user_roles",
+        joinColumns = @JoinColumn(name = "user_id"),
         inverseJoinColumns = @JoinColumn(name = "role_id"))
   private Set<Role> roles = new HashSet<>();
 
@@ -115,12 +115,61 @@ public class User {
     this.is_first_login = isFirstLogin;
   }
 
+  public User(String username, String email, String password, String firstname, String surname, String address, String city, String state, String phone, String jmbg, String gender, String occupation, String empscho, int points, int penals, List<BloodReport> blood_report, Set<Role> roles, List<BloodDonationAppointment> blood_appointments, Boolean marked_center) {
+    this.username = username;
+    this.email = email;
+    this.password = password;
+    this.firstname = firstname;
+    this.surname = surname;
+    this.address = address;
+    this.city = city;
+    this.state = state;
+    this.phone = phone;
+    this.jmbg = jmbg;
+    this.gender = gender;
+    this.occupation = occupation;
+    this.empscho = empscho;
+    this.points = points;
+    this.penals = penals;
+    this.blood_report = blood_report;
+    this.roles = roles;
+    this.blood_appointments = blood_appointments;
+    this.marked_center = marked_center;
+  }
+
+  public User(String username, String email, String password, String firstname, String surname, String address, String city, String state, String phone, String jmbg, String gender, String occupation, String empscho, int points, int penals, Boolean marked_center) {
+    this.username = username;
+    this.email = email;
+    this.password = password;
+    this.firstname = firstname;
+    this.surname = surname;
+    this.address = address;
+    this.city = city;
+    this.state = state;
+    this.phone = phone;
+    this.jmbg = jmbg;
+    this.gender = gender;
+    this.occupation = occupation;
+    this.empscho = empscho;
+    this.points = points;
+    this.penals = penals;
+    this.marked_center = marked_center;
+  }
+
   public Boolean getIs_first_login() {
     return is_first_login;
   }
 
   public void setIs_first_login(Boolean is_first_login) {
     this.is_first_login = is_first_login;
+  }
+
+  public Boolean isMarked_center() {
+    return marked_center;
+  }
+
+  public void setMarked_center(Boolean marked_center) {
+    this.marked_center = marked_center;
   }
 
   public User(Long id, String username, String email, String password, String firstname, String surname, String address, String city, String state, String phone, String jmbg, String gender, String occupation, String empscho, int points, int penals, List<BloodReport> blood_report, Set<Role> roles, List<BloodDonationAppointment> blood_appointments, CenterProfile center_profile, Boolean isFirstLogin) {
@@ -423,4 +472,9 @@ public class User {
   public void setPenals(int penals) {
     this.penals = penals;
   }
+
+  public Boolean getMarked_center() {
+    return marked_center;
+  }
+
 }

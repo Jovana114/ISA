@@ -96,7 +96,7 @@ export default function EditProfileStaffPassword({ open, onClose }: EditProfileS
                   <label style={{ textTransform: "capitalize" }}>Old password</label>
                   <input
                     required
-                    type="text"
+                    type="password"
                     className="form-control mt-1"
                     placeholder={"Enter old password"}
                     onChange={(e) => setPasswordOld(e.target.value)}
@@ -106,7 +106,7 @@ export default function EditProfileStaffPassword({ open, onClose }: EditProfileS
                   <label style={{ textTransform: "capitalize" }}>New password</label>
                   <input
                     required
-                    type="text"
+                    type="password"
                     className="form-control mt-1"
                     placeholder={"Enter new password"}
                     onChange={(e) => setPasswordNew(e.target.value)}
@@ -114,9 +114,6 @@ export default function EditProfileStaffPassword({ open, onClose }: EditProfileS
                 </div>
                 <div className="d-grid gap-2 mt-3">
                   <button type="submit" disabled={loading} className="btn btn-secondary">
-                  {loading && (
-                                            <i className="fa fa-spinner fa-spin" aria-hidden="true"/>
-                                        )}
                     Submit
                   </button>
                 </div>
@@ -124,12 +121,6 @@ export default function EditProfileStaffPassword({ open, onClose }: EditProfileS
             </form>
           </div>
           : <></>}
-        {/* {data.roles.map((role: any) => (
-          <DialogTitle style={{ fontSize: "1rem" }}>
-            {role}
-          </DialogTitle>
-        ))} */}
-
       </Dialog>
     </>
   );

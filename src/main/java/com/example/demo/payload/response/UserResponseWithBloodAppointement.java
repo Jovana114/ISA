@@ -11,10 +11,11 @@ public class UserResponseWithBloodAppointement {
     private String jmbg;
     private String gender;
     private String date_when_blood_was_donated;
+    private String time_when_blood_was_donated;
 
     public UserResponseWithBloodAppointement(){}
 
-    public UserResponseWithBloodAppointement(String username, String email, String firstname, String surname, String address, String phone, String jmbg, String gender, String date_when_blood_was_donated) {
+    public UserResponseWithBloodAppointement(String username, String email, String firstname, String surname, String address, String phone, String jmbg, String gender, String date_when_blood_was_donated, String time_when_blood_was_donated) {
         this.username = username;
         this.email = email;
         this.firstname = firstname;
@@ -24,6 +25,7 @@ public class UserResponseWithBloodAppointement {
         this.jmbg = jmbg;
         this.gender = gender;
         this.date_when_blood_was_donated = date_when_blood_was_donated;
+        this.time_when_blood_was_donated = time_when_blood_was_donated;
     }
 
     public String getUsername() {
@@ -96,5 +98,13 @@ public class UserResponseWithBloodAppointement {
 
     public void setDate_when_blood_was_donated(String date_when_blood_was_donated) {
         this.date_when_blood_was_donated = date_when_blood_was_donated;
+    }
+
+    public String getTime_when_blood_was_donated() {
+        return time_when_blood_was_donated;
+    }
+
+    public void setTime_when_blood_was_donated(String time_when_blood_was_donated) {
+        this.time_when_blood_was_donated = time_when_blood_was_donated;
     }
 }
