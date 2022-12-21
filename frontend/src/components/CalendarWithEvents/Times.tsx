@@ -14,7 +14,8 @@ export default function Times({ id, date }: props) {
   const [searchText, setSearchText] = useState("");
   const [open, setOpen] = useState(false);
   const [startAppointment, setStartAppointment] = useState(false);
-  const [userId, setAppointmentId] = useState(0);
+  const [appId, setAppointmentId] = useState(0);
+  const [appUserId, setUserAppointmentId] = useState(0);
 
   const config = {
     headers: {
@@ -23,11 +24,13 @@ export default function Times({ id, date }: props) {
     },
   };
 
+  var cId = JSON.parse(sessionStorage.getItem("centerId")!)
+
   const searchData = async (searchText: string) => {
     if (searchText !== "") {
       const data = await fetch(
         process.env.REACT_APP_API_URL +
-          `/blood/all/center/${id}/${date}/${searchText}`,
+          `/blood/all/center/${cId}/${date}/${searchText}`,
         config
       );
       const json = await data.json();
@@ -38,7 +41,7 @@ export default function Times({ id, date }: props) {
   };
   const fetchData = async () => {
     const data = await fetch(
-      process.env.REACT_APP_API_URL + `/blood/all/center/${id}/${date}`,
+      process.env.REACT_APP_API_URL + `/blood/all/center/${cId}/${date}`,
       {
         headers: {
           "Content-type": "application/json",
@@ -63,6 +66,8 @@ export default function Times({ id, date }: props) {
     if (appointment.userId !== null) {
       setOpen(true);
       setAppointmentId(appointment.id);
+      setUserAppointmentId(appointment.userId);
+      console.log(appointment.id);
     }
   };
 
@@ -77,7 +82,7 @@ export default function Times({ id, date }: props) {
 
   useEffect(() => {
     fetchData().catch(console.error);
-  }, [date]);
+  }, [id]);
 
   return appointments ? (
     <div className="row">
@@ -119,7 +124,8 @@ export default function Times({ id, date }: props) {
       <BloodReportPopup
         startAppointment={startAppointment}
         setStartAppointment={start}
-        id={userId}
+        userId={appUserId}
+        id={appId}
         open={open}
         onClose={handleClose}
       />

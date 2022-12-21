@@ -151,7 +151,7 @@ public class CenterProfileController {
 
             for (UserResponseWithBloodAppointement ur : registertedUsers) {
                 if (_regUserFound.getUsername().equals(ur.getUsername()) && _regUserFound.getEmail().equals(ur.getEmail())) {
-                    if(!_regUserFound.isMarked_center()) {
+                    if(_regUserFound.isMarked_center() == false || _regUserFound.isMarked_center() == null) {
                         _regUserFound.setMarked_center(true);
 
                         Mark mark1 = new Mark(markRequest.getMark(), _centerProfile.getId(), _regUserFound.getId());

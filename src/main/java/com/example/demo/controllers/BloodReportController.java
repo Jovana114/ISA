@@ -18,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -73,18 +74,24 @@ public class BloodReportController {
 
     }
 
-    @GetMapping("/findByUserId/{id}")
-    @PreAuthorize("hasAuthority('ROLE_STAFF')")
-    public ResponseEntity<?> findByUser(@PathVariable Long id)
+    @GetMapping("/findByUserId/{appId}_{userId}")
+    @PreAuthorize("hasAuthority('ROLE_STAFF') or hasAuthority('ROLE_USER')")
+    public ResponseEntity<?> findByUser(@PathVariable Long userId, @PathVariable long appId)
     {
-        Optional<BloodReport> bloodReport = bloodReportRepository.findOneByUsers_id(id);
-        if (bloodReport.isPresent())
-            return new ResponseEntity<>(bloodReport.get(),HttpStatus.OK);
+        List<BloodReport> bloodReports = bloodReportRepository.findAll();
+
+        if(!bloodReports.isEmpty()) {
+            for (BloodReport blr: bloodReports) {
+                if(blr.getBlood_appointments().getId() == appId && blr.getUsers().getId() == userId){
+                    return new ResponseEntity<>(blr, HttpStatus.OK);
+                }
+            }
+        }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @PostMapping("/createBloodReport/{appointmentId}/{userId}")
-    @PreAuthorize("hasAuthority('ROLE_USER')")
+    @PreAuthorize("hasAuthority('ROLE_USER') or hasAuthority('ROLE_STAFF')")
     public ResponseEntity<?> createBloodReport(@RequestBody BloodReport bloodReport, @PathVariable("appointmentId") Long appointmentId, @PathVariable("userId") Long userId)
     {
         Optional<BloodDonationAppointment> bloodDurationAppointment = bloodDurationAppointmentRepository.findById(appointmentId);

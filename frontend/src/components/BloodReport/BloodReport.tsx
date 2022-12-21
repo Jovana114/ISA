@@ -8,11 +8,12 @@ import CircularLoader from "../Loader/CircularLoader";
 
 interface BloodReportProps {
   open: boolean;
+  userId: number,
   id: number;
-  onClose: () => void;
+  onClose: any;
 }
 
-export default function BloodReport({ open, id, onClose }: BloodReportProps) {
+export default function BloodReport({ open, userId, id, onClose }: BloodReportProps) {
   const [data, setData] = useState({});
 
   const [bloodA, setBloodA] = useState(false);
@@ -113,22 +114,17 @@ export default function BloodReport({ open, id, onClose }: BloodReportProps) {
         },
         config
       );
-      // console.log(data);
-
-      // sessionStorage.setItem("blood_report", JSON.stringify(data));
 
       alert("Update successful!");
       onClose();
     } catch (error: any) {
-      // if (error.response.status === 401) {
         alert("Error: Failed to update blood report");
-      // }
     }
   };
 
   const fetchData = async () => {
     const data = await fetch(
-      process.env.REACT_APP_API_URL + `/bloodReport/findByUserId/${id}`,
+      process.env.REACT_APP_API_URL + `/bloodReport/findByUserId/${id}_${userId}`,
       {
         headers: {
           "Content-type": "application/json",

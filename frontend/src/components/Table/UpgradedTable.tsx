@@ -173,6 +173,8 @@ export default function UpgradedTable() {
   const [appointments, setAppointments] = useState([])
   const [searchText, setSearchText] = useState("");
 
+  const [appId, setAppointmentId] = useState(0);
+
   // FOR APPOINTMENT
   const [date, setDate] = React.useState<Dayjs | null>(null);
   const [time, setTime] = React.useState<Dayjs | null>(null);
@@ -206,7 +208,10 @@ export default function UpgradedTable() {
     (async () => {
       axios
         .get(process.env.REACT_APP_API_URL + "/centerProfile/all", config)
-        .then((res) => setRows(res.data));
+        .then((res) => {
+          setRows(res.data),
+          setAppointmentId(res.data.id)
+        });
     })();
 
     if (JSON.parse(sessionStorage.getItem("id")!) !== null || undefined)
@@ -331,7 +336,7 @@ export default function UpgradedTable() {
       <Box sx={{ width: "680px", margin: "20px auto" }}>
         <BloodReportUser
           showReport={showReport}
-          id={userId}
+          id={appId}
           close={closeReport}
         />
         <Paper sx={{ width: "auto", mb: 2 }}>

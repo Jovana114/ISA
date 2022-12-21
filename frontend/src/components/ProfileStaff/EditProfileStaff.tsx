@@ -85,7 +85,7 @@ let id = Number(sessionStorage.getItem('id'))
     try {
       const { data } = await axios.put(
         process.env.REACT_APP_API_URL +
-          `/adminCenter/update/${JSON.parse(sessionStorage.getItem("user")!).id}`,
+          `/adminCenter/update/${JSON.parse(sessionStorage.getItem("id")!)}`,
         {
           address,
           city,

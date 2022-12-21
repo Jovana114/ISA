@@ -10,6 +10,7 @@ import { Button } from "@mui/material";
 interface props {
   open: boolean;
   startAppointment: boolean;
+  userId: number;
   id: number;
   setStartAppointment: () => void;
   onClose: () => void;
@@ -18,6 +19,7 @@ export default function BloodReportPopup({
   startAppointment,
   setStartAppointment,
   id,
+  userId,
   open,
   onClose,
 }: props) {
@@ -27,7 +29,7 @@ export default function BloodReportPopup({
 
   const handleCancel = async () => {
     const data = await fetch(
-      process.env.REACT_APP_API_URL + `/adminCenter/addPenals/${id}`,
+      process.env.REACT_APP_API_URL + `/adminCenter/addPenals/${userId}`,
       {
         method: "PUT",
         headers: {
@@ -43,7 +45,7 @@ export default function BloodReportPopup({
   
   const handleCheck = async () => {
     const data = await fetch(
-      process.env.REACT_APP_API_URL + `/bloodReport/getUserPartOfReport/${(JSON.parse(sessionStorage.getItem("centerId")!))}_{id}`,
+      process.env.REACT_APP_API_URL + `/bloodReport/getUserPartOfReport/${(JSON.parse(sessionStorage.getItem("centerId")!))}_${id}`,
       {
         method: "GET",
         headers: {
@@ -64,12 +66,11 @@ export default function BloodReportPopup({
 
   return startAppointment ? (
     <>
-      <BloodReport open={open} id={id} onClose={onClose} />
+      <BloodReport open={open} userId={userId} id={id} onClose={onClose} />
     </>
   ) : (
     <>
       <Dialog onClose={onClose} open={open}>
-        <DialogTitle>Edit Profile</DialogTitle>
         <Button onClick={checkAppointment}>Start Appointment</Button>
         <Button onClick={handleCancel}>Canceled</Button>
         <Button onClick={handleCheck}>Check requirements</Button>
