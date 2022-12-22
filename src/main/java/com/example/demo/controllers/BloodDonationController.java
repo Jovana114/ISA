@@ -101,22 +101,24 @@ public class BloodDonationController {
         List<BloodAppointmentResponse> bloodAppointmentResponses = new ArrayList<>();
         if(!bloodDonationAppointments.isEmpty()){
             for (BloodDonationAppointment b: bloodDonationAppointments) {
-                Optional<User> user = userRepository.findById(b.getUsers().getId());
-                BloodAppointmentResponse _response = new BloodAppointmentResponse();
-                if (user.isPresent()) {
-                    User _user = user.get();
-                    if(_user.getFirstname().contains(search) || _user.getSurname().contains(search)){
-                        _response.setId(b.getId());
-                        _response.setDate(b.getDate());
-                        _response.setTime(b.getTime());
-                        _response.setDuration(b.getDuration());
-                        _response.setReserved(b.getReserved());
-                        _response.setActive(b.getActive());
-                        _response.setUserId(_user.getId());
-                        _response.setFirst_name(_user.getFirstname());
-                        _response.setLast_name(_user.getSurname());
-                        _response.setEmail(_user.getEmail());
-                        bloodAppointmentResponses.add(_response);
+                if (b.getUsers() != null) {
+                    Optional<User> user = userRepository.findById(b.getUsers().getId());
+                    BloodAppointmentResponse _response = new BloodAppointmentResponse();
+                    if (user.isPresent()) {
+                        User _user = user.get();
+                        if (_user.getFirstname().contains(search) || _user.getSurname().contains(search)) {
+                            _response.setId(b.getId());
+                            _response.setDate(b.getDate());
+                            _response.setTime(b.getTime());
+                            _response.setDuration(b.getDuration());
+                            _response.setReserved(b.getReserved());
+                            _response.setActive(b.getActive());
+                            _response.setUserId(_user.getId());
+                            _response.setFirst_name(_user.getFirstname());
+                            _response.setLast_name(_user.getSurname());
+                            _response.setEmail(_user.getEmail());
+                            bloodAppointmentResponses.add(_response);
+                        }
                     }
                 }
             }
