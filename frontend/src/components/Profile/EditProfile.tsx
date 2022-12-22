@@ -31,6 +31,7 @@ export default function EditProfile({ open, onClose }: EditProfileProps) {
   const [jmbg, setJmbg] = useState('');
   const [occupation, setOccupation] = useState('');
   const [phone, setPhone] = useState('');
+  const [email, setEmail] = useState('');
   const [points, setPoints] = useState(0);
   const [penals, setPenals] = useState(0);
 
@@ -70,6 +71,7 @@ export default function EditProfile({ open, onClose }: EditProfileProps) {
         setPhone(data.phone);
         setPoints(data.points);
         setPenals(data.penals);
+        setEmail(data.email)
       }
     )
   }
@@ -129,6 +131,18 @@ export default function EditProfile({ open, onClose }: EditProfileProps) {
             <div className="Auth-form-container dialog">
               <form className="Auth-form" onSubmit={handleEditProfile}>
                 <div className="Auth-form-content">
+                <div className="form-group mt-3">
+                    <label style={{ textTransform: "capitalize" }}>
+                      Email
+                    </label>
+                    <input
+                      type="text"
+                      className="form-control mt-1"
+                      placeholder={"Enter address"}
+                      value={email}
+                      readOnly={true}
+                    />
+                  </div>
                   <div className="form-group mt-3">
                     <label style={{ textTransform: "capitalize" }}>
                       Address
@@ -137,7 +151,7 @@ export default function EditProfile({ open, onClose }: EditProfileProps) {
                       required
                       type="text"
                       className="form-control mt-1"
-                      placeholder={"Enter address"}
+                      placeholder={"Address"}
                       value={address}
                       onChange={(e) => setAddress(e.target.value)}
                     />

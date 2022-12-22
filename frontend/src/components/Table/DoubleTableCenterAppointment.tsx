@@ -185,8 +185,12 @@ function appointmentData(
   };
 }
 
-function Row(props: { row: ReturnType<typeof CenterAppointment> }) {
-  const { row } = props;
+interface RowProps{
+  row: ReturnType<typeof CenterAppointment>
+  showRep: any
+}
+
+function Row({row, showRep}: RowProps) {
   const [open, setOpen] = React.useState(false);
 
   return (
@@ -211,8 +215,9 @@ function Row(props: { row: ReturnType<typeof CenterAppointment> }) {
             <Collapse in={open} timeout="auto" unmountOnExit>
               <Box sx={{ margin: 1 }}>
                 <Typography variant="h6" gutterBottom component="div">
-                  Appointments
+                  {`${row.appointments.length === 0 ? 'No Appointments Available': 'Appointments'}`}
                 </Typography>
+                {row.appointments.length > 0 && 
                 <Table size="small" aria-label="purchases">
                   <TableHead>
                     <TableRow>
@@ -229,7 +234,10 @@ function Row(props: { row: ReturnType<typeof CenterAppointment> }) {
                         <TableCell>{appointment.duration}</TableCell>
                         <TableCell>
                           <Button
-                            onClick={() => reserve(appointment.id)}
+                            onClick={() => {
+                              showRep()
+                              setAppId(appointment.id)
+                            }}
                             style={{ background: "#0d6efd", color: "white" }}
                           >
                             Reserve
@@ -239,6 +247,7 @@ function Row(props: { row: ReturnType<typeof CenterAppointment> }) {
                     ))}
                   </TableBody>
                 </Table>
+                }
               </Box>
             </Collapse>
           </TableCell>
@@ -272,6 +281,13 @@ const closeReport = () => {
   showReport = false;
 };
 
+let appId = 0
+
+const setAppId = (newAppId: number) => {
+  appId = newAppId
+}
+
+
 export default function DoubleTableCenterAppointment() {
   const config = {
     headers: {
@@ -304,6 +320,8 @@ export default function DoubleTableCenterAppointment() {
   const MIN = 0;
   const MAX = 10;
 
+  const [report, setReport] = useState(showReport)
+  const [appointmentId, setApointmentId] = useState(0)
 
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
@@ -336,16 +354,17 @@ export default function DoubleTableCenterAppointment() {
         )
         .then((res: any) => {
           setAppointmentRows(res.data);
-
           res.data.forEach((appointment: any) => {
-            tempArray.push(
-              appointmentData(
-                appointment.id,
-                appointment.date,
-                appointment.time,
-                appointment.duration
-              )
-            );
+            if(appointment.reserved === false){
+              tempArray.push(
+                appointmentData(
+                  appointment.id,
+                  appointment.date,
+                  appointment.time,
+                  appointment.duration
+                )
+              );
+            }            
           });
         });
 
@@ -436,6 +455,8 @@ export default function DoubleTableCenterAppointment() {
 
       // console.log(fDateDToStr, fTimeHToStr);
 
+      rows.length = 0
+
       axios
         .get(
           process.env.REACT_APP_API_URL +
@@ -457,6 +478,8 @@ export default function DoubleTableCenterAppointment() {
     setSearchText("");
     setChecked(false);
     setState([5]);
+    setTime(null)
+    setDate(null)
     getData();
   };
 
@@ -469,11 +492,10 @@ export default function DoubleTableCenterAppointment() {
 
   return (
     <Box sx={{ width: "680px", margin: "20px auto" }}>
-      
       <BloodReportUser
-        showReport={showReport}
-        id={userId}
-        close={closeReport}
+        showReport={report}
+        id={appId}
+        close={() => setReport(!report)}
       />
       <TableContainer component={Paper}>
         <Table aria-label="collapsible table">
@@ -659,8 +681,10 @@ export default function DoubleTableCenterAppointment() {
           </TableHead>
           <TableBody>
             {stableSort(rows, getComparator(order, orderBy))
-              .map((row: any) => {
-                return (<Row key={row.name + row.id} row={row} />)
+              .map((row: any, index: any) => {
+                return (<Row key={row.name + row.id} row={row} showRep={() => setReport(!report)}/>)
+                // return (<Row key={row.name + row.id} row={row} setAppId={() => console.log(row.appointments[row.id])} showRep={() => setReport(!report)}/>)
+                // return (<Row key={row.name + row.id} row={row} setAppId={() => setApointmentId(row.appointments[row].id)} showRep={() => setReport(!report)}/>)
             })}
           </TableBody>
         </Table>
