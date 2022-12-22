@@ -39,7 +39,11 @@ export default function BloodReportPopup({
           )}`,
         },
       }
-    );
+    ).then((response: any) => {
+      if(response.status === 200){
+        alert("Penals are added to user. ");
+      }
+    })
   };
 
   

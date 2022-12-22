@@ -122,6 +122,7 @@ export default function BloodReportUser({ showReport, id, close }: props) {
     q22c: q22c,
     q22d: q22d,
     q22e: q22e,
+    q22f: q22f,
     q22g: q22g,
     q23a: q23a,
     q23b: q23b,
@@ -778,7 +779,7 @@ export default function BloodReportUser({ showReport, id, close }: props) {
                 />
               </div>
               <div className="form-group mt-3">
-                <label style={{}}>For women</label>
+                <label style={{}}>Za zene: </label>
                 <label style={{}}>24) Da li ste u drugom stanju?</label>
                 <Switch
                   checked={q24}

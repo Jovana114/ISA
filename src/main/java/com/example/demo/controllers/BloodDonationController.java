@@ -36,8 +36,6 @@ public class BloodDonationController {
     @Autowired
     CenterProfileRepository centerProfileRepository;
 
-    // ============================================== //
-    // dugme kod appointmenta -> kreira report i povezati sve //
     @GetMapping("/all")
     @PreAuthorize("hasAuthority('ROLE_STAFF') or hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_USER') ")
     public ResponseEntity<?> allAppointments() {

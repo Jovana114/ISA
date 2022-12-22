@@ -49,29 +49,25 @@ public class BloodReportController {
         Optional<BloodReport> bloodReport1 = Optional.ofNullable(bloodReportService.findByCenterAndAppointment(centerId, bloodAppointmentId));
 
         if (bloodReport1.isPresent()) {
-        BloodReport _BloodReport = bloodReport1.get();
-        try {
+            BloodReport _BloodReport = bloodReport1.get();
+            if (_BloodReport.getWeigh() > 50 && !_BloodReport.getQ3() && !_BloodReport.getQ18() &&
+                    !_BloodReport.getLow_pressure() && !_BloodReport.getHigh_pressure() && !_BloodReport.getQ11() &&
+                    ((_BloodReport.getGender().equals("F")) && (!_BloodReport.getQ25())) &&
+                            !_BloodReport.getQ10() && !_BloodReport.getQ20c()) {
 
-            if(_BloodReport.getWeigh() < 50 || !_BloodReport.getQ3() || !_BloodReport.getQ19() ||
-                    !_BloodReport.getLow_pressure() || !_BloodReport.getHigh_pressure() || !_BloodReport.getQ11() ||
-                    ((Objects.equals(_BloodReport.getGender(), "F")) && (!_BloodReport.getQ25())) ||
-                    !_BloodReport.getQ10() || !_BloodReport.getQ20c()){
-
-                return new ResponseEntity("Korisnik ne ispunjava uslove da bude davalac krvi.", HttpStatus.OK);
+                return new ResponseEntity("Korisnik ispunjava uslove da bude davalac krvi", HttpStatus.OK);
 
             } else {
-                return new ResponseEntity("Korisnik ispunjava uslove da bude davalac krvi", HttpStatus.CREATED);
+                Optional<BloodDonationAppointment> bld = bloodDurationAppointmentRepository.findById(bloodAppointmentId);
+                if (bld.isPresent()) {
+                    BloodDonationAppointment _bld = bld.get();
+                    _bld.setReserved(false);
+                    bloodDurationAppointmentRepository.save(_bld);
+                }
+                return new ResponseEntity("Korisnik ne ispunjava uslove da bude davalac krvi", HttpStatus.CREATED);
             }
-
-        } catch (Exception e) {
-            return ResponseEntity
-                    .badRequest()
-                    .body(new MessageResponse("Error exception: " + e));
         }
-    }else {
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
-
+        return new ResponseEntity(HttpStatus.NOT_FOUND);
     }
 
     @GetMapping("/findByUserId/{appId}_{userId}")
@@ -97,40 +93,42 @@ public class BloodReportController {
         Optional<BloodDonationAppointment> bloodDurationAppointment = bloodDurationAppointmentRepository.findById(appointmentId);
         Optional<User> user = userRepository.findById(userId);
 
-        if(bloodDurationAppointment.isPresent() && user.isPresent()){
-            BloodDonationAppointment _bloodDurationAppointment =  bloodDurationAppointment.get();
-            User _user = user.get();
-        BloodReport bloodReport1 = new BloodReport(_bloodDurationAppointment.getCenter_profile(), _user, _bloodDurationAppointment,  bloodReport.getNum(), bloodReport.getDate(), bloodReport.getName(),
-                bloodReport.getJmbg(), bloodReport.getBirth(), bloodReport.getGender(), bloodReport.getAddress(),
-                bloodReport.getTownship(), bloodReport.getLocation(), bloodReport.getPhone_home(), bloodReport.getPhone_job(),
-                bloodReport.getPhone_mobile(), bloodReport.getCompany_or_school(), bloodReport.getProfession(),
-                bloodReport.getNumber_of_previous_blood_donations(), bloodReport.getWeigh(), bloodReport.getLow_pressure(), bloodReport.getHigh_pressure(),
-                false, false, false, false, "", "", 0,
-                0, "", "", "","",
-                "", "", "", "",
-                "", false, "", 0, 0, 0,
-                "", "", "",
-                0, "", bloodReport.getQ1(), bloodReport.getQ2(), bloodReport.getQ3(),
-                bloodReport.getQ4(),bloodReport.getQ5(),
-                bloodReport.getQ6(), bloodReport.getQ7(), bloodReport.getQ8(), bloodReport.getQ9(),
-                bloodReport.getQ10(), bloodReport.getQ11(), bloodReport.getQ12(), bloodReport.getQ13(), bloodReport.getQ14(),
-                bloodReport.getQ15(),bloodReport.getQ16(), bloodReport.getQ17(), bloodReport.getQ18(), bloodReport.getQ19(),
-                bloodReport.getQ20a(), bloodReport.getQ20b(), bloodReport.getQ20c(), bloodReport.getQ21(),
-                bloodReport.getQ22a(), bloodReport.getQ22b(),bloodReport.getQ22c(), bloodReport.getQ22d(),
-                bloodReport.getQ22e(), bloodReport.getQ22f(), bloodReport.getQ22g(), bloodReport.getQ23a(),
-                bloodReport.getQ23b(), bloodReport.getQ23c(),
-                bloodReport.getQ23d(), bloodReport.getQ23e(),bloodReport.getQ23f(),
-                bloodReport.getQ24(), bloodReport.getQ25(), bloodReport.getQ26());
+        if(bloodDurationAppointment.isPresent() && user.isPresent()) {
+            BloodDonationAppointment _bloodDurationAppointment = bloodDurationAppointment.get();
+            if (!_bloodDurationAppointment.getReserved()) {
+                User _user = user.get();
+                BloodReport bloodReport1 = new BloodReport(_bloodDurationAppointment.getCenter_profile(), _user, _bloodDurationAppointment, bloodReport.getNum(), bloodReport.getDate(), bloodReport.getName(),
+                        bloodReport.getJmbg(), bloodReport.getBirth(), bloodReport.getGender(), bloodReport.getAddress(),
+                        bloodReport.getTownship(), bloodReport.getLocation(), bloodReport.getPhone_home(), bloodReport.getPhone_job(),
+                        bloodReport.getPhone_mobile(), bloodReport.getCompany_or_school(), bloodReport.getProfession(),
+                        bloodReport.getNumber_of_previous_blood_donations(), bloodReport.getWeigh(), bloodReport.getLow_pressure(), bloodReport.getHigh_pressure(),
+                        false, false, false, false, "", "", 0,
+                        0, "", "", "", "",
+                        "", "", "", "",
+                        "", false, "", 0, 0, 0,
+                        "", "", "",
+                        0, "", bloodReport.getQ1(), bloodReport.getQ2(), bloodReport.getQ3(),
+                        bloodReport.getQ4(), bloodReport.getQ5(),
+                        bloodReport.getQ6(), bloodReport.getQ7(), bloodReport.getQ8(), bloodReport.getQ9(),
+                        bloodReport.getQ10(), bloodReport.getQ11(), bloodReport.getQ12(), bloodReport.getQ13(), bloodReport.getQ14(),
+                        bloodReport.getQ15(), bloodReport.getQ16(), bloodReport.getQ17(), bloodReport.getQ18(), bloodReport.getQ19(),
+                        bloodReport.getQ20a(), bloodReport.getQ20b(), bloodReport.getQ20c(), bloodReport.getQ21(),
+                        bloodReport.getQ22a(), bloodReport.getQ22b(), bloodReport.getQ22c(), bloodReport.getQ22d(),
+                        bloodReport.getQ22e(), bloodReport.getQ22f(), bloodReport.getQ22g(), bloodReport.getQ23a(),
+                        bloodReport.getQ23b(), bloodReport.getQ23c(),
+                        bloodReport.getQ23d(), bloodReport.getQ23e(), bloodReport.getQ23f(),
+                        bloodReport.getQ24(), bloodReport.getQ25(), bloodReport.getQ26());
 
-            _bloodDurationAppointment.setReserved(true);
-            _bloodDurationAppointment.setUsers(_user);
-            bloodDurationAppointmentRepository.save(_bloodDurationAppointment);
+                _bloodDurationAppointment.setReserved(true);
+                _bloodDurationAppointment.setUsers(_user);
+                bloodDurationAppointmentRepository.save(_bloodDurationAppointment);
 
-        bloodReportRepository.save(bloodReport1);
+                bloodReportRepository.save(bloodReport1);
 
-        return ResponseEntity.ok(new MessageResponse("Blood report registered successfully!"));
+                return ResponseEntity.ok(new MessageResponse("An appointment request has been sent!"));
+            }
         }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>("Appointement is already reserved or completed.", HttpStatus.BAD_REQUEST);
     }
 
     @PutMapping("/updateBloodReport/{centerId}_{bloodAppointmentId}")
@@ -197,7 +195,7 @@ public class BloodReportController {
 
                 }
 
-                return new ResponseEntity<>(HttpStatus.OK);
+                return new ResponseEntity<>("An appointment is completed.", HttpStatus.OK);
             } catch (Exception e) {
                 return ResponseEntity
                         .badRequest()
