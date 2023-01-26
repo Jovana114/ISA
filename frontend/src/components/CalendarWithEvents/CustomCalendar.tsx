@@ -42,7 +42,7 @@ export default function CustomCalendar() {
     return (
       d.getFullYear() +
       "-" +
-      (d.getMonth() + 1) +
+      (d.getMonth() < 10 ? "0" + (d.getMonth() + 1) : d.getMonth()) +
       "-" +
       (d.getDate() < 10 ? "0" + d.getDate() : d.getDate())
     );

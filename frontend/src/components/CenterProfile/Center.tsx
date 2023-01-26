@@ -246,7 +246,7 @@ export default function Center({ open, onClose }: CenterProps) {
                         type="text"
                         className="form-control mt-1"
                         placeholder={"Enter averageRating"}
-                        value={averageRating}
+                        value={syringes_number}
                         onChange={(e) => setSyringes_number(Number(e.target.value))}
                       />
                     </div>
@@ -257,7 +257,7 @@ export default function Center({ open, onClose }: CenterProps) {
                         type="text"
                         className="form-control mt-1"
                         placeholder={"Enter averageRating"}
-                        value={averageRating}
+                        value={gloves_number}
                         onChange={(e) => setGloves_number(Number(e.target.value))}
                       />
                     </div>
@@ -268,7 +268,7 @@ export default function Center({ open, onClose }: CenterProps) {
                         type="text"
                         className="form-control mt-1"
                         placeholder={"Enter averageRating"}
-                        value={averageRating}
+                        value={bag_lot_number}
                         onChange={(e) => setBag_lot_number(Number(e.target.value))}
                       />
                     </div>
