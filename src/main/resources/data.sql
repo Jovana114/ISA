@@ -417,7 +417,7 @@ insert into user_roles (user_id, role_id) values (198, 2);
 insert into user_roles (user_id, role_id) values (199, 3);
 insert into user_roles (user_id, role_id) values (200, 2);
 
-insert into blood_appointments(active, date, duration, time, reserved, center_profile_id, users_id) values (true, '2020-01-01',30,'11:00', true, 3, 12);
+insert into blood_appointments(active, date, duration, time, reserved, center_profile_id, users_id) values (true, '2020-01-01',30,'11:00', true, 1, 11);
 insert into blood_appointments(active, date, duration, time, reserved, center_profile_id, users_id) values (true, '2020-05-01',30,'12:00', true, 3, 11);
 
 insert into blood_appointments(active, date, duration, time, reserved, center_profile_id, users_id) values (false, (SELECT TO_CHAR(NOW() :: DATE, 'yyyy-mm-dd')),30,'11:00', false, 1, null);

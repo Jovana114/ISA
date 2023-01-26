@@ -169,19 +169,33 @@ public class CenterProfileController {
                     } else {
 
                         Mark mark1 = markService.findByCenterAndUser(_centerProfile, _regUserFound);
-                        mark1.setMark(markRequest.getMark());
-                        markRepository.save(mark1);
+                        if(mark1 != null) {
+                            mark1.setMark(markRequest.getMark());
+                            markRepository.save(mark1);
 
-                        for (Mark mark : markRepository.findAll()) {
-                            if(mark.getCenterProfile().equals(_centerProfile.getId())) {
-                                temp = temp + mark.getMark();
-                                t = t + 1;
+                            for (Mark mark : markRepository.findAll()) {
+                                if (mark.getCenterProfile().equals(_centerProfile.getId())) {
+                                    temp = temp + mark.getMark();
+                                    t = t + 1;
+                                }
                             }
-                        }
-                        _centerProfile.setAverageRating(temp / t);
-                        centerProfileRepository.save(_centerProfile);
-                        return new ResponseEntity<>("Center mark successfully updated.", HttpStatus.OK);
+                            _centerProfile.setAverageRating(temp / t);
+                            centerProfileRepository.save(_centerProfile);
+                            return new ResponseEntity<>("Center mark successfully updated.", HttpStatus.OK);
+                        } else {
+                            Mark mark11 = new Mark(markRequest.getMark(), _centerProfile.getId(), _regUserFound.getId());
+                            markRepository.save(mark11);
 
+                            for (Mark mark : markRepository.findAll()) {
+                                if(mark.getCenterProfile().equals(_centerProfile.getId())) {
+                                    temp = temp + mark.getMark();
+                                    t = t + 1;
+                                }
+                            }
+                            _centerProfile.setAverageRating(temp / t);
+                            centerProfileRepository.save(_centerProfile);
+                            return new ResponseEntity<>("Center marked successfully", HttpStatus.OK);
+                        }
                     }
                 }
             }
