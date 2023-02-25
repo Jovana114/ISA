@@ -13,7 +13,7 @@ public interface CenterProfileRepository extends JpaRepository<CenterProfile, Lo
     public CenterProfile findByName(String name);
     Boolean existsByName(String name);
 
-//    public Optional<CenterProfile> findByUser_id(Long id);
+    public Optional<CenterProfile> findById(Long id);
     public CenterProfile findByNameContaining(String name);
     public List<CenterProfile> findByNameContainingOrAddressContaining(String name, String address);
     public List<CenterProfile> findByAverageRatingAndNameContainingOrAddressContaining(Double averageRating,String name, String address);

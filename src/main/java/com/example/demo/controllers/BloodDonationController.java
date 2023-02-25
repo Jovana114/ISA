@@ -1,9 +1,6 @@
 package com.example.demo.controllers;
 
 import com.example.demo.models.BloodDonationAppointment;
-import com.example.demo.models.CenterProfile;
-import com.example.demo.models.User;
-import com.example.demo.payload.request.CenterRequest;
 import com.example.demo.payload.request.CreateBloodAppointment;
 import com.example.demo.payload.response.BloodAppointmentResponse;
 import com.example.demo.payload.response.MessageResponse;
@@ -27,14 +24,18 @@ public class BloodDonationController {
 
     @Autowired
     BloodDurationAppointmentRepository repository;
+
     @Autowired
     BloodDonationAppoinmentService service;
+
     @Autowired
     UserRepository userRepository;
-    @Autowired
-    UserService userService;
+
     @Autowired
     CenterProfileRepository centerProfileRepository;
+
+    @Autowired
+    UserService userService;
 
     @GetMapping("/all")
     @PreAuthorize("hasAuthority('ROLE_STAFF') or hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_USER') ")
@@ -57,75 +58,23 @@ public class BloodDonationController {
     @GetMapping("/all/center/{id}/{date}")
     @PreAuthorize("hasAuthority('ROLE_STAFF') or hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<?> bloodAppointmentsByDateAndCenter(@PathVariable("id") Long id,@PathVariable("date") String date) {
-        List<BloodDonationAppointment> bloodDonationAppointments = service.findAllByDateAndCenter(id, date);
-        List<BloodAppointmentResponse> bloodAppointmentResponses = new ArrayList<>();
-        if(!bloodDonationAppointments.isEmpty()){
-            for (BloodDonationAppointment b: bloodDonationAppointments) {
-                BloodAppointmentResponse _response = new BloodAppointmentResponse();
-                if(b.getUsers() != null){
-                    Optional<User> user = userRepository.findById(b.getUsers().getId());
-                    if (user.isPresent()) {
-                        User _user = user.get();
-                        _response.setId(b.getId());
-                        _response.setDate(b.getDate());
-                        _response.setTime(b.getTime());
-                        _response.setDuration(b.getDuration());
-                        _response.setReserved(b.getReserved());
-                        _response.setActive(b.getActive());
-                        _response.setUserId(_user.getId());
-                        _response.setFirst_name(_user.getFirstname());
-                        _response.setLast_name(_user.getSurname());
-                        _response.setEmail(_user.getEmail());
-                    }
-                }
-                else {
-                    _response.setId(b.getId());
-                    _response.setDate(b.getDate());
-                    _response.setTime(b.getTime());
-                    _response.setDuration(b.getDuration());
-                    _response.setReserved(b.getReserved());
-                    _response.setActive(b.getActive());
-                }
-                bloodAppointmentResponses.add(_response);
-            }
+        List<BloodAppointmentResponse> bloodAppointmentResponses = service.bloodAppointmentsByDateAndCenterService(id, date);
+        if(!bloodAppointmentResponses.isEmpty()) {
             return new ResponseEntity<>(bloodAppointmentResponses, HttpStatus.OK);
-        }
-        else
+        } else {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @GetMapping("/all/center/{id}/{date}/{search}")
     @PreAuthorize("hasAuthority('ROLE_STAFF') or hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<?> searchBloodAppointmentsByDateAndCenter(@PathVariable("id") Long id,@PathVariable("date") String date, @PathVariable("search") String search) {
-        List<BloodDonationAppointment> bloodDonationAppointments = service.findAllByDateAndCenter(id, date);
-        List<BloodAppointmentResponse> bloodAppointmentResponses = new ArrayList<>();
-        if(!bloodDonationAppointments.isEmpty()){
-            for (BloodDonationAppointment b: bloodDonationAppointments) {
-                if (b.getUsers() != null) {
-                    Optional<User> user = userRepository.findById(b.getUsers().getId());
-                    BloodAppointmentResponse _response = new BloodAppointmentResponse();
-                    if (user.isPresent()) {
-                        User _user = user.get();
-                        if (_user.getFirstname().contains(search) || _user.getSurname().contains(search)) {
-                            _response.setId(b.getId());
-                            _response.setDate(b.getDate());
-                            _response.setTime(b.getTime());
-                            _response.setDuration(b.getDuration());
-                            _response.setReserved(b.getReserved());
-                            _response.setActive(b.getActive());
-                            _response.setUserId(_user.getId());
-                            _response.setFirst_name(_user.getFirstname());
-                            _response.setLast_name(_user.getSurname());
-                            _response.setEmail(_user.getEmail());
-                            bloodAppointmentResponses.add(_response);
-                        }
-                    }
-                }
-            }
+        List<BloodAppointmentResponse> bloodAppointmentResponses = service.searchBloodAppointmentsByDateAndCenter(id, date, search);
+        if(!bloodAppointmentResponses.isEmpty()) {
             return new ResponseEntity<>(bloodAppointmentResponses, HttpStatus.OK);
-        }
-        else
+        } else {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PostMapping("/createBloodAppointment/{id}")
@@ -138,23 +87,12 @@ public class BloodDonationController {
                     .body(new MessageResponse("Error: Appointement is already taken!"));
         }
 
-        Optional<CenterProfile> centerProfile = centerProfileRepository.findById(id);
-        if(centerProfile.isPresent()){
-
-            BloodDonationAppointment bda = new BloodDonationAppointment(createBloodAppointment.getDate(),
-                    createBloodAppointment.getTime(), createBloodAppointment.getDuration(), false, false,
-                    centerProfile.get());
-
-            Set<User> newList = new HashSet<>();
-            Set<User> uu = userService.getStaff(createBloodAppointment.getUsers());
-            for (User user: uu) {
-                newList.add(user);
-            }
-            bda.setUserStaff(newList);
-
-            repository.save(bda);
+        BloodDonationAppointment bda = service.createBloodAppointmentService(id, createBloodAppointment);
+        if(bda != null) {
+            return ResponseEntity.ok(new MessageResponse("Appointment created!"));
+        } else
+        {
+            return ResponseEntity.ok(new MessageResponse("False!"));
         }
-
-        return ResponseEntity.ok(new MessageResponse("Appointment created!"));
     }
 }

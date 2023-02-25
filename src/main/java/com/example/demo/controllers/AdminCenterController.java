@@ -3,18 +3,14 @@ package com.example.demo.controllers;
 import com.example.demo.dto.UserDto;
 import com.example.demo.models.User;
 import com.example.demo.payload.response.MessageResponse;
-import com.example.demo.repository.CenterProfileRepository;
 import com.example.demo.repository.UserRepository;
+import com.example.demo.service.AdminCenterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,7 +23,7 @@ public class AdminCenterController {
     UserRepository userRepository;
 
     @Autowired
-    CenterProfileRepository centerProfileRepository;
+    AdminCenterService adminCenterService;
     
     @PutMapping("/update/{id}")
     @PreAuthorize("hasAuthority('ROLE_STAFF')")
@@ -38,17 +34,7 @@ public class AdminCenterController {
             User _User = UserData.get();
 
             try {
-                _User.setUsername(user.getUsername());
-                _User.setEmail(user.getEmail());
-                _User.setFirstname(user.getFirstname());
-                _User.setAddress(user.getAddress());
-                _User.setSurname(user.getSurname());
-                _User.setCity(user.getCity());
-                _User.setEmpscho(user.getEmpscho());
-                _User.setGender(user.getGender());
-                _User.setJmbg(user.getJmbg());
-                _User.setOccupation(user.getOccupation());
-                _User.setPhone(user.getPhone());
+                _User = adminCenterService.updateAdminCenterService(_User, user);
                 return new ResponseEntity<>(userRepository.save(_User), HttpStatus.OK);
             } catch (Exception e) {
                 return ResponseEntity
@@ -60,8 +46,6 @@ public class AdminCenterController {
         }
     }
 
-    BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-
     @PutMapping("/updatePassword/{id}")
     @PreAuthorize("hasAuthority('ROLE_STAFF')")
     public ResponseEntity<User> changePassword(@PathVariable("id") long id, @RequestBody UserDto userDto) {
@@ -69,10 +53,7 @@ public class AdminCenterController {
 
         if (UserData.isPresent()) {
             User _User = UserData.get();
-            if(encoder.matches(userDto.getPasswordOld(), _User.getPassword())){
-                _User.setPassword(encoder.encode(userDto.getPasswordNew()));
-            }
-            _User.setIs_first_login(false);
+            _User = adminCenterService.changePasswordService(_User, userDto);
             return new ResponseEntity<>(userRepository.save(_User), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -94,7 +75,7 @@ public class AdminCenterController {
         Optional<User> user = userRepository.findById(id);
         if(user.isPresent()) {
             User _user = user.get();
-            _user.setPoints(_user.getPoints()+1);
+            _user = adminCenterService.addPointsService(_user);
             userRepository.save(_user);
             return new ResponseEntity<>(HttpStatus.OK);
         }
@@ -107,7 +88,7 @@ public class AdminCenterController {
         Optional<User> user = userRepository.findById(id);
         if(user.isPresent()) {
             User _user = user.get();
-            _user.setPenals(_user.getPenals()+1);
+            _user = adminCenterService.addPenlsService(_user);
             userRepository.save(_user);
             return new ResponseEntity<>(HttpStatus.OK);
         }

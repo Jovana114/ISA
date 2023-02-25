@@ -33,9 +33,6 @@ public class UserController {
     UserService userService;
 
     @Autowired
-    RoleRepository roleRepository;
-
-    @Autowired
     CenterProfileRepository centerProfileRepository;
 
     @Autowired
@@ -62,47 +59,7 @@ public class UserController {
 
         if (user.isPresent()) {
             User _user = user.get();
-            _user.setAddress(editUser.getAddress());
-            _user.setCity(editUser.getCity());
-            _user.setState(editUser.getState());
-            _user.setEmpscho(editUser.getEmpscho());
-            _user.setFirstname(editUser.getFirstname());
-            _user.setSurname(editUser.getSurname());
-            _user.setUsername(editUser.getUsername());
-            _user.setGender(editUser.getGender());
-            _user.setJmbg(editUser.getJmbg());
-            _user.setOccupation(editUser.getOccupation());
-            _user.setPhone(editUser.getPhone());
-            userRepository.save(_user);
-            return new ResponseEntity<>(HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-
-    @PutMapping("/adminupdate/{id}")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public ResponseEntity<?> aupdateUser(@PathVariable("id") long id, @RequestBody AdminRequest aReq) {
-        Optional<User> user = userRepository.findById(id);
-        if (user.isPresent()) {
-            User _user = user.get();
-            Set<Role> roles = _user.getRoles();
-            Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN).orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-            Role staffRole = roleRepository.findByName(ERole.ROLE_STAFF).orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-
-            if(aReq.getStaffadmin()==0)
-            {
-                roles.add(staffRole);
-                Optional<CenterProfile> cp = centerProfileRepository.findById(aReq.getCenter());
-                if(cp.isPresent()){
-                    CenterProfile cpp = cp.get();
-                    _user.setCenter_profile(cpp);
-                }
-            }
-            else {
-                roles.add(adminRole);
-            }
-            _user.setRoles(roles);
+            _user = userService.updateUser(_user, editUser);
             userRepository.save(_user);
             return new ResponseEntity<>(HttpStatus.OK);
         } else {
@@ -132,8 +89,7 @@ public class UserController {
     @GetMapping("/getByName/{searchData}")
     @PreAuthorize(" hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_STAFF')")
     public ResponseEntity<?> getByName(@PathVariable("searchData") String searchData) {
-        List<User> listOfUsers = new ArrayList<>();
-        listOfUsers = userRepository.findByFirstnameContainingOrSurnameContaining(searchData, searchData);
+        List<User> listOfUsers = userRepository.findByFirstnameContainingOrSurnameContaining(searchData, searchData);
         if(!listOfUsers.isEmpty())
             return new ResponseEntity<>(listOfUsers, HttpStatus.OK);
         return new ResponseEntity<>(listOfUsers,HttpStatus.ACCEPTED);
@@ -142,8 +98,7 @@ public class UserController {
     @GetMapping("/blood-appointment/find/{date}/{time}")
     @PreAuthorize(" hasAuthority('ROLE_USER')")
     public ResponseEntity<?> findAppointments(@PathVariable("date") String date, @PathVariable("time") String time){
-        List<BloodDonationAppointment> bloodDonationAppointments = new ArrayList<>();
-        bloodDonationAppointments = bloodDurationAppointmentRepository.findByReservedFalseAndDateAndTime(date,time);
+        List<BloodDonationAppointment> bloodDonationAppointments = bloodDurationAppointmentRepository.findByReservedFalseAndDateAndTime(date,time);
         if(!bloodDonationAppointments.isEmpty()) {
             List<Optional<CenterProfile>> centerProfileList = new ArrayList<>();
             for (BloodDonationAppointment b : bloodDonationAppointments) {
@@ -162,7 +117,6 @@ public class UserController {
         if (appointment.isPresent()) {
             BloodDonationAppointment _appointment = appointment.get();
             Optional<User> _user = userRepository.findById(userId);
-//            _appointment.setUsers(_user.get());
             _appointment.setReserved(true);
             return ResponseEntity.ok(bloodDurationAppointmentRepository.save(_appointment));
         }
@@ -213,23 +167,38 @@ public class UserController {
     @GetMapping("/getAllRegistertedUsersByCenter/{centerId}")
     @PreAuthorize("hasAuthority('ROLE_STAFF') or hasAuthority('ROLE_USER')")
     public List<UserResponseWithBloodAppointement> getAllRegistertedUsersByCenter(@PathVariable("centerId") Long centerId) {
-        List<UserResponseWithBloodAppointement> listOfUsersWithBloodAppointment = new ArrayList<>();
-        List<BloodDonationAppointment> allBloodDonationAppointments = bloodDurationAppointmentRepository.findAll();
-
-        for (BloodDonationAppointment bla: allBloodDonationAppointments) {
-            if(bla.getUsers() != null) {
-                for (User user : userRepository.findAll()) {
-                    if (user.getId() == bla.getUsers().getId() && bla.getCenter_profile().getId() == centerId && bla.getActive()) {
-                        UserResponseWithBloodAppointement userResponseWithBloodAppointement = new UserResponseWithBloodAppointement(
-                                user.getUsername(), user.getEmail(), user.getFirstname(), user.getSurname(), user.getAddress(),
-                                user.getPhone(), user.getJmbg(), user.getGender(), bla.getDate(), bla.getTime());
-                        listOfUsersWithBloodAppointment.add(userResponseWithBloodAppointement);
-                    }
-                }
-            }
-        }
-
+        List<UserResponseWithBloodAppointement> listOfUsersWithBloodAppointment = userService.getAllRegistertedUsersByCenterService(centerId);
         return listOfUsersWithBloodAppointment;
     }
+//
+//    @PutMapping("/adminupdate/{id}")
+//    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+//    public ResponseEntity<?> aupdateUser(@PathVariable("id") long id, @RequestBody AdminRequest aReq) {
+//        Optional<User> user = userRepository.findById(id);
+//        if (user.isPresent()) {
+//            User _user = user.get();
+//            Set<Role> roles = _user.getRoles();
+//            Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN).orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+//            Role staffRole = roleRepository.findByName(ERole.ROLE_STAFF).orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+//
+//            if(aReq.getStaffadmin()==0)
+//            {
+//                roles.add(staffRole);
+//                Optional<CenterProfile> cp = centerProfileRepository.findById(aReq.getCenter());
+//                if(cp.isPresent()){
+//                    CenterProfile cpp = cp.get();
+//                    _user.setCenter_profile(cpp);
+//                }
+//            }
+//            else {
+//                roles.add(adminRole);
+//            }
+//            _user.setRoles(roles);
+//            userRepository.save(_user);
+//            return new ResponseEntity<>(HttpStatus.OK);
+//        } else {
+//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//        }
+//    }
 
 }

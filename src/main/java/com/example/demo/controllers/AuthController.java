@@ -7,9 +7,7 @@ import javax.validation.Valid;
 import com.example.demo.models.*;
 import com.example.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -35,6 +33,7 @@ public class AuthController {
 
   @Autowired
   UserService userService;
+
   @Autowired
   UserRepository userRepository;
 
@@ -57,9 +56,6 @@ public class AuthController {
     String jwt = jwtUtils.generateJwtToken(authentication);
 
     UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-//    List<String> roles = userDetails.getAuthorities().stream()
-//        .map(item -> item.getAuthority())
-//        .collect(Collectors.toList());
 
     User user = userService.getOne(userDetails.getId());
 
@@ -81,10 +77,6 @@ public class AuthController {
           .body(new MessageResponse("Error: Email is already in use!"));
     }
 
-    // Create new user's account
-    //User user = new User(signUpRequest.getUsername(),
-    //           signUpRequest.getEmail(),
-    //           encoder.encode(signUpRequest.getPassword()));
     User user = new User(signUpRequest.getUsername(),
             signUpRequest.getEmail(),
             encoder.encode(signUpRequest.getPassword()),
