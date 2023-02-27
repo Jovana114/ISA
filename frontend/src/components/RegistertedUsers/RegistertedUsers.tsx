@@ -240,7 +240,7 @@ export default function RegistertedUsers({ open, onClose }: RegistertedUsersProp
   return (
     <>
       <Dialog onClose={handleClose} open={open}>
-            <Table sx={{ width: "1500px", height: "200px" }} aria-labelledby="tableTitle">
+            <Table sx={{ width: "1500px", height: "300px" }} aria-labelledby="tableTitle">
               <TableHead>
                 <TableRow>
                 </TableRow>

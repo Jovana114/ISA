@@ -17,17 +17,9 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-body::before{
-  /* content: url("../public/img/Rectangle4.png");
-  background: black;
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: middle;
-  width: 100%;
-  display: inline-block;
-  height: 100%; */
+  background-repeat: 'no-repeat';
+  background-image: url("./components/Home/image-1536x864.png");
+  background-size: 1500px 800px;
 }
 
 code {

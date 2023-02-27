@@ -8,7 +8,6 @@ import { UsersList } from "./components/UsersList/UsersList";
 import Redirect from "./components/Login/Redirect";
 import Home from "./components/Home/Home";
 import TableCenter from "./components/Table/TableCenter";
-import Appointments from "./components/Appointments/Appointments";
 
 function App() {
   return (

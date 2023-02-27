@@ -40,7 +40,8 @@ export const DashboardStaff = () => {
   const [open4, setOpen4] = React.useState(false);
   const [open5, setOpen5] = React.useState(false);
 
-  const settings = ["Update center", "Profile", "Logout", "Change password", "History", 'Create appointment', 'Registerted users'];
+  const pages = ["Staff home", "Update center", "History", 'Create appointment', 'Registerted users',];
+  const settings = ["Update profile", "Change password", "Logout"];
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -48,6 +49,7 @@ export const DashboardStaff = () => {
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
   };
+
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
@@ -107,7 +109,7 @@ export const DashboardStaff = () => {
 
   const handleSettings = (selectedSetting: string) => {
     handleCloseUserMenu();
-    if (selectedSetting === "Profile") {
+    if (selectedSetting === "Update profile") {
       handleClickOpen();
     } else if (selectedSetting === "Logout") {
       logout();
@@ -135,7 +137,6 @@ export const DashboardStaff = () => {
   let id = JSON.parse(sessionStorage.getItem("id")!)
 
   useEffect(() => {
-    //getData();
     getUserData(id);
   }, []);
 
@@ -220,26 +221,7 @@ export const DashboardStaff = () => {
         <AppBar position="static">
           <Container maxWidth="xl">
             <Toolbar disableGutters>
-              <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
-              <Typography
-                variant="h6"
-                noWrap
-                component="a"
-                href="/"
-                sx={{
-                  mr: 2,
-                  display: { xs: "none", md: "flex" },
-                  fontFamily: "monospace",
-                  fontWeight: 700,
-                  letterSpacing: ".3rem",
-                  color: "inherit",
-                  textDecoration: "none",
-                }}
-              >
-                LOGO
-              </Typography>
-
-              <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+              <Box sx={{ flexGrow: 1, display: {xs: "flex", md: "none" } }}>
                 <IconButton
                   size="large"
                   aria-label="account of current user"
@@ -267,10 +249,29 @@ export const DashboardStaff = () => {
                   sx={{
                     display: { xs: "block", md: "none" },
                   }}
-                >
+                >{pages.map((page: any) => (
+                  <MenuItem key={page} onClick={() => handleSettings(page)}>
+                    <Typography textAlign="center">{page}</Typography>
+                  </MenuItem>
+                ))}
                 </Menu>
+              </Box> 
+              {pages.length > 0 ? (
+              <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+                {pages.map((page: any) => (
+                  <Button
+                    key={page}
+                    onClick={() => handleSettings(page)}
+                    sx={{ my: 2, color: "white", display: "block" }}
+                  >
+                    {page}
+                  </Button>
+                ))}
               </Box>
-              <Box sx={{ flexGrow: 0 }}>
+            ) : (
+              <></>
+            )}
+              <Box sx={{flexGrow: 0}}>
                 <Tooltip title="Open settings">
                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                     <Avatar alt="Remy Sharp" src="/img/avatar.png" />

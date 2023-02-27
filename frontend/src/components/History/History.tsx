@@ -1,10 +1,8 @@
 import { useState, useEffect } from "react";
-import DialogTitle from "@mui/material/DialogTitle";
 import Dialog from "@mui/material/Dialog";
 import "./History.css";
 import axios from "axios";
 import Button from "@mui/material/Button";
-import { Navigate } from "react-router-dom";
 import {
     TableContainer,
     Table,
@@ -14,12 +12,10 @@ import {
     TableCell,
     Paper,
   } from "@mui/material";
-import { Http2ServerRequest } from "http2";
 
 interface HistoryProps {
   open: boolean;
   onClose: () => void;
-  // data: any;
 }
 
 export default function History({ open, onClose }: HistoryProps) {
@@ -76,7 +72,7 @@ export default function History({ open, onClose }: HistoryProps) {
     <Dialog onClose={handleClose} open={open}>
       {data ? (
         <TableContainer
-          style={{ width: "600px", margin: "20px auto" }}
+          style={{ width: "1000px", height: "450px", margin: "0px 0px -30px 0px"}}
           component={Paper}
         >
             <div className="form-group mt-3">

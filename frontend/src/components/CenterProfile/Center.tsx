@@ -7,7 +7,6 @@ import "./Center.css";
 interface CenterProps {
   open: boolean;
   onClose: () => void;
-  // data: any;
 }
 
 interface Center {
@@ -25,10 +24,8 @@ interface Center {
   bag_lot_number: number
 }
 
-// export default function EditProfile({ open, onClose, data }: EditProfileProps) {
 export default function Center({ open, onClose }: CenterProps) {
 
-  // const [dataUser, setDataUser] = useState()
   let user = JSON.parse(sessionStorage.getItem("user")!);
   let id = JSON.parse(sessionStorage.getItem("id")!);
 
@@ -36,7 +33,6 @@ export default function Center({ open, onClose }: CenterProps) {
   const [centreId, setCentreId] = useState(0)
 
   const token = JSON.parse(sessionStorage.getItem("token")!);
-  // const centerId = JSON.parse(sessionStorage.getItem("centerId")!);
 
   const config = {
     headers: {

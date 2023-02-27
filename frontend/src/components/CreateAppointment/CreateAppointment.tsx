@@ -1,12 +1,10 @@
 import { useState, useEffect, JSXElementConstructor, Key, ReactElement, ReactFragment, ReactPortal } from "react";
-import DialogTitle from "@mui/material/DialogTitle";
 import Dialog from "@mui/material/Dialog";
 import "./CreateAppointment.css";
 
 interface CreateAppointmentProps {
   open: boolean;
   onClose: () => void;
-  
 }
 
 export default function CreateAppointment({ open, onClose }: CreateAppointmentProps) {

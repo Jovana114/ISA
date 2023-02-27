@@ -9,12 +9,7 @@ import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import Tooltip from "@mui/material/Tooltip";
-import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
-import EditProfile from "../Profile/EditProfile";
 import './Home.css'
 import UpgradedTable from '../Table/UpgradedTable';
 
@@ -30,8 +25,6 @@ const Home = () => {
   );
   const [open, setOpen] = React.useState(false);
 
-  const pages = ["Products", "Pricing", "Blog"];
-  // const pages: any = [];
   const navigateLogin = () => {
     setNavigate(true)
   }
@@ -48,18 +41,6 @@ const Home = () => {
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
-  };
-
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
   };
 
   useEffect(() => {
@@ -84,7 +65,7 @@ const Home = () => {
       <AppBar position="static">
         <Container maxWidth="xl">
           <Toolbar disableGutters>
-            <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
+            
             <Typography
               variant="h6"
               noWrap
@@ -100,7 +81,7 @@ const Home = () => {
                 textDecoration: "none",
               }}
             >
-              LOGO
+              HOME
             </Typography>
 
             <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -133,62 +114,16 @@ const Home = () => {
                 }}
               >
                 {" "}
-                {pages.length > 0 ? (
-                  <>
-                    {pages.map((page: any) => (
-                      <MenuItem key={page} onClick={handleCloseNavMenu}>
-                        <Typography textAlign="center">{page}</Typography>
-                      </MenuItem>
-                    ))}
-                  </>
-                ) : (
-                  <></>
-                )}
+                
               </Menu>
             </Box>
-            {/* <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} /> */}
-            {/* <Typography
-              variant="h5"
-              noWrap
-              component="a"
-              href=""
-              sx={{
-                mr: 2,
-                display: { xs: "flex", md: "none" },
-                flexGrow: 1,
-                fontFamily: "monospace",
-                fontWeight: 700,
-                letterSpacing: ".3rem",
-                color: "inherit",
-                textDecoration: "none",
-              }}
-            >
-              LOGO
-            </Typography> */}
-            {pages.length > 0 ? (
-              <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-                {pages.map((page: any) => (
-                  <Button
-                    key={page}
-                    onClick={handleCloseNavMenu}
-                    sx={{ my: 2, color: "white", display: "block" }}
-                  >
-                    {page}
-                  </Button>
-                ))}
-              </Box>
-            ) : (
-              <></>
-            )}
-
-            <Box sx={{ flexGrow: 0 }}>
-                <Typography style={{cursor: "pointer"}} onClick={() => navigateLogin()} textAlign="center">Login</Typography>
-                <Typography style={{cursor: "pointer"}} textAlign="center">Signup</Typography>
+          
+            <Box  sx={{ flexGrow: 2, alignItems: 'right', justifyContent: 'right' }}>
+                <Typography style={{cursor: "pointer"}} onClick={() => navigateLogin()} textAlign="right">Login</Typography>
             </Box>
           </Toolbar>
         </Container>
       </AppBar>
-            {/* Endpoint to route to About component */}
             <UpgradedTable/>
       </div>
     );
